@@ -1,11 +1,11 @@
 package cli
 
 import (
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
 
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 )
 
 var CLI_QUERY_PARAMS = []string{

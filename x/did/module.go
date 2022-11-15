@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/cheqd/cheqd-node/x/did/client/cli"
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/client/cli"
+	"github.com/canow-co/cheqd-node/x/did/types"
 
 	"github.com/gorilla/mux"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -15,8 +15,8 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	//"github.com/cheqd/cheqd-node/x/did/client/rest"
-	"github.com/cheqd/cheqd-node/x/did/keeper"
+	//"github.com/canow-co/cheqd-node/x/did/client/rest"
+	"github.com/canow-co/cheqd-node/x/did/keeper"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"

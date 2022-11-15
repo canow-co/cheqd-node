@@ -5,7 +5,7 @@ package cheqd.resource.v2;
 import "cheqd/resource/v2/resource.proto";
 import "cheqd/resource/v2/fee.proto";
 
-option go_package = "github.com/cheqd/cheqd-node/x/resource/types";
+option go_package = "github.com/canow-co/cheqd-node/x/resource/types";
 
 message GenesisState {
   repeated ResourceWithMetadata resources = 1;

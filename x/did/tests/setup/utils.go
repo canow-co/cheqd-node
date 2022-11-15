@@ -5,8 +5,8 @@ import (
 	"crypto/rand"
 	"encoding/json"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
-	. "github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/types"
+	. "github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/google/uuid"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/mr-tron/base58"

@@ -3,7 +3,7 @@ package utils_test
 import (
 	"os"
 
-	resourceutils "github.com/cheqd/cheqd-node/x/resource/utils"
+	resourceutils "github.com/canow-co/cheqd-node/x/resource/utils"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

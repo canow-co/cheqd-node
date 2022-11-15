@@ -5,7 +5,7 @@ import (
 	"crypto/rand"
 	"time"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/types"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -14,7 +14,7 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cheqd/cheqd-node/x/did/keeper"
+	"github.com/canow-co/cheqd-node/x/did/keeper"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

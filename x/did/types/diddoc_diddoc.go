@@ -1,7 +1,7 @@
 package types
 
 import (
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 

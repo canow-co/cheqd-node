@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/input"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"

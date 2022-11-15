@@ -3,8 +3,8 @@ package cli
 import (
 	"os"
 
-	didcli "github.com/cheqd/cheqd-node/x/did/client/cli"
-	"github.com/cheqd/cheqd-node/x/resource/types"
+	didcli "github.com/canow-co/cheqd-node/x/did/client/cli"
+	"github.com/canow-co/cheqd-node/x/resource/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"

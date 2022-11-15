@@ -1,8 +1,8 @@
 package types
 
 import (
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 

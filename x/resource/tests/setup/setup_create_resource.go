@@ -3,9 +3,9 @@ package setup
 import (
 	"crypto/ed25519"
 
-	"github.com/cheqd/cheqd-node/x/did/tests/setup"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/resource/types"
+	"github.com/canow-co/cheqd-node/x/did/tests/setup"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/resource/types"
 	"github.com/google/uuid"
 )
 

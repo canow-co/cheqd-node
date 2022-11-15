@@ -3,7 +3,7 @@ package setup
 import (
 	"crypto/ed25519"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/types"
 )
 
 type KeyPair struct {

@@ -8,7 +8,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/lestrrat-go/jwx/jwk"

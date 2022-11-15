@@ -9,7 +9,7 @@ import (
 	"crypto/rsa"
 	"encoding/json"
 
-	. "github.com/cheqd/cheqd-node/x/did/types"
+	. "github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/multiformats/go-multibase"
 	. "github.com/onsi/ginkgo/v2"

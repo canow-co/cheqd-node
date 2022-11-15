@@ -3,8 +3,8 @@ package helpers
 import (
 	"reflect"
 
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 )
 
 // IDeepCopy is an interface for deep copy in the decorator pattern.

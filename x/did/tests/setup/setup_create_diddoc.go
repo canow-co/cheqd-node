@@ -3,8 +3,8 @@ package setup
 import (
 	"crypto/ed25519"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 )
 
 func (s *TestSetup) CreateDid(payload *types.MsgCreateDidDocPayload, signInputs []SignInput) (*types.MsgCreateDidDocResponse, error) {

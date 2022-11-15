@@ -3,7 +3,7 @@ package types
 import (
 	"time"
 
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

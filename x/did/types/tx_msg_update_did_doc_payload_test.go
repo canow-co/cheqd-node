@@ -1,7 +1,7 @@
 package types_test
 
 import (
-	. "github.com/cheqd/cheqd-node/x/did/types"
+	. "github.com/canow-co/cheqd-node/x/did/types"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

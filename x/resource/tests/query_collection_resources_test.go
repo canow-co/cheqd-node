@@ -1,11 +1,11 @@
 package tests
 
 import (
-	. "github.com/cheqd/cheqd-node/x/resource/tests/setup"
+	. "github.com/canow-co/cheqd-node/x/resource/tests/setup"
 
-	didsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
-	"github.com/cheqd/cheqd-node/x/resource/types"
+	didsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/resource/types"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

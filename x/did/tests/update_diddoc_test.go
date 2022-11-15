@@ -3,12 +3,12 @@ package tests
 import (
 	"fmt"
 
-	. "github.com/cheqd/cheqd-node/x/did/tests/setup"
+	. "github.com/canow-co/cheqd-node/x/did/tests/setup"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/types"
 )
 
 var _ = Describe("DID Doc update", func() {

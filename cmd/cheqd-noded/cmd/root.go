@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/cheqd/cheqd-node/app"
-	"github.com/cheqd/cheqd-node/app/params"
+	"github.com/canow-co/cheqd-node/app"
+	"github.com/canow-co/cheqd-node/app/params"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/config"

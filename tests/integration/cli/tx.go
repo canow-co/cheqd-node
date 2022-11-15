@@ -4,10 +4,10 @@ import (
 	"encoding/base64"
 	"strings"
 
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
-	"github.com/cheqd/cheqd-node/x/did/client/cli"
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/x/did/client/cli"
+	"github.com/canow-co/cheqd-node/x/did/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
