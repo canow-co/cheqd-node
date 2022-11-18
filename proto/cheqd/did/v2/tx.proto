@@ -44,6 +44,7 @@ message MsgCreateDidDocPayload {
   repeated string key_agreement = 9;
   repeated string also_known_as = 10;
   repeated Service service = 11;
+  string version_id = 12;
 }
 
 message MsgCreateDidDocResponse {

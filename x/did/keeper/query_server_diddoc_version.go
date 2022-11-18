@@ -3,13 +3,13 @@ package keeper
 import (
 	"context"
 
-	"github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/cheqd/cheqd-node/x/did/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) DidDoc(c context.Context, req *types.QueryGetDidDocRequest) (*types.QueryGetDidDocResponse, error) {
+func (k Keeper) DidDocVersion(c context.Context, req *types.QueryGetDidDocVersionRequest) (*types.QueryGetDidDocVersionResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -18,10 +18,10 @@ func (k Keeper) DidDoc(c context.Context, req *types.QueryGetDidDocRequest) (*ty
 
 	ctx := sdk.UnwrapSDKContext(c)
 
-	didDoc, err := k.GetLatestDidDoc(&ctx, req.Id)
+	didDoc, err := k.GetDidDocVersion(&ctx, req.Id, req.Version)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.QueryGetDidDocResponse{Value: &didDoc}, nil
+	return &types.QueryGetDidDocVersionResponse{Value: &didDoc}, nil
 }
