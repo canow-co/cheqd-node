@@ -11,7 +11,7 @@ import (
 	"github.com/canow-co/cheqd-node/tests/integration/testdata"
 	cli_types "github.com/canow-co/cheqd-node/x/did/client/cli"
 	"github.com/canow-co/cheqd-node/x/did/types"
-	resourcecli "github.com/cheqd/cheqd-node/x/resource/client/cli"
+	resourcecli "github.com/canow-co/cheqd-node/x/resource/client/cli"
 	"github.com/google/uuid"
 	"github.com/multiformats/go-multibase"
 	. "github.com/onsi/ginkgo/v2"

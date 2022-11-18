@@ -1,6 +1,6 @@
 package testdata
 
-import "github.com/cheqd/cheqd-node/tests/integration/helpers"
+import "github.com/canow-co/cheqd-node/tests/integration/helpers"
 
 const (
 	JSON_FILE_CONTENT = `{"test": "test"}`
