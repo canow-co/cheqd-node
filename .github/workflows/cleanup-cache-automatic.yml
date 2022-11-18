@@ -21,4 +21,4 @@ jobs:
         with:
           # Specify explicitly because the ref at the time of merging will be a branch name such as 'main', 'develop'
           ref: refs/pull/${{ github.event.number }}/merge
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN }}
