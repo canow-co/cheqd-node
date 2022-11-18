@@ -5,7 +5,7 @@ import (
 
 	"github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/canow-co/cheqd-node/x/did/utils"
-    "github.com/google/uuid"
+	"github.com/google/uuid"
 )
 
 func (s *TestSetup) CreateDid(payload *types.MsgCreateDidDocPayload, signInputs []SignInput) (*types.MsgCreateDidDocResponse, error) {
