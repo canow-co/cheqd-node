@@ -5,6 +5,7 @@ package integration
 import (
 	"crypto/ed25519"
 	"fmt"
+	"time"
 
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
 	"github.com/canow-co/cheqd-node/tests/integration/network"
@@ -58,6 +59,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 			},
 		}
 
+		time.Sleep(2 * time.Second)
 		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
@@ -95,9 +97,13 @@ var _ = Describe("cheqd cli - positive did", func() {
 			},
 		}
 
+		time.Sleep(2 * time.Second)
+
 		res2, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs2, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil())
 		Expect(res2.Code).To(BeEquivalentTo(0))
+
+		time.Sleep(2 * time.Second)
 
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query diddoc"))
 		// Query the DID Doc

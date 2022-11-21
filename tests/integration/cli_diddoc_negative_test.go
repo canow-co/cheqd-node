@@ -5,6 +5,7 @@ package integration
 import (
 	"crypto/ed25519"
 	"fmt"
+	"time"
 
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
 	helpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
@@ -56,7 +57,8 @@ var _ = Describe("cheqd cli - negative did", func() {
 				PrivKey:              privKey,
 			},
 		}
-
+		
+		time.Sleep(2 * time.Second)
 		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
@@ -191,6 +193,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 			},
 		}
 
+		time.Sleep(2 * time.Second)
 		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
@@ -211,6 +214,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 			VersionId:       uuid.NewString(),
 		}
 
+		time.Sleep(2 * time.Second)
 		res, err = cli.UpdateDidDoc(tmpDir, updatedPayload, signInputs, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
@@ -248,6 +252,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 			},
 		}
 
+		time.Sleep(2 * time.Second)
 		res_, err := cli.CreateDidDoc(tmpDir, payload2, signInputs2, testdata.BASE_ACCOUNT_2)
 		Expect(err).To(BeNil())
 		Expect(res_.Code).To(BeEquivalentTo(0))
@@ -404,6 +409,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 		Expect(err).ToNot(BeNil())
 
 		// Finally, update the DID Doc
+		time.Sleep(2 * time.Second)
 		res, err = cli.UpdateDidDoc(tmpDir, followingUpdatedPayload, signInputsAugmented, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
@@ -411,6 +417,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot update diddoc with an unchanged payload"))
 		// Fail to update the DID Doc with an unchanged payload
 		followingUpdatedPayload.VersionId = uuid.NewString()
+		time.Sleep(2 * time.Second)
 		_, err = cli.UpdateDidDoc(tmpDir, followingUpdatedPayload, signInputsAugmented, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil()) // TODO: Decide if this should be an error, if the DID Doc is unchanged
 	})
