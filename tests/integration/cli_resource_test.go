@@ -5,7 +5,6 @@ package integration
 import (
 	"crypto/ed25519"
 	"fmt"
-	"time"
 
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
 	"github.com/canow-co/cheqd-node/tests/integration/network"
@@ -59,7 +58,6 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			},
 		}
 
-		time.Sleep(2 * time.Second)
 		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
@@ -73,7 +71,6 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		resourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
 		Expect(err).To(BeNil())
 
-		time.Sleep(2 * time.Second)
 		res, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
 			CollectionId:    collectionId,
 			ResourceId:      resourceId,
@@ -87,7 +84,6 @@ var _ = Describe("cheqd cli - positive resource", func() {
 
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query resource"))
 		// Query the Resource
-		time.Sleep(2 * time.Second)
 		res2, err := cli.QueryResource(collectionId, resourceId)
 		Expect(err).To(BeNil())
 
@@ -172,7 +168,6 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		secondResourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
 		Expect(err).To(BeNil())
 
-		time.Sleep(2 * time.Second)
 		res, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
 			CollectionId:    secondCollectionId,
 			ResourceId:      secondResourceId,
@@ -186,7 +181,6 @@ var _ = Describe("cheqd cli - positive resource", func() {
 
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query resource collection"))
 		// Query Resource Collection
-		time.Sleep(2 * time.Second)
 		res4, err := cli.QueryResourceCollection(collectionId)
 		Expect(err).To(BeNil())
 		Expect(len(res4.Resources)).To(Equal(2))

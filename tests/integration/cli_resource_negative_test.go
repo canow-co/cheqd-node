@@ -5,7 +5,6 @@ package integration
 import (
 	"crypto/ed25519"
 	"fmt"
-	"time"
 
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
 	"github.com/canow-co/cheqd-node/tests/integration/network"
@@ -64,7 +63,6 @@ var _ = Describe("cheqd cli - negative resource", func() {
 			},
 		}
 
-		time.Sleep(2 * time.Second)
 		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
@@ -96,7 +94,6 @@ var _ = Describe("cheqd cli - negative resource", func() {
 		resourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
 		Expect(err).To(BeNil())
 
-		time.Sleep(2 * time.Second)
 		_, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
 			CollectionId:    collectionId2,
 			ResourceId:      resourceId,
@@ -244,7 +241,6 @@ var _ = Describe("cheqd cli - negative resource", func() {
 		Expect(err).To(HaveOccurred())
 
 		// Finally, create the resource
-		time.Sleep(2 * time.Second)
 		res, err := cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
 			CollectionId:    collectionId,
 			ResourceId:      resourceId,
