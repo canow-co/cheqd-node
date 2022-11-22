@@ -52,6 +52,10 @@ func Tx(module, tx, from string, txArgs ...string) (sdk.TxResponse, error) {
 	return resp, nil
 }
 
+func TransferToken(from string, to string, amount string) (sdk.TxResponse, error) {
+	return Tx("bank", "send", from, from, to, amount)
+}
+
 func CreateDidDoc(tmpDit string, payload types.MsgCreateDidDocPayload, signInputs []cli.SignInput, from string) (sdk.TxResponse, error) {
 	// Payload
 	payloadJson, err := helpers.Codec.MarshalJSON(&payload)
