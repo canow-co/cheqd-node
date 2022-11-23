@@ -12,7 +12,7 @@ import (
 
 var _ = Describe("cheqd cli - negative transfert token", func() {
 	It("cannot transfer token with missing cli arguments", func() {
-		amount := fmt.Sprintf("%dncheq", 100)
+		amount := fmt.Sprintf("%d%s", 100, testdata.DEMON)
 
 		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot transfer token with missing cli arguments"))
 		// Fail to transfer token with missing cli arguments
@@ -38,10 +38,10 @@ var _ = Describe("cheqd cli - negative transfert token", func() {
 
 		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot transfer token with invalid amount"))
 		//    a. invalid amount
-		_, err = cli.TransferToken(testdata.BASE_ACCOUNT_1_ADDRESS, testdata.BASE_ACCOUNT_2_ADDRESS, "-1ncheq")
+		_, err = cli.TransferToken(testdata.BASE_ACCOUNT_1_ADDRESS, testdata.BASE_ACCOUNT_2_ADDRESS, fmt.Sprintf("-1%s", testdata.DEMON))
 		Expect(err).ToNot(BeNil())
 
-		_, err = cli.TransferToken(testdata.BASE_ACCOUNT_1_ADDRESS, testdata.BASE_ACCOUNT_2_ADDRESS, "0ncheq")
+		_, err = cli.TransferToken(testdata.BASE_ACCOUNT_1_ADDRESS, testdata.BASE_ACCOUNT_2_ADDRESS, fmt.Sprintf("0%s", testdata.DEMON))
 		Expect(err).ToNot(BeNil())
 	})
 })
