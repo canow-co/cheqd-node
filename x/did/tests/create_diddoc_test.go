@@ -418,7 +418,7 @@ var _ = Describe("Create DID tests", func() {
 
 var _ = Describe("Check upper/lower case for DID creation", func() {
 	var setup setup.TestSetup
-	var didPrefix string = "did:cheqd:testnet:"
+	var didPrefix string = "did:canow:testnet:"
 
 	type TestCaseUUIDDidStruct struct {
 		inputId  string

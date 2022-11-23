@@ -39,9 +39,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Verification method with expected multibase key",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
 				Type:                 "Ed25519VerificationKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidEd25519VerificationMaterial,
 			},
 			isValid:  true,
@@ -52,9 +52,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Verification method with expected jwk key",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:zABCDEFG123456789abcd#rty",
+				Id:                   "did:canow:zABCDEFG123456789abcd#rty",
 				Type:                 "JsonWebKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidJWKKeyVerificationMaterial,
 			},
 			isValid:  true,
@@ -65,12 +65,12 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Id has expected DID as a base",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:zABCDEFG123456789abcd#rty",
+				Id:                   "did:canow:zABCDEFG123456789abcd#rty",
 				Type:                 "JsonWebKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidJWKKeyVerificationMaterial,
 			},
-			baseDid:  "did:cheqd:zABCDEFG123456789abcd",
+			baseDid:  "did:canow:zABCDEFG123456789abcd",
 			isValid:  true,
 			errorMsg: "",
 		}),
@@ -79,23 +79,23 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Id does not have expected DID as a base",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:zABCDEFG123456789abcd#rty",
+				Id:                   "did:canow:zABCDEFG123456789abcd#rty",
 				Type:                 "JsonWebKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidJWKKeyVerificationMaterial,
 			},
-			baseDid:  "did:cheqd:zABCDEFG987654321abcd",
+			baseDid:  "did:canow:zABCDEFG987654321abcd",
 			isValid:  false,
-			errorMsg: "id: must have prefix: did:cheqd:zABCDEFG987654321abcd.",
+			errorMsg: "id: must have prefix: did:canow:zABCDEFG987654321abcd.",
 		}),
 
 	Entry(
 		"Namespace is allowed",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:mainnet:zABCDEFG123456789abcd#rty",
+				Id:                   "did:canow:mainnet:zABCDEFG123456789abcd#rty",
 				Type:                 "JsonWebKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidJWKKeyVerificationMaterial,
 			},
 			allowedNamespaces: []string{"mainnet", ""},
@@ -106,9 +106,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Namespace is not allowed",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:mainnet:zABCDEFG123456789abcd#rty",
+				Id:                   "did:canow:mainnet:zABCDEFG123456789abcd#rty",
 				Type:                 "JsonWebKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidJWKKeyVerificationMaterial,
 			},
 			allowedNamespaces: []string{"testnet"},
@@ -119,9 +119,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"JWK key has expected format",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
 				Type:                 "JsonWebKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidJWKKeyVerificationMaterial,
 			},
 			isValid: true,
@@ -130,9 +130,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"JWK key has unexpected format",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
 				Type:                 "JsonWebKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: InvalidJWKKeyVerificationMaterial,
 			},
 			isValid:  false,
@@ -142,9 +142,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Ed25519 key has unexpected format",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
-				Id:                   "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
 				Type:                 "Ed25519VerificationKey2020",
-				Controller:           "did:cheqd:zABCDEFG987654321abcd",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: InvalidEd25519VerificationMaterial,
 			},
 			isValid:  false,

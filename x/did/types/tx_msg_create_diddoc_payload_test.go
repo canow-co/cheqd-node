@@ -42,29 +42,29 @@ var _ = Describe("Create DID Payload Validation tests", func() {
 		Entry(
 			"base58 identifier - not changed",
 			TestCaseUUIDDidStruct{
-				inputId:    "did:cheqd:testnet:zABCDEFG123456789abcd",
-				expectedId: "did:cheqd:testnet:zABCDEFG123456789abcd",
+				inputId:    "did:canow:testnet:zABCDEFG123456789abcd",
+				expectedId: "did:canow:testnet:zABCDEFG123456789abcd",
 			}),
 
 		Entry(
 			"Mixed case UUID",
 			TestCaseUUIDDidStruct{
-				inputId:    "did:cheqd:testnet:BAbbba14-f294-458a-9b9c-474d188680fd",
-				expectedId: "did:cheqd:testnet:babbba14-f294-458a-9b9c-474d188680fd",
+				inputId:    "did:canow:testnet:BAbbba14-f294-458a-9b9c-474d188680fd",
+				expectedId: "did:canow:testnet:babbba14-f294-458a-9b9c-474d188680fd",
 			}),
 
 		Entry(
 			"Low case UUID",
 			TestCaseUUIDDidStruct{
-				inputId:    "did:cheqd:testnet:babbba14-f294-458a-9b9c-474d188680fd",
-				expectedId: "did:cheqd:testnet:babbba14-f294-458a-9b9c-474d188680fd",
+				inputId:    "did:canow:testnet:babbba14-f294-458a-9b9c-474d188680fd",
+				expectedId: "did:canow:testnet:babbba14-f294-458a-9b9c-474d188680fd",
 			}),
 
 		Entry(
 			"Upper case UUID",
 			TestCaseUUIDDidStruct{
-				inputId:    "did:cheqd:testnet:A86F9CAE-0902-4a7c-a144-96b60ced2FC9",
-				expectedId: "did:cheqd:testnet:a86f9cae-0902-4a7c-a144-96b60ced2fc9",
+				inputId:    "did:canow:testnet:A86F9CAE-0902-4a7c-a144-96b60ced2FC9",
+				expectedId: "did:canow:testnet:a86f9cae-0902-4a7c-a144-96b60ced2fc9",
 			}),
 	)
 })

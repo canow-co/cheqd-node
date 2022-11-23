@@ -65,7 +65,7 @@ func (s *TestSetup) BuildDidDocWithCustomDID(did string) DidDocInfo {
 }
 
 func (s *TestSetup) BuildDidDocWithCustomId(uuid string) DidDocInfo {
-	did := "did:cheqd:" + DID_NAMESPACE + ":" + uuid
+	did := "did:canow:" + DID_NAMESPACE + ":" + uuid
 	return s.BuildDidDocWithCustomDID(did)
 }
 
