@@ -6,6 +6,7 @@ import (
 
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 )
 
 var CLI_QUERY_PARAMS = []string{
@@ -23,6 +24,21 @@ func Query(module, query string, queryArgs ...string) (string, error) {
 	args = append(args, queryArgs...)
 
 	return Exec(args...)
+}
+
+func QueryGetBalances(address string) (banktypes.QueryAllBalancesResponse, error) {
+	res, err := Query("bank", "balances", address)
+	if err != nil {
+		return banktypes.QueryAllBalancesResponse{}, err
+	}
+
+	var resp banktypes.QueryAllBalancesResponse
+	err = helpers.Codec.UnmarshalJSON([]byte(res), &resp)
+	if err != nil {
+		return banktypes.QueryAllBalancesResponse{}, err
+	}
+
+	return resp, err
 }
 
 func QueryDidDoc(did string) (didtypes.QueryGetDidDocResponse, error) {
