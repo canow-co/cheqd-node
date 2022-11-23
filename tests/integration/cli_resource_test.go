@@ -28,7 +28,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 	It("can create diddoc, create resource, query it, query all resource versions of the same resource name, query resource collection", func() {
 		// Create a new DID Doc
 		collectionId := uuid.NewString()
-		did := "did:cheqd:" + network.DID_NAMESPACE + ":" + collectionId
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + collectionId
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -126,7 +126,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 
 		// Create a second DID Doc
 		secondCollectionId := uuid.NewString()
-		secondDid := "did:cheqd:" + network.DID_NAMESPACE + ":" + secondCollectionId
+		secondDid := "did:canow:" + network.DID_NAMESPACE + ":" + secondCollectionId
 		secondKeyId := secondDid + "#key1"
 
 		secondPubKey, secondPrivKey, err := ed25519.GenerateKey(nil)

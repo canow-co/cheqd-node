@@ -31,7 +31,7 @@ var _ = Describe("Message for DID updating", func() {
 			TestCaseMsgDeactivateDID{
 				msg: &MsgDeactivateDidDoc{
 					Payload: &MsgDeactivateDidDocPayload{
-						Id:        "did:cheqd:testnet:zABCDEFG123456789abcd",
+						Id:        "did:canow:testnet:zABCDEFG123456789abcd",
 						VersionId: uuid.NewString(),
 					},
 					Signatures: nil,

@@ -27,7 +27,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 	It("cannot create diddoc with missing cli arguments, sign inputs mismatch, non-supported VM type, already existing did", func() {
 		// Define a valid new DID Doc
-		did := "did:cheqd:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -61,7 +61,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 		Expect(res.Code).To(BeEquivalentTo(0))
 
 		// Second new valid DID Doc
-		did2 := "did:cheqd:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		did2 := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
 		keyId2 := did2 + "#key1"
 
 		pubKey2, privKey2, err := ed25519.GenerateKey(nil)
@@ -159,7 +159,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 	It("cannot update a DID Doc with missing cli arguments, sign inputs mismatch, non-supported VM type, non-existing did, unchanged payload", func() {
 		// Define a valid DID Doc to be updated
-		did := "did:cheqd:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -215,7 +215,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 		Expect(res.Code).To(BeEquivalentTo(0))
 
 		// Generate second controller
-		did2 := "did:cheqd:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		did2 := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
 		keyId2 := did2 + "#key1"
 		keyId2AsExtraController := did + "#key2"
 
@@ -396,7 +396,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot update diddoc with a non-existing DID"))
 		// Fail to update a non-existing DID Doc
-		nonExistingDid := "did:cheqd:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		nonExistingDid := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
 		nonExistingDidPayload := deepCopierUpdateDid.DeepCopy(followingUpdatedPayload)
 		nonExistingDidPayload.Id = nonExistingDid
 		_, err = cli.UpdateDidDoc(tmpDir, nonExistingDidPayload, signInputsAugmented, testdata.BASE_ACCOUNT_1)
@@ -423,7 +423,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot query diddoc with a non-existing DID"))
 		// Fail to query a non-existing DID Doc
-		nonExistingDid := "did:cheqd:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		nonExistingDid := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
 		_, err = cli.QueryDidDoc(nonExistingDid)
 		Expect(err).ToNot(BeNil())
 	})

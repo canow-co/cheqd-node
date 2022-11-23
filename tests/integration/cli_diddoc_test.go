@@ -28,7 +28,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 	It("can create diddoc, update it and query the result", func() {
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can create diddoc"))
 		// Create a new DID Doc
-		did := "did:cheqd:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)

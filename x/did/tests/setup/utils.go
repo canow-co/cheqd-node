@@ -31,7 +31,7 @@ const (
 )
 
 func GenerateDID(idtype IDType) string {
-	prefix := "did:cheqd:" + DID_NAMESPACE + ":"
+	prefix := "did:canow:" + DID_NAMESPACE + ":"
 
 	switch idtype {
 	case Base58_16bytes:

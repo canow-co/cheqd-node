@@ -15,7 +15,7 @@ var (
 // TrySplitDID Validates generic format of DID. It doesn't validate method, name and id content.
 // Call ValidateDID for further validation.
 func TrySplitDID(did string) (method string, namespace string, id string, err error) {
-	// Example: did:cheqd:testnet:base58str1ng1111
+	// Example: did:canow:testnet:base58str1ng1111
 	// match [0] - the whole string
 	// match [1] - cheqd                - method
 	// match [2] - :testnet

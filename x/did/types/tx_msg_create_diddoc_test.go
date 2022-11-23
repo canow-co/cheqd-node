@@ -31,16 +31,16 @@ var _ = Describe("Message for DID creation", func() {
 			TestCaseMsgCreateDID{
 				msg: &MsgCreateDidDoc{
 					Payload: &MsgCreateDidDocPayload{
-						Id: "did:cheqd:testnet:zABCDEFG123456789abcd",
+						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
 								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:cheqd:testnet:zABCDEFG123456789abcd",
+								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
 								VerificationMaterial: ValidEd25519VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:cheqd:testnet:zABCDEFG123456789abcd#key1", "did:cheqd:testnet:zABCDEFG123456789abcd#aaa"},
+						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#aaa"},
 						VersionId:      uuid.NewString(),
 					},
 					Signatures: nil,
@@ -53,16 +53,16 @@ var _ = Describe("Message for DID creation", func() {
 			TestCaseMsgCreateDID{
 				msg: &MsgCreateDidDoc{
 					Payload: &MsgCreateDidDocPayload{
-						Id: "did:cheqd:testnet:zABCDEFG123456789abcd",
+						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
 								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:cheqd:testnet:zABCDEFG123456789abcd",
+								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
 								VerificationMaterial: ValidEd25519VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:cheqd:testnet:zABCDEFG123456789abcd#key1", "did:cheqd:testnet:zABCDEFG123456789abcd#key1"},
+						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#key1"},
 					},
 					Signatures: nil,
 				},
