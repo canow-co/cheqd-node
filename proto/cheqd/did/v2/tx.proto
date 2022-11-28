@@ -45,6 +45,8 @@ message MsgCreateDidDocPayload {
   repeated string also_known_as = 10;
   repeated Service service = 11;
   string version_id = 12;
+  repeated string accept = 13;
+  repeated string routing_keys = 14;
 }
 
 message MsgCreateDidDocResponse {
@@ -64,6 +66,8 @@ message MsgUpdateDidDocPayload {
   repeated string also_known_as = 10;
   repeated Service service = 11;
   string version_id = 12;
+  repeated string accept = 13;
+  repeated string routing_keys = 14;
 }
 
 message MsgUpdateDidDocResponse {
