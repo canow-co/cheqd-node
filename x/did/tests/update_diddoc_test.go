@@ -255,7 +255,7 @@ var _ = Describe("DIDDoc update", func() {
 		})
 	})
 
-	Describe("Verification method: key udpate", func() {
+	Describe("Verification method: key update", func() {
 		var did CreatedDidDocInfo
 		var newKeyPair KeyPair
 		var msg *types.MsgUpdateDidDocPayload
@@ -611,6 +611,119 @@ var _ = Describe("DIDDoc update", func() {
 				Expect(err.Error()).ToNot(BeNil())
 				Expect(err.Error()).To(ContainSubstring(alice.DidDocInfo.Did + ": DID Doc already deactivated"))
 			})
+		})
+	})
+
+	Describe("Service: adding a new one", func() {
+		var alice CreatedDidDocInfo
+		var msg *types.MsgUpdateDidDocPayload
+
+		BeforeEach(func() {
+			alice = setup.CreateSimpleDid()
+
+			newAccepts := []string{"accept-1", "accept-2"}
+			newRoutingKeys := []string{"did:example:some1#some_key", "did:example:some2#some_key"}
+
+			msg = &types.MsgUpdateDidDocPayload{
+				Id: alice.Did,
+				VerificationMethod: []*types.VerificationMethod{
+					{
+						Id:                   alice.KeyId,
+						Type:                 types.Ed25519VerificationKey2020{}.Type(),
+						Controller:           alice.Did,
+						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+					},
+				},
+				Authentication: []string{alice.KeyId},
+				VersionId:      uuid.NewString(),
+				Service: []*types.Service{
+					{
+						Id:              alice.Did + "#service-1",
+						Type:            "type-1",
+						ServiceEndpoint: []string{"endpoint-1"},
+						Accept:          newAccepts,
+						RoutingKeys:     newRoutingKeys,
+					},
+				},
+			}
+		})
+
+		It("Works with DIDDoc service", func() {
+			signatures := []SignInput{
+				alice.SignInput,
+			}
+
+			_, err := setup.UpdateDidDoc(msg, signatures)
+			Expect(err).To(BeNil())
+
+			created, err := setup.QueryDidDoc(alice.Did)
+			Expect(err).To(BeNil())
+			Expect(*created).ToNot(Equal(msg.ToDidDoc()))
+		})
+	})
+
+	Describe("Service: removing existing", func() {
+		var alice CreatedDidDocInfo
+		var msg *types.MsgUpdateDidDocPayload
+
+		BeforeEach(func() {
+			alice = setup.CreateSimpleDid()
+
+			newAccepts := []string{"accept-1", "accept-2"}
+			newRoutingKeys := []string{"did:example:some1#some_key", "did:example:some2#some_key"}
+
+			addService := &types.MsgUpdateDidDocPayload{
+				Id: alice.Did,
+				VerificationMethod: []*types.VerificationMethod{
+					{
+						Id:                   alice.KeyId,
+						Type:                 types.Ed25519VerificationKey2020{}.Type(),
+						Controller:           alice.Did,
+						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+					},
+				},
+				Authentication: []string{alice.KeyId},
+				VersionId:      uuid.NewString(),
+				Service: []*types.Service{
+					{
+						Id:              alice.Did + "#service-1",
+						Type:            "type-1",
+						ServiceEndpoint: []string{"endpoint-1"},
+						Accept:          newAccepts,
+						RoutingKeys:     newRoutingKeys,
+					},
+				},
+			}
+
+			_, err := setup.UpdateDidDoc(addService, []SignInput{alice.SignInput})
+			Expect(err).To(BeNil())
+
+			msg = &types.MsgUpdateDidDocPayload{
+				Id: alice.Did,
+				VerificationMethod: []*types.VerificationMethod{
+					{
+						Id:                   alice.KeyId,
+						Type:                 types.Ed25519VerificationKey2020{}.Type(),
+						Controller:           alice.Did,
+						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+					},
+				},
+				Authentication: []string{alice.KeyId},
+				VersionId:      uuid.NewString(),
+			}
+		})
+
+		It("Works with DIDDoc service", func() {
+			signatures := []SignInput{
+				alice.SignInput,
+			}
+
+			_, err := setup.UpdateDidDoc(msg, signatures)
+			Expect(err).To(BeNil())
+
+			created, err := setup.QueryDidDoc(alice.Did)
+			Expect(err).To(BeNil())
+			Expect(*created).ToNot(Equal(msg.ToDidDoc()))
 		})
 	})
 })

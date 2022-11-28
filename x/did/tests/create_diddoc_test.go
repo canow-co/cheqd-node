@@ -181,6 +181,8 @@ var _ = Describe("Create DID tests", func() {
 					Id:              did + "#service-1",
 					Type:            "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"did:example:some#some_key"},
 				},
 			},
 			AlsoKnownAs: []string{"alias-1", "alias-2"},
