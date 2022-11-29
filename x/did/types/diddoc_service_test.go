@@ -68,5 +68,20 @@ var _ = Describe("Service tests", func() {
 				isValid:  false,
 				errorMsg: "id: must have prefix: did:canow:zABCDEFG987654321abcd",
 			}),
+
+		Entry(
+			"Invalid Service RoutingKeys field",
+			TestCaseServiceStruct{
+				service: &Service{
+					Id:              "did:canow:zABCDEFG123456789abcd#service1",
+					Type:            "DIDCommMessaging",
+					ServiceEndpoint: []string{"endpoint"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"invalid key"},
+				},
+				baseDid:  "did:canow:zABCDEFG987654321abcd",
+				isValid:  false,
+				errorMsg: "invalid fragment in RoutingKeys",
+			}),
 	)
 })

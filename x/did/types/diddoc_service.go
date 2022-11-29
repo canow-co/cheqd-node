@@ -73,7 +73,7 @@ func IsValidateFragment() *CustomErrorRule {
 		}
 
 		if err := utils.ValidateFragment(routingKey); err != nil {
-			return errors.New("invalid fragment")
+			return errors.New("invalid fragment in RoutingKeys")
 		}
 
 		return nil

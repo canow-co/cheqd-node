@@ -660,6 +660,17 @@ var _ = Describe("DIDDoc update", func() {
 			Expect(err).To(BeNil())
 			Expect(*created).ToNot(Equal(msg.ToDidDoc()))
 		})
+
+		It("Doesn't work with invalid RoutingKeys field", func() {
+			msg.Service[0].RoutingKeys = []string{"invalid value"}
+
+			signatures := []SignInput{
+				alice.SignInput,
+			}
+
+			_, err := setup.UpdateDidDoc(msg, signatures)
+			Expect(err.Error()).To(ContainSubstring("invalid fragment in RoutingKeys"))
+		})
 	})
 
 	Describe("Service: removing existing", func() {
