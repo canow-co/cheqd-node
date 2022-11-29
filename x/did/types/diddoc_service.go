@@ -34,6 +34,7 @@ func (s Service) Validate(baseDid string, allowedNamespaces []string) error {
 		validation.Field(&s.Id, validation.Required, IsDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid)),
 		validation.Field(&s.Type, validation.Required, validation.Length(1, 255)),
 		validation.Field(&s.ServiceEndpoint, validation.Each(validation.Required)),
+		validation.Field(&s.RoutingKeys, validation.Each(IsValidateFragment())),
 	)
 }
 
@@ -58,6 +59,21 @@ func IsUniqueServiceListByIdRule() *CustomErrorRule {
 		ids := GetServiceIds(casted)
 		if !utils.IsUnique(ids) {
 			return errors.New("there are service duplicates")
+		}
+
+		return nil
+	})
+}
+
+func IsValidateFragment() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		routingKey, ok := value.(string)
+		if !ok {
+			panic("RoutingKeys should be array of strings")
+		}
+
+		if err := utils.ValidateFragment(routingKey); err != nil {
+			return errors.New("invalid fragment")
 		}
 
 		return nil
