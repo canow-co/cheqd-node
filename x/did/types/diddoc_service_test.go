@@ -35,7 +35,7 @@ var _ = Describe("Service tests", func() {
 					Type:            "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint1", "endpoint2"},
 					Accept:          []string{"accept-1"},
-					RoutingKeys:     []string{"did:example:some#some_key"},
+					RoutingKeys:     []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm"},
 				},
 				baseDid:           "did:canow:aABCDEFG123456789abcd",
 				allowedNamespaces: []string{""},

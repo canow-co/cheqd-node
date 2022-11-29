@@ -182,7 +182,7 @@ var _ = Describe("Create DID tests", func() {
 					Type:            "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
 					Accept:          []string{"accept-1"},
-					RoutingKeys:     []string{"did:example:some#some_key"},
+					RoutingKeys:     []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm"},
 				},
 			},
 			AlsoKnownAs: []string{"alias-1", "alias-2"},
