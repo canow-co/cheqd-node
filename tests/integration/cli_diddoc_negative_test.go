@@ -414,6 +414,53 @@ var _ = Describe("cheqd cli - negative did", func() {
 		Expect(err).To(BeNil()) // TODO: Decide if this should be an error, if the DID Doc is unchanged
 	})
 
+	It("cannot create diddoc with invalid Service.RoutingKeys", func() {
+		// Create a new DID Doc with invalid Service.RoutingKeys
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		keyId := did + "#key1"
+
+		pubKey, privKey, err := ed25519.GenerateKey(nil)
+		Expect(err).To(BeNil())
+
+		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
+		Expect(err).To(BeNil())
+
+		payload := types.MsgCreateDidDocPayload{
+			Id: did,
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                   keyId,
+					Type:                 "Ed25519VerificationKey2020",
+					Controller:           did,
+					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+				},
+			},
+			Authentication: []string{keyId},
+			VersionId:      uuid.NewString(),
+			Service: []*types.Service{
+				{
+					Id:              did + "#service-1",
+					Type:            "type-1",
+					ServiceEndpoint: []string{"endpoint-1"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"invalid key"},
+				},
+			},
+		}
+
+		signInputs := []cli_types.SignInput{
+			{
+				VerificationMethodId: keyId,
+				PrivKey:              privKey,
+			},
+		}
+
+		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot create diddoc with invalid Service.RoutingKeys"))
+		// Fail to create a new DID Doc with invalid Service.RoutingKeys
+		_, err = cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		Expect(err).ToNot(BeNil())
+	})
+
 	It("cannot query a diddoc with missing cli arguments, non-existing diddoc", func() {
 		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot query diddoc with missing cli arguments"))
 		// Fail to query the DID Doc with missing cli arguments
