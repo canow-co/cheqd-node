@@ -680,8 +680,8 @@ var _ = Describe("DIDDoc update", func() {
 		BeforeEach(func() {
 			alice = setup.CreateSimpleDid()
 
-			// newAccepts := []string{"accept-1", "accept-2"}
-			// newRoutingKeys := []string{"did:example:some1#some_key", "did:example:some2#some_key"}
+			newAccepts := []string{"accept-1", "accept-2"}
+			newRoutingKeys := []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm", "did:canow:testnet:HPXoCUSjrSvWC54ZLYXjsm"}
 
 			addService := &types.MsgUpdateDidDocPayload{
 				Id: alice.Did,
@@ -695,15 +695,15 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []string{alice.KeyId},
 				VersionId:      uuid.NewString(),
-				// Service: []*types.Service{
-				// 	{
-				// 		Id:              alice.Did + "#service-1",
-				// 		Type:            "type-1",
-				// 		ServiceEndpoint: []string{"endpoint-1"},
-				// 		Accept:          newAccepts,
-				// 		RoutingKeys:     newRoutingKeys,
-				// 	},
-				// },
+				Service: []*types.Service{
+					{
+						Id:              alice.Did + "#service-1",
+						Type:            "type-1",
+						ServiceEndpoint: []string{"endpoint-1"},
+						Accept:          newAccepts,
+						RoutingKeys:     newRoutingKeys,
+					},
+				},
 			}
 
 			_, err := setup.UpdateDidDoc(addService, []SignInput{alice.SignInput})

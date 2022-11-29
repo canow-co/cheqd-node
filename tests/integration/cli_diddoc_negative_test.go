@@ -415,7 +415,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 	})
 
 	It("cannot create diddoc with invalid Service.RoutingKeys", func() {
-		// Create a new DID Doc with invalid Service.RoutingKeys
+		// We cannot create DID Doc with invalid Service.RoutingKeys
 		did := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
 		keyId := did + "#key1"
 

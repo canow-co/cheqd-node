@@ -127,6 +127,8 @@ var _ = Describe("cheqd cli - positive did", func() {
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
 
+		routingKeys := []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm"}
+
 		payload := types.MsgCreateDidDocPayload{
 			Id: did,
 			VerificationMethod: []*types.VerificationMethod{
@@ -145,7 +147,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 					Type:            "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
 					Accept:          []string{"accept-1"},
-					RoutingKeys:     []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm"},
+					RoutingKeys:     routingKeys,
 				},
 			},
 		}
@@ -179,7 +181,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 		Expect(didDoc.Service[0].Type).To(BeEquivalentTo("type-1"))
 		Expect(didDoc.Service[0].ServiceEndpoint[0]).To(BeEquivalentTo("endpoint-1"))
 		Expect(didDoc.Service[0].Accept).To(BeEquivalentTo([]string{"accept-1"}))
-		Expect(didDoc.Service[0].RoutingKeys).To(BeEquivalentTo([]string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm"}))
+		Expect(didDoc.Service[0].RoutingKeys).To(BeEquivalentTo(routingKeys))
 
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can update diddoc"))
 		// Update the DID Doc
