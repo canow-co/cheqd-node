@@ -34,6 +34,7 @@ func (s Service) Validate(baseDid string, allowedNamespaces []string) error {
 		validation.Field(&s.Id, validation.Required, IsDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid)),
 		validation.Field(&s.Type, validation.Required, validation.Length(1, 255)),
 		validation.Field(&s.ServiceEndpoint, validation.Each(validation.Required)),
+		validation.Field(&s.Accept, validation.Each(validation.Required, validation.Length(1, 255))),
 		validation.Field(&s.RoutingKeys, validation.Each(IsValidateFragment())),
 	)
 }
