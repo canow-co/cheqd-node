@@ -182,7 +182,7 @@ var _ = Describe("Create DID tests", func() {
 					Type:            "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
 					Accept:          []string{"accept-1"},
-					RoutingKeys:     []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm"},
+					RoutingKeys:     []string{"did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"},
 				},
 			},
 			AlsoKnownAs: []string{"alias-1", "alias-2"},
@@ -452,7 +452,7 @@ var _ = Describe("Create DID tests", func() {
 			},
 		}
 		_, err := setup.CreateDid(msg, signatures)
-		Expect(err.Error()).To(ContainSubstring("invalid fragment in RoutingKeys"))
+		Expect(err.Error()).To(ContainSubstring("DID namespace validation failed"))
 	})
 })
 

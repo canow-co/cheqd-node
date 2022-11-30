@@ -31,11 +31,11 @@ func GetServiceIds(vms []*Service) []string {
 
 func (s Service) Validate(baseDid string, allowedNamespaces []string) error {
 	return validation.ValidateStruct(&s,
-		validation.Field(&s.Id, validation.Required, IsDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid)),
+		validation.Field(&s.Id, validation.Required, IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid)),
 		validation.Field(&s.Type, validation.Required, validation.Length(1, 255)),
 		validation.Field(&s.ServiceEndpoint, validation.Each(validation.Required)),
 		validation.Field(&s.Accept, validation.Each(validation.Required, validation.Length(1, 255))),
-		validation.Field(&s.RoutingKeys, validation.Each(IsValidateFragment())),
+		validation.Field(&s.RoutingKeys, validation.Each(validation.Required, IsDIDUrl("", []string{}, Empty, Empty, Required))),
 	)
 }
 
@@ -66,17 +66,61 @@ func IsUniqueServiceListByIdRule() *CustomErrorRule {
 	})
 }
 
-func IsValidateFragment() *CustomErrorRule {
+func IsSpecificDIDUrl(allowedNamespaces []string, pathRule, queryRule, fragmentRule ValidationType) *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		routingKey, ok := value.(string)
+		casted, ok := value.(string)
 		if !ok {
-			panic("RoutingKeys should be array of strings")
+			panic("IsDIDUrl must be only applied on string properties")
 		}
 
-		if err := utils.ValidateFragment(routingKey); err != nil {
-			return errors.New("invalid fragment in RoutingKeys")
-		}
-
-		return nil
+		return validateDIDUrl(casted, DidMethod, allowedNamespaces, pathRule, queryRule, fragmentRule)
 	})
+}
+
+func IsDIDUrl(method string, allowedNamespaces []string, pathRule, queryRule, fragmentRule ValidationType) *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsDIDUrl must be only applied on string properties")
+		}
+
+		return validateDIDUrl(casted, method, allowedNamespaces, pathRule, queryRule, fragmentRule)
+	})
+}
+
+func validateDIDUrl(did string, method string, allowedNamespaces []string, pathRule, queryRule, fragmentRule ValidationType) error {
+	if err := utils.ValidateDIDUrl(did, method, allowedNamespaces); err != nil {
+		return err
+	}
+
+	_, path, query, fragment, err := utils.TrySplitDIDUrl(did)
+	if err != nil {
+		return err
+	}
+
+	if pathRule == Required && path == "" {
+		return errors.New("path is required")
+	}
+
+	if pathRule == Empty && path != "" {
+		return errors.New("path must be empty")
+	}
+
+	if queryRule == Required && query == "" {
+		return errors.New("query is required")
+	}
+
+	if queryRule == Empty && query != "" {
+		return errors.New("query must be empty")
+	}
+
+	if fragmentRule == Required && fragment == "" {
+		return errors.New("fragment is required")
+	}
+
+	if fragmentRule == Empty && fragment != "" {
+		return errors.New("fragment must be empty")
+	}
+
+	return nil
 }

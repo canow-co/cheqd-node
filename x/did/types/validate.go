@@ -61,50 +61,6 @@ func IsDID(allowedNamespaces []string) *CustomErrorRule {
 	})
 }
 
-func IsDIDUrl(allowedNamespaces []string, pathRule, queryRule, fragmentRule ValidationType) *CustomErrorRule {
-	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.(string)
-		if !ok {
-			panic("IsDIDUrl must be only applied on string properties")
-		}
-
-		if err := utils.ValidateDIDUrl(casted, DidMethod, allowedNamespaces); err != nil {
-			return err
-		}
-
-		_, path, query, fragment, err := utils.TrySplitDIDUrl(casted)
-		if err != nil {
-			return err
-		}
-
-		if pathRule == Required && path == "" {
-			return errors.New("path is required")
-		}
-
-		if pathRule == Empty && path != "" {
-			return errors.New("path must be empty")
-		}
-
-		if queryRule == Required && query == "" {
-			return errors.New("query is required")
-		}
-
-		if queryRule == Empty && query != "" {
-			return errors.New("query must be empty")
-		}
-
-		if fragmentRule == Required && fragment == "" {
-			return errors.New("fragment is required")
-		}
-
-		if fragmentRule == Empty && fragment != "" {
-			return errors.New("fragment must be empty")
-		}
-
-		return nil
-	})
-}
-
 func IsURI() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)

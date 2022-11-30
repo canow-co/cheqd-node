@@ -127,7 +127,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
 
-		routingKeys := []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm"}
+		routingKeys := []string{"did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"}
 
 		payload := types.MsgCreateDidDocPayload{
 			Id: did,

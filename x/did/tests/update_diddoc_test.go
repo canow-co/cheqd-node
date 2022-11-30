@@ -622,7 +622,7 @@ var _ = Describe("DIDDoc update", func() {
 			alice = setup.CreateSimpleDid()
 
 			newAccepts := []string{"accept-1", "accept-2"}
-			newRoutingKeys := []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm", "did:canow:testnet:HPXoCUSjrSvWC35SLWQjsm"}
+			newRoutingKeys := []string{"did:example:HPXoCUSjrSvWC53SLWQjsm#somekey", "did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"}
 
 			msg = &types.MsgUpdateDidDocPayload{
 				Id: alice.Did,
@@ -669,7 +669,7 @@ var _ = Describe("DIDDoc update", func() {
 			}
 
 			_, err := setup.UpdateDidDoc(msg, signatures)
-			Expect(err.Error()).To(ContainSubstring("invalid fragment in RoutingKeys"))
+			Expect(err.Error()).To(ContainSubstring("DID namespace validation failed"))
 		})
 	})
 
@@ -681,7 +681,7 @@ var _ = Describe("DIDDoc update", func() {
 			alice = setup.CreateSimpleDid()
 
 			newAccepts := []string{"accept-1", "accept-2"}
-			newRoutingKeys := []string{"did:canow:testnet:HPXoCUSjrSvWC54SLWQjsm", "did:canow:testnet:HPXoCUSjrSvWC54ZLYXjsm"}
+			newRoutingKeys := []string{"did:example:HPXoCUSjrSvWC53SLWQjsm#somekey", "did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"}
 
 			addService := &types.MsgUpdateDidDocPayload{
 				Id: alice.Did,
