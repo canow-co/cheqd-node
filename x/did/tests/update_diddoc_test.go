@@ -669,7 +669,7 @@ var _ = Describe("DIDDoc update", func() {
 			}
 
 			_, err := setup.UpdateDidDoc(msg, signatures)
-			Expect(err.Error()).To(ContainSubstring("DID namespace validation failed"))
+			Expect(err.Error()).To(ContainSubstring("unable to split did into method, namespace and id"))
 		})
 	})
 

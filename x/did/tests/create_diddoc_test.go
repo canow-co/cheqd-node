@@ -452,7 +452,7 @@ var _ = Describe("Create DID tests", func() {
 			},
 		}
 		_, err := setup.CreateDid(msg, signatures)
-		Expect(err.Error()).To(ContainSubstring("DID namespace validation failed"))
+		Expect(err.Error()).To(ContainSubstring("unable to split did into method, namespace and id"))
 	})
 })
 
