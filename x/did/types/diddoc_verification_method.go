@@ -135,7 +135,7 @@ func (vm *VerificationMethod) ReplaceDids(old, new string) {
 
 func (vm VerificationMethod) Validate(baseDid string, allowedNamespaces []string) error {
 	return validation.ValidateStruct(&vm,
-		validation.Field(&vm.Id, validation.Required, IsDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid)),
+		validation.Field(&vm.Id, validation.Required, IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid)),
 		validation.Field(&vm.Controller, validation.Required, IsDID(allowedNamespaces)),
 		validation.Field(&vm.Type, validation.Required, validation.In(utils.ToInterfaces(SupportedMethodTypes)...)),
 		validation.Field(&vm.VerificationMaterial,

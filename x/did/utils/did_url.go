@@ -92,7 +92,7 @@ func ValidateDIDUrl(didUrl string, method string, allowedNamespaces []string) er
 
 func ValidateFragment(fragment string) error {
 	if !DIDFragmentRegexp.MatchString(fragment) {
-		return fmt.Errorf("did url fragmnt must match the following regexp: %s", DIDFragmentRegexp)
+		return fmt.Errorf("did url fragment must match the following regexp: %s", DIDFragmentRegexp)
 	}
 	return nil
 }
@@ -106,7 +106,7 @@ func ValidateQuery(query string) error {
 
 func ValidatePath(path string) error {
 	if !DIDPathAbemptyRegexp.MatchString(path) {
-		return fmt.Errorf("did url path abempty must match the following regexp: %s", DIDPathAbemptyRegexp)
+		return fmt.Errorf("did url path empty must match the following regexp: %s", DIDPathAbemptyRegexp)
 	}
 	return nil
 }

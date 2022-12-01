@@ -29,6 +29,8 @@ message Service {
   string id = 1;
   string type = 2;
   repeated string service_endpoint = 3;
+  repeated string accept = 4;
+  repeated string routing_keys = 5;
 }
 
 message DidDocWithMetadata {

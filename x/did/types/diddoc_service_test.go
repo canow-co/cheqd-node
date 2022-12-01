@@ -34,6 +34,8 @@ var _ = Describe("Service tests", func() {
 					Id:              "did:canow:aABCDEFG123456789abcd#service1",
 					Type:            "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint1", "endpoint2"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"},
 				},
 				baseDid:           "did:canow:aABCDEFG123456789abcd",
 				allowedNamespaces: []string{""},
@@ -65,6 +67,21 @@ var _ = Describe("Service tests", func() {
 				baseDid:  "did:canow:zABCDEFG987654321abcd",
 				isValid:  false,
 				errorMsg: "id: must have prefix: did:canow:zABCDEFG987654321abcd",
+			}),
+
+		Entry(
+			"Invalid Service RoutingKeys field",
+			TestCaseServiceStruct{
+				service: &Service{
+					Id:              "did:canow:zABCDEFG123456789abcd#service1",
+					Type:            "DIDCommMessaging",
+					ServiceEndpoint: []string{"endpoint"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"invalid key"},
+				},
+				baseDid:  "did:canow:zABCDEFG987654321abcd",
+				isValid:  false,
+				errorMsg: "unable to split did into method, namespace and id",
 			}),
 	)
 })

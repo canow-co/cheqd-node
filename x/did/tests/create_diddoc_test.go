@@ -181,6 +181,8 @@ var _ = Describe("Create DID tests", func() {
 					Id:              did + "#service-1",
 					Type:            "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"},
 				},
 			},
 			AlsoKnownAs: []string{"alias-1", "alias-2"},
@@ -413,6 +415,84 @@ var _ = Describe("Create DID tests", func() {
 
 		_, err := setup.CreateDid(msg, signatures)
 		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("%s: DID Doc exists", alice.Did)))
+	})
+
+	It("Not Valid: DIDDoc Service Routing Keys field", func() {
+		did := GenerateDID(Base58_16bytes)
+		keypair := GenerateKeyPair()
+		keyId := did + "#key-1"
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id:             did,
+			Authentication: []string{keyId},
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                   keyId,
+					Type:                 types.Ed25519VerificationKey2020{}.Type(),
+					Controller:           did,
+					VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+				},
+			},
+			VersionId: uuid.NewString(),
+			Service: []*types.Service{
+				{
+					Id:              did + "#service-1",
+					Type:            "type-1",
+					ServiceEndpoint: []string{"endpoint-1"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"invalid value"},
+				},
+			},
+		}
+
+		signatures := []SignInput{
+			{
+				VerificationMethodId: keyId,
+				Key:                  keypair.Private,
+			},
+		}
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err.Error()).To(ContainSubstring("unable to split did into method, namespace and id"))
+	})
+
+	It("Not Valid: DIDDoc Service Routing Keys field (cannot be same keys in Routing Keys)", func() {
+		did := GenerateDID(Base58_16bytes)
+		keypair := GenerateKeyPair()
+		keyId := did + "#key-1"
+
+		newRoutingKeys := []string{"did:example:HPXoCUSjrSvWC53SLWQjsm#somekey", "did:example:HPXoCUSjrSvWC53SLWQjsm#somekey"}
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id:             did,
+			Authentication: []string{keyId},
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                   keyId,
+					Type:                 types.Ed25519VerificationKey2020{}.Type(),
+					Controller:           did,
+					VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+				},
+			},
+			VersionId: uuid.NewString(),
+			Service: []*types.Service{
+				{
+					Id:              did + "#service-1",
+					Type:            "type-1",
+					ServiceEndpoint: []string{"endpoint-1"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     newRoutingKeys,
+				},
+			},
+		}
+
+		signatures := []SignInput{
+			{
+				VerificationMethodId: keyId,
+				Key:                  keypair.Private,
+			},
+		}
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err.Error()).To(ContainSubstring("there should be no duplicates"))
 	})
 })
 
