@@ -11,6 +11,7 @@ import (
 
 	"filippo.io/edwards25519"
 
+	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
 	"github.com/lestrrat-go/jwx/jwk"
 )
 
@@ -40,9 +41,17 @@ func ValidateJWK(jwk_string string) error {
 
 func ValidateEd25519PubKey(keyBytes []byte) error {
 	if l := len(keyBytes); l != ed25519.PublicKeySize {
-		return fmt.Errorf("ed25519: bad public key length: %d", l)
+		return fmt.Errorf("Bls12381G2: bad public key length: %d", l)
 	}
 	_, err := (&edwards25519.Point{}).SetBytes(keyBytes)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ValidateBls12381G2PubKey(keyBytes []byte) error {
+	_, err := bbs12381g2pub.UnmarshalPublicKey(keyBytes)
 	if err != nil {
 		return err
 	}
@@ -55,6 +64,20 @@ func VerifyED25519Signature(pubKey ed25519.PublicKey, message []byte, signature 
 		return errors.New("invalid ed25519 signature")
 	}
 
+	return nil
+}
+
+func VerifyBLS12381G2Signature(pubKey bbs12381g2pub.PublicKey, message []byte, signature []byte) error {
+	pubKeyBytes, err := pubKey.Marshal()
+	if err != nil {
+		return err
+	}
+	messages := [][]byte{message}
+
+	err = bbs12381g2pub.New().Verify(messages, signature, pubKeyBytes)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

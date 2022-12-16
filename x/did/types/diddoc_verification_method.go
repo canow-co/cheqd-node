@@ -4,6 +4,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/ed25519"
 	"crypto/rsa"
+	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -11,6 +12,7 @@ import (
 	"github.com/canow-co/cheqd-node/x/did/utils"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/multiformats/go-multibase"
 )
@@ -68,6 +70,32 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 		}
 
 		verificationError = utils.VerifyED25519Signature(keyBytes, message, signature)
+
+	case Bls12381G2Key2020{}.Type():
+		var bls12381G2Key2020 Bls12381G2Key2020
+		err := json.Unmarshal([]byte(vm.VerificationMaterial), &bls12381G2Key2020)
+		if err != nil {
+			return sdkerrors.Wrapf(err, "failed to unmarshal verification material for %s", vm.Id)
+		}
+
+		_, multicodec, err := multibase.Decode(bls12381G2Key2020.PublicKeyMultibase)
+		if err != nil {
+			return err
+		}
+
+		_, codePrefixLength := binary.Uvarint(multicodec)
+		if codePrefixLength < 0 {
+			return errors.New("Invalid multicodec value")
+		}
+
+		keyBytes := multicodec[codePrefixLength:]
+
+		pubKey, err := bbs12381g2pub.UnmarshalPublicKey(keyBytes)
+		if err != nil {
+			return err
+		}
+
+		verificationError = utils.VerifyBLS12381G2Signature(*pubKey, message, signature)
 
 	case JsonWebKey2020{}.Type():
 		var jsonWebKey2020 JsonWebKey2020

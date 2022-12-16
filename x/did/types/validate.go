@@ -1,6 +1,7 @@
 package types
 
 import (
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"strings"
@@ -20,6 +21,9 @@ const (
 	Required ValidationType = iota
 	Empty    ValidationType = iota
 )
+
+// Bls12381G2PubKey multicodec code
+const Bls12381G2PubCode uint64 = 0xeb
 
 // Custom error rule
 
@@ -118,6 +122,37 @@ func IsMultibaseEncodedEd25519PubKey() *CustomErrorRule {
 		}
 
 		err = utils.ValidateEd25519PubKey(keyBytes)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+}
+
+func IsMultibaseEncodedBls12381G2PubKey() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsMultibaseEncodedBls12381G2PubKey must be only applied on string properties")
+		}
+
+		_, multicodec, err := multibase.Decode(casted)
+		if err != nil {
+			return err
+		}
+
+		code, codePrefixLength := binary.Uvarint(multicodec)
+		if codePrefixLength < 0 {
+			return errors.New("Invalid multicodec value")
+		}
+		if code != Bls12381G2PubCode {
+			return errors.New("Not a Bls12381G2 public key")
+		}
+
+		keyBytes := multicodec[codePrefixLength:]
+
+		err = utils.ValidateBls12381G2PubKey(keyBytes)
 		if err != nil {
 			return err
 		}
