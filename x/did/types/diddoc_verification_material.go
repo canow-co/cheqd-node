@@ -82,6 +82,23 @@ func ValidEd25519VerificationKey2020Rule() *CustomErrorRule {
 	})
 }
 
+func ValidBls12381G2Key2020Rule() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("ValidVerificationMethodRule must be only applied on verification methods")
+		}
+
+		var vm Bls12381G2Key2020
+		err := json.Unmarshal([]byte(casted), &vm)
+		if err != nil {
+			return err
+		}
+
+		return vm.Validate()
+	})
+}
+
 func ValidJsonWebKey2020Rule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)

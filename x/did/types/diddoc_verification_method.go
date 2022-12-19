@@ -10,9 +10,10 @@ import (
 	"fmt"
 
 	"github.com/canow-co/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils/bls12381g2"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
+	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/multiformats/go-multibase"
 )
@@ -20,6 +21,7 @@ import (
 var SupportedMethodTypes = []string{
 	JsonWebKey2020{}.Type(),
 	Ed25519VerificationKey2020{}.Type(),
+	Bls12381G2Key2020{}.Type(),
 }
 
 func NewVerificationMethod(id string, type_ string, controller string, verificationMaterial string) *VerificationMethod {
@@ -90,12 +92,7 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 
 		keyBytes := multicodec[codePrefixLength:]
 
-		pubKey, err := bbs12381g2pub.UnmarshalPublicKey(keyBytes)
-		if err != nil {
-			return err
-		}
-
-		verificationError = utils.VerifyBLS12381G2Signature(*pubKey, message, signature)
+		verificationError = utils.VerifyBLS12381G2Signature(keyBytes, message, signature)
 
 	case JsonWebKey2020{}.Type():
 		var jsonWebKey2020 JsonWebKey2020
@@ -104,21 +101,51 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 			return sdkerrors.Wrapf(err, "failed to unmarshal verification material for %s", vm.Id)
 		}
 
-		var raw interface{}
-		err = jwk.ParseRawKey([]byte(jsonWebKey2020.PublicKeyJwk), &raw)
+		key, err := jwk.ParseKey([]byte(jsonWebKey2020.PublicKeyJwk))
 		if err != nil {
 			return fmt.Errorf("can't parse jwk: %s", err.Error())
 		}
 
-		switch pubKey := raw.(type) {
-		case *rsa.PublicKey:
-			verificationError = utils.VerifyRSASignature(*pubKey, message, signature)
-		case *ecdsa.PublicKey:
-			verificationError = utils.VerifyECDSASignature(*pubKey, message, signature)
-		case ed25519.PublicKey:
-			verificationError = utils.VerifyED25519Signature(pubKey, message, signature)
+		switch key.KeyType() {
+		case jwa.RSA:
+			var rsaPubKey rsa.PublicKey
+			err := key.Raw(&rsaPubKey)
+			if err != nil {
+				return fmt.Errorf("can't convert jwk to %T: %s", &rsaPubKey, err.Error())
+			}
+			verificationError = utils.VerifyRSASignature(rsaPubKey, message, signature)
+
+		case jwa.EC:
+			var ecPubKey ecdsa.PublicKey
+			err := key.Raw(&ecPubKey)
+			if err != nil {
+				return fmt.Errorf("can't convert jwk to %T: %s", &ecPubKey, err.Error())
+			}
+			verificationError = utils.VerifyECDSASignature(ecPubKey, message, signature)
+
+		case jwa.OKP:
+			okpPubKey, ok := key.(jwk.OKPPublicKey)
+			if !ok {
+				return errors.New("jwk with kty=\"OKP\" is not actually OKP public key")
+			}
+
+			switch okpPubKey.Crv() {
+			case jwa.Ed25519:
+				var ed25519PubKey ed25519.PublicKey
+				err := key.Raw(ed25519PubKey)
+				if err != nil {
+					return fmt.Errorf("can't convert jwk to %T: %s", ed25519PubKey, err.Error())
+				}
+				verificationError = utils.VerifyED25519Signature(ed25519PubKey, message, signature)
+			case bls12381g2.Bls12381G2:
+				bls12381G2PubKey := bls12381g2.PublicKey(okpPubKey.X())
+				verificationError = utils.VerifyBLS12381G2Signature(bls12381G2PubKey, message, signature)
+			default:
+				panic("unsupported jwk cryptographic curve") // This should have been checked during basic validation
+			}
+
 		default:
-			panic("unsupported jwk key") // This should have been checked during basic validation
+			panic("unsupported jwk key type") // This should have been checked during basic validation
 		}
 
 	default:
@@ -168,6 +195,9 @@ func (vm VerificationMethod) Validate(baseDid string, allowedNamespaces []string
 		validation.Field(&vm.Type, validation.Required, validation.In(utils.ToInterfaces(SupportedMethodTypes)...)),
 		validation.Field(&vm.VerificationMaterial,
 			validation.When(vm.Type == Ed25519VerificationKey2020{}.Type(), validation.Required, ValidEd25519VerificationKey2020Rule()),
+		),
+		validation.Field(&vm.VerificationMaterial,
+			validation.When(vm.Type == Bls12381G2Key2020{}.Type(), validation.Required, ValidBls12381G2Key2020Rule()),
 		),
 		validation.Field(&vm.VerificationMaterial,
 			validation.When(vm.Type == JsonWebKey2020{}.Type(), validation.Required, ValidJsonWebKey2020Rule()),
