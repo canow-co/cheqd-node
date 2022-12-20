@@ -1,7 +1,6 @@
 package types
 
 import (
-	"encoding/binary"
 	"errors"
 	"fmt"
 	"strings"
@@ -21,9 +20,6 @@ const (
 	Required ValidationType = iota
 	Empty    ValidationType = iota
 )
-
-// Bls12381G2PubKey multicodec code
-const Bls12381G2PubCode uint64 = 0xeb
 
 // Custom error rule
 
@@ -130,42 +126,30 @@ func IsMultibaseEncodedEd25519PubKey() *CustomErrorRule {
 	})
 }
 
-func IsMultibaseEncodedBls12381G2PubKey() *CustomErrorRule {
+func IsBls12381G2Key2020() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.(string)
+		casted, ok := value.(Bls12381G2Key2020)
 		if !ok {
-			panic("IsMultibaseEncodedBls12381G2PubKey must be only applied on string properties")
+			panic("IsBls12381G2Key2020 must be only applied on Bls12381G2Key2020 instances")
 		}
 
-		_, multicodec, err := multibase.Decode(casted)
-		if err != nil {
-			return err
+		if casted.PublicKeyMultibase != "" && casted.PublicKeyJwk != nil {
+			return errors.New("Only one of publicKeyMultibase and publicKeyJwk must be set for Bls12381G2Key2020")
+		} else if casted.PublicKeyMultibase != "" {
+			return utils.ValidateMultibaseEncodedBls12381G2PubKey(casted.PublicKeyMultibase)
+		} else if casted.PublicKeyJwk != nil {
+			return utils.ValidateBls12381G2PubKeyJwk(casted.PublicKeyJwk)
+		} else {
+			return errors.New("One of publicKeyMultibase or publicKeyJwk must be set for Bls12381G2Key2020")
 		}
-
-		code, codePrefixLength := binary.Uvarint(multicodec)
-		if codePrefixLength < 0 {
-			return errors.New("Invalid multicodec value")
-		}
-		if code != Bls12381G2PubCode {
-			return errors.New("Not a Bls12381G2 public key")
-		}
-
-		keyBytes := multicodec[codePrefixLength:]
-
-		err = utils.ValidateBls12381G2PubKey(keyBytes)
-		if err != nil {
-			return err
-		}
-
-		return nil
 	})
 }
 
 func IsJWK() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.(string)
+		casted, ok := value.([]byte)
 		if !ok {
-			panic("IsJWK must be only applied on string properties")
+			panic("IsJWK must be only applied on byte slices")
 		}
 
 		return utils.ValidateJWK(casted)

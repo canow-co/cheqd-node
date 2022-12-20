@@ -5,6 +5,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/ed25519"
 	"crypto/rsa"
+	"encoding/binary"
 	"errors"
 	"fmt"
 
@@ -14,10 +15,11 @@ import (
 	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
 	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwk"
+	"github.com/multiformats/go-multibase"
 )
 
-func ValidateJWK(jwkStr string) error {
-	key, err := jwk.ParseKey([]byte(jwkStr))
+func ValidateJWK(rawJwk []byte) error {
+	key, err := jwk.ParseKey(rawJwk)
 	if err != nil {
 		return fmt.Errorf("can't parse jwk: %s", err.Error())
 	}
@@ -71,6 +73,48 @@ func ValidateEd25519PubKey(keyBytes []byte) error {
 		return err
 	}
 	return nil
+}
+
+func ValidateMultibaseEncodedBls12381G2PubKey(key string) error {
+	_, multicodec, err := multibase.Decode(key)
+	if err != nil {
+		return err
+	}
+
+	code, codePrefixLength := binary.Uvarint(multicodec)
+	if codePrefixLength < 0 {
+		return errors.New("Invalid multicodec value")
+	}
+	if code != bls12381g2.Bls12381G2PubCode {
+		return errors.New("Not a Bls12381G2 public key")
+	}
+
+	keyBytes := multicodec[codePrefixLength:]
+
+	return ValidateBls12381G2PubKey(keyBytes)
+}
+
+func ValidateBls12381G2PubKeyJwk(rawJwk []byte) error {
+	key, err := jwk.ParseKey(rawJwk)
+	if err != nil {
+		return fmt.Errorf("can't parse jwk: %s", err.Error())
+	}
+
+	if key.KeyType() != jwa.OKP {
+		return fmt.Errorf("Bls12381G2Key2020 key type must be %s rather than %s", jwa.OKP, key.KeyType())
+	}
+
+	okpPubKey, ok := key.(jwk.OKPPublicKey)
+	if !ok {
+		return errors.New("jwk with kty=\"OKP\" is not actually OKP public key")
+	}
+
+	if okpPubKey.Crv() != bls12381g2.Bls12381G2 {
+		return fmt.Errorf("Bls12381G2Key2020 curve must be %s rather than %s", bls12381g2.Bls12381G2, okpPubKey.Crv())
+	}
+
+	bls12381G2PubKey := bls12381g2.PublicKey(okpPubKey.X())
+	return ValidateBls12381G2PubKey(bls12381G2PubKey)
 }
 
 func ValidateBls12381G2PubKey(keyBytes []byte) error {

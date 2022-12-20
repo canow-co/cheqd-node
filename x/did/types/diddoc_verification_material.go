@@ -32,7 +32,8 @@ func (vm Ed25519VerificationKey2020) Validate() error {
 // Bls12381G2Key2020
 
 type Bls12381G2Key2020 struct {
-	PublicKeyMultibase string `json:"publicKeyMultibase"`
+	PublicKeyMultibase string          `json:"publicKeyMultibase,omitempty"`
+	PublicKeyJwk       json.RawMessage `json:"publicKeyJwk,omitempty"`
 }
 
 var _ VerificationMaterial = (*Bls12381G2Key2020)(nil)
@@ -42,9 +43,7 @@ func (vm Bls12381G2Key2020) Type() string {
 }
 
 func (vm Bls12381G2Key2020) Validate() error {
-	return validation.ValidateStruct(&vm,
-		validation.Field(&vm.PublicKeyMultibase, validation.Required, IsMultibase(), IsMultibaseEncodedBls12381G2PubKey()),
-	)
+	return validation.Validate(vm, IsBls12381G2Key2020())
 }
 
 // JsonWebKey2020
@@ -60,7 +59,7 @@ func (vm JsonWebKey2020) Type() string {
 }
 
 func (vm JsonWebKey2020) Validate() error {
-	return validation.Validate(string(vm.PublicKeyJwk), validation.Required, IsJWK())
+	return validation.Validate([]byte(vm.PublicKeyJwk), validation.Required, IsJWK())
 }
 
 // Validation
