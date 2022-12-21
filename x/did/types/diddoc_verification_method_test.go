@@ -136,7 +136,7 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 				VerificationMaterial: InvalidJWKKeyVerificationMaterial,
 			},
 			isValid:  false,
-			errorMsg: "verification_material: can't parse jwk: failed to parse key",
+			errorMsg: "verification_material: can't parse jwk: invalid key type from JSON (SomeOtherKeyType)",
 		}),
 	Entry(
 		"Ed25519 key has unexpected format",

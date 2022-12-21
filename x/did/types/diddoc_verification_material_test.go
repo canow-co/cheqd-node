@@ -60,6 +60,6 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 				PublicKeyJwk: InvalidPublicKeyJWK,
 			},
 			isValid:  false,
-			errorMsg: "can't parse jwk: failed to parse key",
+			errorMsg: "can't parse jwk: invalid key type from JSON (SomeOtherKeyType)",
 		}),
 )
