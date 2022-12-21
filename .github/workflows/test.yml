@@ -150,21 +150,6 @@ jobs:
         with:
           name: report-integration.xml
 
-      - name: Download pre-upgrade test Report
-        uses: actions/download-artifact@v3
-        with:
-          name: report-pre-upgrade.xml
-
-      - name: Download post-upgrade test Report
-        uses: actions/download-artifact@v3
-        with:
-          name: report-post-upgrade.xml
-
-      - name: Download upgraded integration test Report
-        uses: actions/download-artifact@v3
-        with:
-          name: report-upgraded-integration.xml
-
       - name: Download pricing proposal test Report
         uses: actions/download-artifact@v3
         with:
@@ -177,7 +162,7 @@ jobs:
 
       - name: Combine test results
         run: |
-          python ./.github/scripts/xml_combine.py report-unit.xml report-integration.xml report-pre-upgrade.xml report-post-upgrade.xml report-upgraded-integration.xml report-pricing-proposal.xml report-pricing-change.xml > report.xml
+          python ./.github/scripts/xml_combine.py report-unit.xml report-integration.xml report-post-upgrade.xml report-upgraded-integration.xml report-pricing-proposal.xml report-pricing-change.xml > report.xml
 
       - uses: mikepenz/action-junit-report@v3
         with:
