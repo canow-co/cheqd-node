@@ -115,7 +115,7 @@ class Release:
                 version_without_v_prefix = self.version.replace('v', '' ,1)
                 if os.path.basename(_url) == f"cheqd-noded-{version_without_v_prefix}-{os_name}-{os_arch}.tar.gz" or \
                     os.path.basename(_url) == "cheqd-noded":
-                    return _url      
+                    return _url
 
             else:
                 failure_exit(f"No asset found to download for release: {self.version}")
@@ -267,10 +267,7 @@ class Installer():
         try:
             self.exec(f"wget -c {binary_url}")
             if fname.find(".tar.gz") != -1:
-                if self.version.replace('v', '') >= '1.0.1':
-                    self.exec(f"tar -xzf {fname} -C .")
-                else:
-                    self.exec(f"tar -xzf {fname} -C . --strip-components=1")
+                self.exec(f"tar -xzf {fname} -C .")
                 self.remove_safe(fname)
             self.exec(f"chmod +x {DEFAULT_BINARY_NAME}")
         except:
@@ -547,7 +544,7 @@ class Installer():
             self.remove_safe("CHANGELOG.md")
             self.remove_safe("README.md")
             self.remove_safe("LICENSE")
-            
+
             self.mkdir_p(self.cosmovisor_root_dir)
             self.mkdir_p(os.path.join(self.cosmovisor_root_dir, "genesis"))
             self.mkdir_p(os.path.join(self.cosmovisor_root_dir, "genesis/bin"))
