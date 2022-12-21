@@ -58,7 +58,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -95,7 +95,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 			},
 		}
 
-		res2, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs2, testdata.BASE_ACCOUNT_1)
+		res2, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs2, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).To(BeNil())
 		Expect(res2.Code).To(BeEquivalentTo(0))
 
@@ -113,6 +113,39 @@ var _ = Describe("cheqd cli - positive did", func() {
 		Expect(didDoc.VerificationMethod[0].Type).To(BeEquivalentTo("Ed25519VerificationKey2020"))
 		Expect(didDoc.VerificationMethod[0].Controller).To(BeEquivalentTo(did))
 		Expect(didDoc.VerificationMethod[0].VerificationMaterial).To(BeEquivalentTo("{\"publicKeyMultibase\": \"" + string(newPubKeyMultibase58) + "\"}"))
+
+		// Check that DIDDoc is not deactivated
+		Expect(resp.Value.Metadata.Deactivated).To(BeFalse())
+
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can deactivate diddoc"))
+		// Deactivate the DID Doc
+		payload3 := types.MsgDeactivateDidDocPayload{
+			Id:        did,
+			VersionId: uuid.NewString(),
+		}
+
+		signInputs3 := []cli_types.SignInput{
+			{
+				VerificationMethodId: keyId,
+				PrivKey:              newPrivKey,
+			},
+		}
+
+		res3, err := cli.DeactivateDidDoc(tmpDir, payload3, signInputs3, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		Expect(err).To(BeNil())
+		Expect(res3.Code).To(BeEquivalentTo(0))
+
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query deactivated diddoc"))
+		// Query the DID Doc
+
+		resp2, err := cli.QueryDidDoc(did)
+		Expect(err).To(BeNil())
+
+		didDoc2 := resp2.Value.DidDoc
+		Expect(didDoc2).To(BeEquivalentTo(didDoc))
+
+		// Check that the DID Doc is deactivated
+		Expect(resp2.Value.Metadata.Deactivated).To(BeTrue())
 	})
 
 	It("can create and update diddoc with not required Service fields", func() {
