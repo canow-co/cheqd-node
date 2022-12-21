@@ -458,7 +458,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot create diddoc with invalid Service.RoutingKeys"))
 		// Fail to create a new DID Doc with invalid Service.RoutingKeys
-		_, err = cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		_, err = cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).ToNot(BeNil())
 	})
 
