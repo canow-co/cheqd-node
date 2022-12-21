@@ -25,7 +25,7 @@ func ExpectPayloadToMatchResource(payload *resourcetypes.MsgCreateResourcePayloa
 	Expect(payload.ResourceType).To(Equal(resource.Metadata.ResourceType))
 
 	defaultAlternativeUrl := resourcetypes.AlternativeUri{
-		Uri:         "did:cheqd:" + didsetup.DID_NAMESPACE + ":" + payload.CollectionId + "/resources/" + payload.Id,
+		Uri:         "did:canow:" + didsetup.DID_NAMESPACE + ":" + payload.CollectionId + "/resources/" + payload.Id,
 		Description: "did-url",
 	}
 

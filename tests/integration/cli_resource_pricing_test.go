@@ -36,7 +36,7 @@ var _ = Describe("cheqd cli - positive resource pricing", func() {
 
 		// Create a new DID Doc
 		collectionId = uuid.NewString()
-		did := "did:cheqd:" + network.DID_NAMESPACE + ":" + collectionId
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + collectionId
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)

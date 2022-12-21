@@ -14,7 +14,7 @@ func MigrateResourceDefaultAlternativeUrl(sctx sdk.Context, mctx MigrationContex
 
 	return MigrateResourceSimple(sctx, mctx, func(resource *resourcetypes.ResourceWithMetadata) {
 		alternativeUri := resourcetypes.AlternativeUri{
-			Uri:         fmt.Sprintf("did:cheqd:%s:%s/resources/%s", namespace, resource.Metadata.CollectionId, resource.Metadata.Id),
+			Uri:         fmt.Sprintf("did:canow:%s:%s/resources/%s", namespace, resource.Metadata.CollectionId, resource.Metadata.Id),
 			Description: "did-url",
 		}
 		resource.Metadata.AlsoKnownAs = append(resource.Metadata.AlsoKnownAs, &alternativeUri)

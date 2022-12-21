@@ -19,7 +19,7 @@
                     "description": "Alternative URI description"
                 },
                 {
-                    "uri": "did:cheqd:testnet:91e5f0cf-5f1e-5c19-97d3-d313e84033b4/resources/54cb8b4d-af33-4606-bc54-0f035ee30e0f",
+                    "uri": "did:canow:testnet:91e5f0cf-5f1e-5c19-97d3-d313e84033b4/resources/54cb8b4d-af33-4606-bc54-0f035ee30e0f",
                     "description": "did-url"
                 }
             ],

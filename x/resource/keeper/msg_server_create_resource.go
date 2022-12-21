@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	DefaultAlternativeUriTemplate    = "did:cheqd:%s:%s/resources/%s"
+	DefaultAlternativeUriTemplate    = "did:canow:%s:%s/resources/%s"
 	DefaultAlternaticeUriDescription = "did-url"
 )
 
