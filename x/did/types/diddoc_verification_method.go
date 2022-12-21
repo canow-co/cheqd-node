@@ -133,7 +133,7 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 			var rsaPubKey rsa.PublicKey
 			err := key.Raw(&rsaPubKey)
 			if err != nil {
-				return fmt.Errorf("can't convert jwk to %T: %s", &rsaPubKey, err.Error())
+				return fmt.Errorf("can't convert jwk to %T: %s", rsaPubKey, err.Error())
 			}
 			verificationError = utils.VerifyRSASignature(rsaPubKey, message, signature)
 
@@ -141,7 +141,7 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 			var ecPubKey ecdsa.PublicKey
 			err := key.Raw(&ecPubKey)
 			if err != nil {
-				return fmt.Errorf("can't convert jwk to %T: %s", &ecPubKey, err.Error())
+				return fmt.Errorf("can't convert jwk to %T: %s", ecPubKey, err.Error())
 			}
 			verificationError = utils.VerifyECDSASignature(ecPubKey, message, signature)
 
@@ -151,7 +151,7 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 			switch okpPubKey.Crv() {
 			case jwa.Ed25519:
 				var ed25519PubKey ed25519.PublicKey
-				err := okpPubKey.Raw(ed25519PubKey)
+				err := okpPubKey.Raw(&ed25519PubKey)
 				if err != nil {
 					return fmt.Errorf("can't convert jwk to %T: %s", ed25519PubKey, err.Error())
 				}

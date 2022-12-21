@@ -38,7 +38,7 @@ func ValidateJWK(rawJwk []byte) error {
 		switch okpPubKey.Crv() {
 		case jwa.Ed25519:
 			var ed25519PubKey ed25519.PublicKey
-			err := okpPubKey.Raw(ed25519PubKey)
+			err := okpPubKey.Raw(&ed25519PubKey)
 			if err != nil {
 				return fmt.Errorf("can't convert jwk to %T: %s", ed25519PubKey, err.Error())
 			}
