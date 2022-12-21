@@ -1,7 +1,7 @@
 package app
 
 import (
-	cheqdante "github.com/cheqd/cheqd-node/ante"
+	cheqdante "github.com/canow-co/cheqd-node/ante"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"

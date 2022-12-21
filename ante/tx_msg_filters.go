@@ -3,9 +3,9 @@ package ante
 import (
 	"strings"
 
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
-	resourceutils "github.com/cheqd/cheqd-node/x/resource/utils"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
+	resourceutils "github.com/canow-co/cheqd-node/x/resource/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

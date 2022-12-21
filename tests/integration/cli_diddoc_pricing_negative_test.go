@@ -5,12 +5,12 @@ package integration
 import (
 	"crypto/ed25519"
 
-	"github.com/cheqd/cheqd-node/tests/integration/cli"
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
-	"github.com/cheqd/cheqd-node/tests/integration/testdata"
-	clitypes "github.com/cheqd/cheqd-node/x/did/client/cli"
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/tests/integration/cli"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/tests/integration/testdata"
+	clitypes "github.com/canow-co/cheqd-node/x/did/client/cli"
+	"github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/google/uuid"
 	"github.com/multiformats/go-multibase"
 

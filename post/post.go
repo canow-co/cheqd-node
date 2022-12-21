@@ -1,7 +1,7 @@
 package posthandler
 
 import (
-	cheqdante "github.com/cheqd/cheqd-node/ante"
+	cheqdante "github.com/canow-co/cheqd-node/ante"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 )

@@ -1,9 +1,9 @@
 package ante_test
 
 import (
-	cheqdante "github.com/cheqd/cheqd-node/ante"
-	cheqdpost "github.com/cheqd/cheqd-node/post"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
+	cheqdante "github.com/canow-co/cheqd-node/ante"
+	cheqdpost "github.com/canow-co/cheqd-node/post"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"

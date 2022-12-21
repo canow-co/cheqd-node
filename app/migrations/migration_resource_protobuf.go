@@ -4,10 +4,10 @@ import (
 	"encoding/hex"
 	"strings"
 
-	"github.com/cheqd/cheqd-node/app/migrations/helpers"
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
-	resourcetypesv1 "github.com/cheqd/cheqd-node/x/resource/types/v1"
+	"github.com/canow-co/cheqd-node/app/migrations/helpers"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
+	resourcetypesv1 "github.com/canow-co/cheqd-node/x/resource/types/v1"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

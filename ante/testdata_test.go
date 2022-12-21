@@ -3,10 +3,10 @@ package ante_test
 import (
 	"crypto/ed25519"
 
-	didtestssetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetestssetup "github.com/cheqd/cheqd-node/x/resource/tests/setup"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	didtestssetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetestssetup "github.com/canow-co/cheqd-node/x/resource/tests/setup"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

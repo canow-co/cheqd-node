@@ -65,9 +65,8 @@ func RevokeFeeGrant(granter, grantee string, feeParams []string) (sdk.TxResponse
 	return Tx("feegrant", "revoke", granter, feeParams, granter, grantee)
 }
 
-
 func TransferToken(from string, to string, amount string) (sdk.TxResponse, error) {
-	return Tx("bank", "send", from, from, to, amount)
+	return Tx("bank", "send", from, []string{}, from, to, amount)
 }
 
 func CreateDidDoc(tmpDir string, payload types.MsgCreateDidDocPayload, signInputs []cli.SignInput, from string, feeParams []string) (sdk.TxResponse, error) {

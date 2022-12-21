@@ -3,7 +3,7 @@ package helpers
 import (
 	"crypto/sha256"
 
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/mr-tron/base58"
 )
 

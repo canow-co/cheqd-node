@@ -3,10 +3,10 @@ package migrations
 import (
 	"encoding/json"
 
-	"github.com/cheqd/cheqd-node/app/migrations/helpers"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	didtypesv1 "github.com/cheqd/cheqd-node/x/did/types/v1"
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/app/migrations/helpers"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	didtypesv1 "github.com/canow-co/cheqd-node/x/did/types/v1"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"

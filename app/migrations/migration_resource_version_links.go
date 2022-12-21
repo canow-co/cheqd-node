@@ -5,7 +5,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/cheqd/cheqd-node/app/migrations/helpers"
+	"github.com/canow-co/cheqd-node/app/migrations/helpers"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

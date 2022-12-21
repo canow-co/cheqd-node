@@ -3,7 +3,7 @@ package migrations
 import (
 	"fmt"
 
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

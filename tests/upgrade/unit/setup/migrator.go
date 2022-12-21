@@ -1,9 +1,9 @@
 package setup
 
 import (
-	appmigrations "github.com/cheqd/cheqd-node/app/migrations"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	appmigrations "github.com/canow-co/cheqd-node/app/migrations"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 )
 
 type Migrator struct {

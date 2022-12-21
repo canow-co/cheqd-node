@@ -1,9 +1,9 @@
 package cli
 
 import (
-	integrationhelpers "github.com/cheqd/cheqd-node/tests/integration/helpers"
-	resourcetypesv2 "github.com/cheqd/cheqd-node/x/resource/types"
-	resourcetypesv1 "github.com/cheqd/cheqd-node/x/resource/types/v1"
+	integrationhelpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
+	resourcetypesv2 "github.com/canow-co/cheqd-node/x/resource/types"
+	resourcetypesv1 "github.com/canow-co/cheqd-node/x/resource/types/v1"
 )
 
 func QueryResourceLegacy(collectionId string, resourceId string, container string) (resourcetypesv1.QueryGetResourceResponse, error) {

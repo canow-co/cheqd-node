@@ -3,8 +3,8 @@ package posthandler
 import (
 	"fmt"
 
-	cheqdante "github.com/cheqd/cheqd-node/ante"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
+	cheqdante "github.com/canow-co/cheqd-node/ante"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
