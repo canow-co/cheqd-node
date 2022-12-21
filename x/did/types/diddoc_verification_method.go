@@ -80,17 +80,39 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 			return sdkerrors.Wrapf(err, "failed to unmarshal verification material for %s", vm.Id)
 		}
 
-		_, multicodec, err := multibase.Decode(bls12381G2Key2020.PublicKeyMultibase)
-		if err != nil {
-			return err
-		}
+		var keyBytes bls12381g2.PublicKey
 
-		_, codePrefixLength := binary.Uvarint(multicodec)
-		if codePrefixLength < 0 {
-			return errors.New("Invalid multicodec value")
-		}
+		if bls12381G2Key2020.PublicKeyMultibase != "" {
+			_, multicodec, err := multibase.Decode(bls12381G2Key2020.PublicKeyMultibase)
+			if err != nil {
+				return err
+			}
 
-		keyBytes := multicodec[codePrefixLength:]
+			_, codePrefixLength := binary.Uvarint(multicodec)
+			if codePrefixLength < 0 {
+				return errors.New("Invalid multicodec value")
+			}
+
+			keyBytes = multicodec[codePrefixLength:]
+
+		} else {
+			key, err := jwk.ParseKey(bls12381G2Key2020.PublicKeyJwk)
+			if err != nil {
+				return fmt.Errorf("can't parse jwk: %s", err.Error())
+			}
+
+			if key.KeyType() != jwa.OKP {
+				return fmt.Errorf("Bls12381G2Key2020 key type must be %s rather than %s", jwa.OKP, key.KeyType())
+			}
+
+			okpPubKey := key.(jwk.OKPPublicKey)
+
+			if okpPubKey.Crv() != bls12381g2.Bls12381G2 {
+				return fmt.Errorf("Bls12381G2Key2020 curve must be %s rather than %s", bls12381g2.Bls12381G2, okpPubKey.Crv())
+			}
+
+			keyBytes = okpPubKey.X()
+		}
 
 		verificationError = utils.VerifyBLS12381G2Signature(keyBytes, message, signature)
 
@@ -124,15 +146,12 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 			verificationError = utils.VerifyECDSASignature(ecPubKey, message, signature)
 
 		case jwa.OKP:
-			okpPubKey, ok := key.(jwk.OKPPublicKey)
-			if !ok {
-				return errors.New("jwk with kty=\"OKP\" is not actually OKP public key")
-			}
+			okpPubKey := key.(jwk.OKPPublicKey)
 
 			switch okpPubKey.Crv() {
 			case jwa.Ed25519:
 				var ed25519PubKey ed25519.PublicKey
-				err := key.Raw(ed25519PubKey)
+				err := okpPubKey.Raw(ed25519PubKey)
 				if err != nil {
 					return fmt.Errorf("can't convert jwk to %T: %s", ed25519PubKey, err.Error())
 				}
