@@ -68,7 +68,7 @@ func ValidEd25519VerificationKey2020Rule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("ValidVerificationMethodRule must be only applied on verification methods")
+			panic("ValidEd25519VerificationKey2020Rule must be only applied on string properties")
 		}
 
 		var vm Ed25519VerificationKey2020
@@ -85,7 +85,7 @@ func ValidBls12381G2Key2020Rule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("ValidVerificationMethodRule must be only applied on verification methods")
+			panic("ValidBls12381G2Key2020Rule must be only applied on string properties")
 		}
 
 		var vm Bls12381G2Key2020
@@ -102,7 +102,7 @@ func ValidJsonWebKey2020Rule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("ValidVerificationMethodRule must be only applied on verification methods")
+			panic("ValidJsonWebKey2020Rule must be only applied on string properties")
 		}
 
 		var vm JsonWebKey2020

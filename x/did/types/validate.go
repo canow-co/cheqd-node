@@ -65,7 +65,7 @@ func IsSpecificDIDUrl(allowedNamespaces []string, pathRule, queryRule, fragmentR
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("IsDIDUrl must be only applied on string properties")
+			panic("IsSpecificDIDUrl must be only applied on string properties")
 		}
 
 		return validateDIDUrl(casted, DidMethod, allowedNamespaces, pathRule, queryRule, fragmentRule)
@@ -149,7 +149,7 @@ func IsJWK() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]byte)
 		if !ok {
-			panic("IsJWK must be only applied on byte slices")
+			panic("IsJWK must be only applied on byte array properties")
 		}
 
 		return utils.ValidateJWK(casted)
@@ -175,7 +175,7 @@ func IsUniqueStrList() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]string)
 		if !ok {
-			panic("IsSet must be only applied on string array properties")
+			panic("IsUniqueStrList must be only applied on string array properties")
 		}
 
 		if !utils.IsUnique(casted) {
@@ -190,7 +190,7 @@ func IsUUID() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("IsDID must be only applied on string properties")
+			panic("IsUUID must be only applied on string properties")
 		}
 
 		return utils.ValidateUUID(casted)
