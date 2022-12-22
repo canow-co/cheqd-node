@@ -43,7 +43,7 @@ func (vm Bls12381G2Key2020) Type() string {
 }
 
 func (vm Bls12381G2Key2020) Validate() error {
-	return validation.Validate(vm, IsBls12381G2Key2020())
+	return validation.Validate(vm, IsBls12381G2Key2020(), validation.Skip) // use Skip to avoid recursion
 }
 
 // JsonWebKey2020
