@@ -28,10 +28,36 @@ var _ = Describe("Crypto", func() {
 		})
 	})
 
+	Describe("ValidateBls12381G2PubKey", func() {
+		Context("Valid: General Bls12381G2 public key", func() {
+			It("should return no error", func() {
+				_, keyBytes, _ := multibase.Decode("zoqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu")
+				err := ValidateBls12381G2PubKey(keyBytes)
+				Expect(err).To(BeNil())
+			})
+		})
+
+		Context("NotValid: Bad Bls12381G2 public key length", func() {
+			It("should return error", func() {
+				_, keyBytes, _ := multibase.Decode("zoqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK222222222222222222222222222222")
+				err := ValidateBls12381G2PubKey(keyBytes)
+				Expect(err).To(HaveOccurred())
+				Expect(err.Error()).To(ContainSubstring("Bls12381G2: invalid size of public key"))
+			})
+		})
+	})
+
 	Describe("ValidateJWKKey", func() {
 		Context("Positive ed25519", func() {
 			It("should return no error", func() {
 				err := ValidateJWK([]byte("{\"crv\":\"Ed25519\",\"kty\":\"OKP\",\"x\":\"9Ov80OqMlNrILAUG8DBBlYQ1rUhp7wDomr2I5muzpTc\"}"))
+				Expect(err).To(BeNil())
+			})
+		})
+
+		Context("Positive Bls12381G2", func() {
+			It("should return no error", func() {
+				err := ValidateJWK([]byte("{\"crv\":\"Bls12381G2\",\"kty\":\"OKP\",\"x\":\"h_rkcTKXXzRbOPr9UxSfegCbid2U_cVNXQUaKeGF7UhwrMJFP70uMH0VQ9-3-_2zDPAAjflsdeLkOXW3-ShktLxuPy8UlXSNgKNmkfb-rrj-FRwbs13pv_WsIf-eV66-\"}"))
 				Expect(err).To(BeNil())
 			})
 		})
