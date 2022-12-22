@@ -29,18 +29,25 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 			vm: Ed25519VerificationKey2020{
 				PublicKeyMultibase: ValidEd25519PublicKeyMultibase,
 			},
-			isValid:  true,
-			errorMsg: "",
+			isValid: true,
 		}),
 
 	Entry(
-		"Valid Bls12381G2Key2020 verification material (publicKeyJwk)",
+		"Valid Bls12381G2Key2020 verification material with publicKeyMultibase set",
+		VerificationMaterialTestCase{
+			vm: Bls12381G2Key2020{
+				PublicKeyMultibase: ValidBls12381G2PublicKeyMultibase,
+			},
+			isValid: true,
+		}),
+
+	Entry(
+		"Valid Bls12381G2Key2020 verification material with publicKeyJwk set",
 		VerificationMaterialTestCase{
 			vm: Bls12381G2Key2020{
 				PublicKeyJwk: ValidBls12381G2PublicKeyJwk,
 			},
-			isValid:  true,
-			errorMsg: "",
+			isValid: true,
 		}),
 
 	Entry(
@@ -49,8 +56,7 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 			vm: JsonWebKey2020{
 				PublicKeyJwk: ValidEcPublicKeyJwk,
 			},
-			isValid:  true,
-			errorMsg: "",
+			isValid: true,
 		}),
 
 	Entry(
@@ -59,8 +65,7 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 			vm: JsonWebKey2020{
 				PublicKeyJwk: ValidRsaPublicKeyJwk,
 			},
-			isValid:  true,
-			errorMsg: "",
+			isValid: true,
 		}),
 
 	Entry(
@@ -69,8 +74,7 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 			vm: JsonWebKey2020{
 				PublicKeyJwk: ValidEd25519PublicKeyJwk,
 			},
-			isValid:  true,
-			errorMsg: "",
+			isValid: true,
 		}),
 
 	Entry(
@@ -79,8 +83,7 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 			vm: JsonWebKey2020{
 				PublicKeyJwk: ValidBls12381G2PublicKeyJwk,
 			},
-			isValid:  true,
-			errorMsg: "",
+			isValid: true,
 		}),
 
 	Entry(
@@ -94,7 +97,7 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		}),
 
 	Entry(
-		"Invalid Bls12381G2Key2020 verification material (neither publicKeyMultibase, nor publicKeyJwk is set)",
+		"Invalid Bls12381G2Key2020 verification material with neither publicKeyMultibase nor publicKeyJwk set",
 		VerificationMaterialTestCase{
 			vm:       Bls12381G2Key2020{},
 			isValid:  false,
@@ -102,7 +105,28 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		}),
 
 	Entry(
-		"Invalid Bls12381G2Key2020 verification material (publicKeyJwk)",
+		"Invalid Bls12381G2Key2020 verification material with both publicKeyMultibase and publicKeyJwk set",
+		VerificationMaterialTestCase{
+			vm: Bls12381G2Key2020{
+				PublicKeyMultibase: ValidBls12381G2PublicKeyMultibase,
+				PublicKeyJwk:       ValidBls12381G2PublicKeyJwk,
+			},
+			isValid:  false,
+			errorMsg: "Only one of publicKeyMultibase and publicKeyJwk must be set for Bls12381G2Key2020",
+		}),
+
+	Entry(
+		"Invalid Bls12381G2Key2020 verification material with only publicKeyMultibase set",
+		VerificationMaterialTestCase{
+			vm: Bls12381G2Key2020{
+				PublicKeyMultibase: InvalidBls12381G2PublicKeyMultibase,
+			},
+			isValid:  false,
+			errorMsg: "Not a Bls12381G2 public key",
+		}),
+
+	Entry(
+		"Invalid Bls12381G2Key2020 verification material with only publicKeyJwk set",
 		VerificationMaterialTestCase{
 			vm: Bls12381G2Key2020{
 				PublicKeyJwk: ValidEd25519PublicKeyJwk, // Ed25519 instead of Bls12381G2

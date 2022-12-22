@@ -44,8 +44,7 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
 			},
-			isValid:  true,
-			errorMsg: "",
+			isValid: true,
 		}),
 
 	Entry(
@@ -57,8 +56,7 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidJwkVerificationMaterial,
 			},
-			isValid:  true,
-			errorMsg: "",
+			isValid: true,
 		}),
 
 	Entry(
@@ -70,9 +68,8 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidJwkVerificationMaterial,
 			},
-			baseDid:  "did:canow:zABCDEFG123456789abcd",
-			isValid:  true,
-			errorMsg: "",
+			baseDid: "did:canow:zABCDEFG123456789abcd",
+			isValid: true,
 		}),
 
 	Entry(
@@ -123,6 +120,17 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 				Type:                 "Ed25519VerificationKey2020",
 				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+			},
+			isValid: true,
+		}),
+	Entry(
+		"Valid Bls12381G2Key2020 verification method with multibase material",
+		VerificationMethodTestCase{
+			vm: VerificationMethod{
+				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
+				Type:                 "Bls12381G2Key2020",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial: ValidBls12381G2MultibaseVerificationMaterial,
 			},
 			isValid: true,
 		}),
@@ -192,6 +200,18 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 			},
 			isValid:  false,
 			errorMsg: "verification_material: (publicKeyMultibase: ed25519: bad public key length: 18.).",
+		}),
+	Entry(
+		"Invalid Bls12381G2Key2020 verification method with multibase material",
+		VerificationMethodTestCase{
+			vm: VerificationMethod{
+				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
+				Type:                 "Bls12381G2Key2020",
+				Controller:           "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial: InvalidBls12381G2MultibaseVerificationMaterial,
+			},
+			isValid:  false,
+			errorMsg: "verification_material: Not a Bls12381G2 public key.",
 		}),
 	Entry(
 		"Invalid Bls12381G2Key2020 verification method with JWK material",

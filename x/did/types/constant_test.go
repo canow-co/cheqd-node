@@ -11,8 +11,10 @@ var (
 )
 
 var (
-	ValidEd25519PublicKeyMultibase   = "zF1hVGXXK9rmx5HhMTpGnGQJiab9qrFJbQXBRhSmYjQWX"
-	InvalidEd25519PublicKeyMultibase = "zF1hVGXXK9rmx5HhMTpGnGQJi"
+	ValidEd25519PublicKeyMultibase      = "zF1hVGXXK9rmx5HhMTpGnGQJiab9qrFJbQXBRhSmYjQWX"
+	ValidBls12381G2PublicKeyMultibase   = "zUC73gNPc1EnZmDDjYJzE8Bk89VRhuZPQYXFnSiSUZvX9N1i7N5VtMbJyowDR46rtARHLJYRVf7WMbGLb43s9tfTyKF9KFF22vBjXZRomcwtoQJmMNUSY7tfzyhLEy58dwUz3WD"
+	InvalidEd25519PublicKeyMultibase    = "zF1hVGXXK9rmx5HhMTpGnGQJi"
+	InvalidBls12381G2PublicKeyMultibase = "zUC73gNPc1EnZmDDjYJzE8Bk89VRhuZPQYXFnSiSUZvX9N1i7N5VtMbJyowDR46rtARHLJYRVf7WMbGLb43s9tfTyKF9KFF22vBjXZRomcwtoQJmMNUSY7t"
 )
 
 type TestJwk struct {
@@ -95,8 +97,10 @@ var (
 )
 
 var (
-	ValidEd25519MultibaseVerificationMaterial   = "{\"publicKeyMultibase\":\"" + ValidEd25519PublicKeyMultibase + "\"}"
-	InvalidEd25519MultibaseVerificationMaterial = "{\"publicKeyMultibase\":\"" + InvalidEd25519PublicKeyMultibase + "\"}"
+	ValidEd25519MultibaseVerificationMaterial      = "{\"publicKeyMultibase\":\"" + ValidEd25519PublicKeyMultibase + "\"}"
+	ValidBls12381G2MultibaseVerificationMaterial   = "{\"publicKeyMultibase\":\"" + ValidBls12381G2PublicKeyMultibase + "\"}"
+	InvalidEd25519MultibaseVerificationMaterial    = "{\"publicKeyMultibase\":\"" + InvalidEd25519PublicKeyMultibase + "\"}"
+	InvalidBls12381G2MultibaseVerificationMaterial = "{\"publicKeyMultibase\":\"" + InvalidBls12381G2PublicKeyMultibase + "\"}"
 )
 
 var (
