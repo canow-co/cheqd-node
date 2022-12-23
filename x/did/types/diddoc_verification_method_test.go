@@ -7,9 +7,13 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/sha256"
+	"encoding/binary"
 	"encoding/json"
 
 	. "github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/utils/bls12381g2"
+	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/multiformats/go-multibase"
 	. "github.com/onsi/ginkgo/v2"
@@ -286,6 +290,46 @@ var _ = Describe("Validation ed25519 Signature in verification method", func() {
 			}
 
 			err = VerifySignature(vm2, msgBytes, signature)
+			Expect(err).To(BeNil())
+		})
+	})
+})
+
+var _ = Describe("Validation Bls12381G2 Signature in verification method", func() {
+	Context("Bls12381G2 signature preparations and verification", func() {
+		It("is positive case", func() {
+			message := "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
+				"tempor incididunt ut labore et dolore magna aliqua."
+			msgBytes := []byte(message)
+
+			pubKey, privKey, err := bbs12381g2pub.GenerateKeyPair(sha256.New, nil)
+			Expect(err).To(BeNil())
+
+			pubKeyBytes, err := pubKey.Marshal()
+			Expect(err).To(BeNil())
+
+			privKeyBytes, err := privKey.Marshal()
+			Expect(err).To(BeNil())
+
+			messages := [][]byte{msgBytes}
+
+			signature, err := bbs12381g2pub.New().Sign(messages, privKeyBytes)
+			Expect(err).To(BeNil())
+
+			codeBytes := binary.AppendUvarint(nil, bls12381g2.Bls12381G2PubCode)
+			multicodec := append(codeBytes, pubKeyBytes...)
+
+			pubKeyMultibase, err := multibase.Encode(multibase.Base58BTC, multicodec)
+			Expect(err).To(BeNil())
+
+			vm := VerificationMethod{
+				Id:                   "",
+				Type:                 "Bls12381G2Key2020",
+				Controller:           "",
+				VerificationMaterial: "{\"publicKeyMultibase\": \"" + pubKeyMultibase + "\"}",
+			}
+
+			err = VerifySignature(vm, msgBytes, signature)
 			Expect(err).To(BeNil())
 		})
 	})
