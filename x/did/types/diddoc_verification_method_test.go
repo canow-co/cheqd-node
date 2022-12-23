@@ -317,8 +317,9 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 
 	Context("with multibase material", func() {
 		It("is valid", func() {
-			codeBytes := binary.AppendUvarint(nil, bls12381g2.Bls12381G2PubCode)
-			multicodec := append(codeBytes, pubKeyBytes...)
+			buf := make([]byte, binary.MaxVarintLen64+len(pubKeyBytes))
+			bytesWritten := binary.PutUvarint(buf, bls12381g2.Bls12381G2PubCode)
+			multicodec := append(buf[:bytesWritten], pubKeyBytes...)
 
 			pubKeyMultibase, err := multibase.Encode(multibase.Base58BTC, multicodec)
 			Expect(err).To(BeNil())
