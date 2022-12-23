@@ -82,7 +82,7 @@ func ValidateMultibaseEncodedBls12381G2PubKey(key string) error {
 	}
 
 	code, codePrefixLength := binary.Uvarint(multicodec)
-	if codePrefixLength < 0 {
+	if codePrefixLength <= 0 {
 		return errors.New("Invalid multicodec value")
 	}
 	if code != bls12381g2.Bls12381G2PubCode {

@@ -235,9 +235,12 @@ func extractKeyBytesFromBls12381G2PublicKeyMultibase(publicKeyMultibase string) 
 		return nil, err
 	}
 
-	_, codePrefixLength := binary.Uvarint(multicodec)
-	if codePrefixLength < 0 {
+	code, codePrefixLength := binary.Uvarint(multicodec)
+	if codePrefixLength <= 0 {
 		return nil, errors.New("Invalid multicodec value")
+	}
+	if code != bls12381g2.Bls12381G2PubCode {
+		return nil, errors.New("Not a Bls12381G2 public key")
 	}
 
 	return multicodec[codePrefixLength:], nil
