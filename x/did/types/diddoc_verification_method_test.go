@@ -8,6 +8,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
+	"encoding/base64"
 	"encoding/binary"
 	"encoding/json"
 
@@ -257,7 +258,7 @@ var _ = Describe("Validation ed25519 Signature in verification method", func() {
 
 	signature = ed25519.Sign(privKey, msgBytes)
 
-	Context("when ed25519 key is placed", func() {
+	Context("with multibase material", func() {
 		It("is valid", func() {
 			pubKeyStr, err := multibase.Encode(multibase.Base58BTC, pubKey)
 			Expect(err).To(BeNil())
@@ -274,7 +275,7 @@ var _ = Describe("Validation ed25519 Signature in verification method", func() {
 		})
 	})
 
-	Context("when with the same env but JWK is placed", func() {
+	Context("with JWK material", func() {
 		It("is valid", func() {
 			jwk_, err := jwk.New(pubKey)
 			Expect(err).To(BeNil())
@@ -296,26 +297,26 @@ var _ = Describe("Validation ed25519 Signature in verification method", func() {
 })
 
 var _ = Describe("Validation Bls12381G2 Signature in verification method", func() {
-	Context("Bls12381G2 signature preparations and verification", func() {
-		It("is positive case", func() {
-			message := "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
-				"tempor incididunt ut labore et dolore magna aliqua."
-			msgBytes := []byte(message)
+	message := "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
+		"tempor incididunt ut labore et dolore magna aliqua."
+	msgBytes := []byte(message)
 
-			pubKey, privKey, err := bbs12381g2pub.GenerateKeyPair(sha256.New, nil)
-			Expect(err).To(BeNil())
+	pubKey, privKey, err := bbs12381g2pub.GenerateKeyPair(sha256.New, nil)
+	Expect(err).To(BeNil())
 
-			pubKeyBytes, err := pubKey.Marshal()
-			Expect(err).To(BeNil())
+	pubKeyBytes, err := pubKey.Marshal()
+	Expect(err).To(BeNil())
 
-			privKeyBytes, err := privKey.Marshal()
-			Expect(err).To(BeNil())
+	privKeyBytes, err := privKey.Marshal()
+	Expect(err).To(BeNil())
 
-			messages := [][]byte{msgBytes}
+	messages := [][]byte{msgBytes}
 
-			signature, err := bbs12381g2pub.New().Sign(messages, privKeyBytes)
-			Expect(err).To(BeNil())
+	signature, err := bbs12381g2pub.New().Sign(messages, privKeyBytes)
+	Expect(err).To(BeNil())
 
+	Context("with multibase material", func() {
+		It("is valid", func() {
 			codeBytes := binary.AppendUvarint(nil, bls12381g2.Bls12381G2PubCode)
 			multicodec := append(codeBytes, pubKeyBytes...)
 
@@ -327,6 +328,35 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 				Type:                 "Bls12381G2Key2020",
 				Controller:           "",
 				VerificationMaterial: "{\"publicKeyMultibase\": \"" + pubKeyMultibase + "\"}",
+			}
+
+			err = VerifySignature(vm, msgBytes, signature)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Context("with JWK material", func() {
+		pubKeyBase64 := base64.RawURLEncoding.EncodeToString(pubKeyBytes)
+		pubKeyJwk := "{\"kty\": \"OKP\", \"crv\": \"Bls12381G2\", \"x\": \"" + pubKeyBase64 + "\"}"
+
+		It("is valid for Bls12381G2Key2020", func() {
+			vm := VerificationMethod{
+				Id:                   "",
+				Type:                 "Bls12381G2Key2020",
+				Controller:           "",
+				VerificationMaterial: "{\"publicKeyJwk\": " + pubKeyJwk + "}",
+			}
+
+			err = VerifySignature(vm, msgBytes, signature)
+			Expect(err).To(BeNil())
+		})
+
+		It("is valid for JsonWebKey2020", func() {
+			vm := VerificationMethod{
+				Id:                   "",
+				Type:                 "JsonWebKey2020",
+				Controller:           "",
+				VerificationMaterial: "{\"publicKeyJwk\": " + pubKeyJwk + "}",
 			}
 
 			err = VerifySignature(vm, msgBytes, signature)
