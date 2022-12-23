@@ -5,23 +5,31 @@ import (
 )
 
 var (
-	ValidTestDID         = "did:canow:testnet:zABCDEFG123456789abcd"
-	ValidTestDID2        = "did:canow:testnet:zABCDEFG987654321abcd"
-	InvalidTestDID       = "badDid"
-	ValidEd25519PubKey   = "zF1hVGXXK9rmx5HhMTpGnGQJiab9qrFJbQXBRhSmYjQWX"
-	InvalidEd25519PubKey = "zF1hVGXXK9rmx5HhMTpGnGQJi"
+	ValidTestDID   = "did:canow:testnet:zABCDEFG123456789abcd"
+	ValidTestDID2  = "did:canow:testnet:zABCDEFG987654321abcd"
+	InvalidTestDID = "badDid"
 )
 
-type TestJWKKey struct {
+var (
+	ValidEd25519PublicKeyMultibase      = "zF1hVGXXK9rmx5HhMTpGnGQJiab9qrFJbQXBRhSmYjQWX"
+	ValidBls12381G2PublicKeyMultibase   = "zUC73gNPc1EnZmDDjYJzE8Bk89VRhuZPQYXFnSiSUZvX9N1i7N5VtMbJyowDR46rtARHLJYRVf7WMbGLb43s9tfTyKF9KFF22vBjXZRomcwtoQJmMNUSY7tfzyhLEy58dwUz3WD"
+	InvalidEd25519PublicKeyMultibase    = "zF1hVGXXK9rmx5HhMTpGnGQJi"
+	InvalidBls12381G2PublicKeyMultibase = "zUC73gNPc1EnZmDDjYJzE8Bk89VRhuZPQYXFnSiSUZvX9N1i7N5VtMbJyowDR46rtARHLJYRVf7WMbGLb43s9tfTyKF9KFF22vBjXZRomcwtoQJmMNUSY7t"
+)
+
+type TestJwk struct {
 	Kty string `json:"kty"`
-	N   string `json:"n"`
-	Use string `json:"use"`
-	Alg string `json:"alg"`
-	E   string `json:"e"`
-	Kid string `json:"kid"`
+	Use string `json:"use,omitempty"`
+	Alg string `json:"alg,omitempty"`
+	Kid string `json:"kid,omitempty"`
+	Crv string `json:"crv,omitempty"`
+	X   string `json:"x,omitempty"`
+	Y   string `json:"y,omitempty"`
+	N   string `json:"n,omitempty"`
+	E   string `json:"e,omitempty"`
 }
 
-var ValidJWKKey = TestJWKKey{
+var ValidJwk = TestJwk{
 	Kty: "RSA",
 	N:   "o76AudS2rsCvlz_3D47sFkpuz3NJxgLbXr1cHdmbo9xOMttPMJI97f0rHiSl9stltMi87KIOEEVQWUgMLaWQNaIZThgI1seWDAGRw59AO5sctgM1wPVZYt40fj2Qw4KT7m4RLMsZV1M5NYyXSd1lAAywM4FT25N0RLhkm3u8Hehw2Szj_2lm-rmcbDXzvjeXkodOUszFiOqzqBIS0Bv3c2zj2sytnozaG7aXa14OiUMSwJb4gmBC7I0BjPv5T85CH88VOcFDV51sO9zPJaBQnNBRUWNLh1vQUbkmspIANTzj2sN62cTSoxRhSdnjZQ9E_jraKYEW5oizE9Dtow4EvQ",
 	Use: "sig",
@@ -30,7 +38,40 @@ var ValidJWKKey = TestJWKKey{
 	Kid: "6a8ba5652a7044121d4fedac8f14d14c54e4895b",
 }
 
-var InvalidJWKKey = TestJWKKey{
+// Example from https://www.rfc-editor.org/rfc/rfc7517#appendix-A.1
+var ValidEcJwk = TestJwk{
+	Kty: "EC",
+	Crv: "P-256",
+	X:   "MKBCTNIcKUSDii11ySs3526iDZ8AiTo7Tu6KPAqv7D4",
+	Y:   "4Etl6SRW2YiLUrN5vfvVHuhp7x8PxltmWWlbbM4IFyM",
+	Use: "enc",
+	Kid: "1",
+}
+
+// Example from https://www.rfc-editor.org/rfc/rfc7517#appendix-A.1
+var ValidRsaJwk = TestJwk{
+	Kty: "RSA",
+	N:   "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw",
+	E:   "AQAB",
+	Alg: "RS256",
+	Kid: "2011-04-29",
+}
+
+// Example from https://www.rfc-editor.org/rfc/rfc8037#appendix-A.2
+var ValidEd25519Jwk = TestJwk{
+	Kty: "OKP",
+	Crv: "Ed25519",
+	X:   "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+}
+
+// Based on example from https://www.ietf.org/archive/id/draft-ietf-cose-bls-key-representations-01.html#name-appendix
+var ValidBls12381G2Jwk = TestJwk{
+	Kty: "OKP",
+	Crv: "Bls12381G2",
+	X:   "rvdKcdkxwlj0Y-XZsFpz1hDPJGjnLN27IJipbmaLlaKdYfICGG6dzakG6EkdcvW0AtVV6hXBSKtdFnKQKmmD759tMYYuvKYf5o2cZnROLN5iWQ2H6vp6FlLi71a_AE5I",
+}
+
+var InvalidJwk = TestJwk{
 	Kty: "SomeOtherKeyType",
 	N:   "o76AudS2rsCvlz_3D47sFkpuz3NJxgLbXr1cHdmbo9xOMttPMJI97f0rHiSl9stltMi87KIOEEVQWUgMLaWQNaIZThgI1seWDAGRw59AO5sctgM1wPVZYt40fj2Qw4KT7m4RLMsZV1M5NYyXSd1lAAywM4FT25N0RLhkm3u8Hehw2Szj_2lm-rmcbDXzvjeXkodOUszFiOqzqBIS0Bv3c2zj2sytnozaG7aXa14OiUMSwJb4gmBC7I0BjPv5T85CH88VOcFDV51sO9zPJaBQnNBRUWNLh1vQUbkmspIANTzj2sN62cTSoxRhSdnjZQ9E_jraKYEW5oizE9Dtow4EvQ",
 	Use: "sig",
@@ -39,15 +80,35 @@ var InvalidJWKKey = TestJWKKey{
 	Kid: "6a8ba5652a7044121d4fedac8f14d14c54e4895b",
 }
 
+var InvalidOkpJwk = TestJwk{
+	Kty: "OKP",
+	Crv: "SomeOtherCurve",
+	X:   "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo",
+}
+
 var (
-	ValidPublicKeyJWK, _   = json.Marshal(ValidJWKKey)
-	InvalidPublicKeyJWK, _ = json.Marshal(InvalidJWKKey)
+	ValidPublicKeyJwk, _           = json.Marshal(ValidJwk)
+	ValidEcPublicKeyJwk, _         = json.Marshal(ValidEcJwk)
+	ValidRsaPublicKeyJwk, _        = json.Marshal(ValidRsaJwk)
+	ValidEd25519PublicKeyJwk, _    = json.Marshal(ValidEd25519Jwk)
+	ValidBls12381G2PublicKeyJwk, _ = json.Marshal(ValidBls12381G2Jwk)
+	InvalidPublicKeyJwk, _         = json.Marshal(InvalidJwk)
+	InvalidOkpPublicKeyJwk, _      = json.Marshal(InvalidOkpJwk)
 )
 
 var (
-	ValidEd25519VerificationMaterial   = "{\"publicKeyMultibase\":\"" + ValidEd25519PubKey + "\"}"
-	InvalidEd25519VerificationMaterial = "{\"publicKeyMultibase\":\"" + InvalidEd25519PubKey + "\"}"
+	ValidEd25519MultibaseVerificationMaterial      = "{\"publicKeyMultibase\":\"" + ValidEd25519PublicKeyMultibase + "\"}"
+	ValidBls12381G2MultibaseVerificationMaterial   = "{\"publicKeyMultibase\":\"" + ValidBls12381G2PublicKeyMultibase + "\"}"
+	InvalidEd25519MultibaseVerificationMaterial    = "{\"publicKeyMultibase\":\"" + InvalidEd25519PublicKeyMultibase + "\"}"
+	InvalidBls12381G2MultibaseVerificationMaterial = "{\"publicKeyMultibase\":\"" + InvalidBls12381G2PublicKeyMultibase + "\"}"
+)
 
-	ValidJWKKeyVerificationMaterial   = "{\"publicKeyJwk\":" + string(ValidPublicKeyJWK) + "}"
-	InvalidJWKKeyVerificationMaterial = "{\"publicKeyJwk\":" + string(InvalidPublicKeyJWK) + "}"
+var (
+	ValidJwkVerificationMaterial           = "{\"publicKeyJwk\":" + string(ValidPublicKeyJwk) + "}"
+	ValidEcJwkVerificationMaterial         = "{\"publicKeyJwk\":" + string(ValidEcPublicKeyJwk) + "}"
+	ValidRsaJwkVerificationMaterial        = "{\"publicKeyJwk\":" + string(ValidRsaPublicKeyJwk) + "}"
+	ValidEd25519JwkVerificationMaterial    = "{\"publicKeyJwk\":" + string(ValidEd25519PublicKeyJwk) + "}"
+	ValidBls12381G2JwkVerificationMaterial = "{\"publicKeyJwk\":" + string(ValidBls12381G2PublicKeyJwk) + "}"
+	InvalidJwkVerificationMaterial         = "{\"publicKeyJwk\":" + string(InvalidPublicKeyJwk) + "}"
+	InvalidOkpJwkVerificationMaterial      = "{\"publicKeyJwk\":" + string(InvalidOkpPublicKeyJwk) + "}"
 )

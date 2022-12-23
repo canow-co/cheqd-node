@@ -65,7 +65,7 @@ func IsSpecificDIDUrl(allowedNamespaces []string, pathRule, queryRule, fragmentR
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("IsDIDUrl must be only applied on string properties")
+			panic("IsSpecificDIDUrl must be only applied on string properties")
 		}
 
 		return validateDIDUrl(casted, DidMethod, allowedNamespaces, pathRule, queryRule, fragmentRule)
@@ -126,11 +126,30 @@ func IsMultibaseEncodedEd25519PubKey() *CustomErrorRule {
 	})
 }
 
+func IsBls12381G2Key2020() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(Bls12381G2Key2020)
+		if !ok {
+			panic("IsBls12381G2Key2020 must be only applied on Bls12381G2Key2020 instances")
+		}
+
+		if casted.PublicKeyMultibase != "" && casted.PublicKeyJwk != nil {
+			return errors.New("Only one of publicKeyMultibase and publicKeyJwk must be set for Bls12381G2Key2020")
+		} else if casted.PublicKeyMultibase != "" {
+			return utils.ValidateMultibaseEncodedBls12381G2PubKey(casted.PublicKeyMultibase)
+		} else if casted.PublicKeyJwk != nil {
+			return utils.ValidateBls12381G2PubKeyJwk(casted.PublicKeyJwk)
+		} else {
+			return errors.New("One of publicKeyMultibase or publicKeyJwk must be set for Bls12381G2Key2020")
+		}
+	})
+}
+
 func IsJWK() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.(string)
+		casted, ok := value.([]byte)
 		if !ok {
-			panic("IsJWK must be only applied on string properties")
+			panic("IsJWK must be only applied on byte array properties")
 		}
 
 		return utils.ValidateJWK(casted)
@@ -156,7 +175,7 @@ func IsUniqueStrList() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]string)
 		if !ok {
-			panic("IsSet must be only applied on string array properties")
+			panic("IsUniqueStrList must be only applied on string array properties")
 		}
 
 		if !utils.IsUnique(casted) {
@@ -171,7 +190,7 @@ func IsUUID() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("IsDID must be only applied on string properties")
+			panic("IsUUID must be only applied on string properties")
 		}
 
 		return utils.ValidateUUID(casted)
