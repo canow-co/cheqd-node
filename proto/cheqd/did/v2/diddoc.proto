@@ -9,11 +9,11 @@ message DidDoc {
   string id = 2;
   repeated string controller = 3;
   repeated VerificationMethod verification_method = 4;
-  repeated string authentication = 5;
-  repeated string assertion_method = 6;
-  repeated string capability_invocation = 7;
-  repeated string capability_delegation = 8;
-  repeated string key_agreement = 9;
+  repeated VerificationRelationship authentication = 5;
+  repeated VerificationRelationship assertion_method = 6;
+  repeated VerificationRelationship capability_invocation = 7;
+  repeated VerificationRelationship capability_delegation = 8;
+  repeated VerificationRelationship key_agreement = 9;
   repeated Service service = 10;
   repeated string also_known_as = 11;
 }
@@ -23,6 +23,11 @@ message VerificationMethod {
   string type = 2;
   string controller = 3;
   string verification_material = 4;
+}
+
+message VerificationRelationship {
+  string verification_method_id = 1;
+  VerificationMethod verification_method = 2;
 }
 
 message Service {
