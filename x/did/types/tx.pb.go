@@ -236,18 +236,18 @@ func (m *SignInfo) GetSignature() []byte {
 }
 
 type MsgCreateDidDocPayload struct {
-	Context              []string              `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
-	Id                   string                `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	Controller           []string              `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
-	VerificationMethod   []*VerificationMethod `protobuf:"bytes,4,rep,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
-	Authentication       []string              `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
-	AssertionMethod      []string              `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
-	CapabilityInvocation []string              `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
-	CapabilityDelegation []string              `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
-	KeyAgreement         []string              `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
-	AlsoKnownAs          []string              `protobuf:"bytes,10,rep,name=also_known_as,json=alsoKnownAs,proto3" json:"also_known_as,omitempty"`
-	Service              []*Service            `protobuf:"bytes,11,rep,name=service,proto3" json:"service,omitempty"`
-	VersionId            string                `protobuf:"bytes,12,opt,name=version_id,json=versionId,proto3" json:"version_id,omitempty"`
+	Context              []string                    `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
+	Id                   string                      `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Controller           []string                    `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
+	VerificationMethod   []*VerificationMethod       `protobuf:"bytes,4,rep,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
+	Authentication       []*VerificationRelationship `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
+	AssertionMethod      []*VerificationRelationship `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
+	CapabilityInvocation []*VerificationRelationship `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
+	CapabilityDelegation []*VerificationRelationship `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
+	KeyAgreement         []*VerificationRelationship `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
+	AlsoKnownAs          []string                    `protobuf:"bytes,10,rep,name=also_known_as,json=alsoKnownAs,proto3" json:"also_known_as,omitempty"`
+	Service              []*Service                  `protobuf:"bytes,11,rep,name=service,proto3" json:"service,omitempty"`
+	VersionId            string                      `protobuf:"bytes,12,opt,name=version_id,json=versionId,proto3" json:"version_id,omitempty"`
 }
 
 func (m *MsgCreateDidDocPayload) Reset()         { *m = MsgCreateDidDocPayload{} }
@@ -311,35 +311,35 @@ func (m *MsgCreateDidDocPayload) GetVerificationMethod() []*VerificationMethod {
 	return nil
 }
 
-func (m *MsgCreateDidDocPayload) GetAuthentication() []string {
+func (m *MsgCreateDidDocPayload) GetAuthentication() []*VerificationRelationship {
 	if m != nil {
 		return m.Authentication
 	}
 	return nil
 }
 
-func (m *MsgCreateDidDocPayload) GetAssertionMethod() []string {
+func (m *MsgCreateDidDocPayload) GetAssertionMethod() []*VerificationRelationship {
 	if m != nil {
 		return m.AssertionMethod
 	}
 	return nil
 }
 
-func (m *MsgCreateDidDocPayload) GetCapabilityInvocation() []string {
+func (m *MsgCreateDidDocPayload) GetCapabilityInvocation() []*VerificationRelationship {
 	if m != nil {
 		return m.CapabilityInvocation
 	}
 	return nil
 }
 
-func (m *MsgCreateDidDocPayload) GetCapabilityDelegation() []string {
+func (m *MsgCreateDidDocPayload) GetCapabilityDelegation() []*VerificationRelationship {
 	if m != nil {
 		return m.CapabilityDelegation
 	}
 	return nil
 }
 
-func (m *MsgCreateDidDocPayload) GetKeyAgreement() []string {
+func (m *MsgCreateDidDocPayload) GetKeyAgreement() []*VerificationRelationship {
 	if m != nil {
 		return m.KeyAgreement
 	}
@@ -412,18 +412,18 @@ func (m *MsgCreateDidDocResponse) GetValue() *DidDocWithMetadata {
 }
 
 type MsgUpdateDidDocPayload struct {
-	Context              []string              `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
-	Id                   string                `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	Controller           []string              `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
-	VerificationMethod   []*VerificationMethod `protobuf:"bytes,4,rep,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
-	Authentication       []string              `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
-	AssertionMethod      []string              `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
-	CapabilityInvocation []string              `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
-	CapabilityDelegation []string              `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
-	KeyAgreement         []string              `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
-	AlsoKnownAs          []string              `protobuf:"bytes,10,rep,name=also_known_as,json=alsoKnownAs,proto3" json:"also_known_as,omitempty"`
-	Service              []*Service            `protobuf:"bytes,11,rep,name=service,proto3" json:"service,omitempty"`
-	VersionId            string                `protobuf:"bytes,12,opt,name=version_id,json=versionId,proto3" json:"version_id,omitempty"`
+	Context              []string                    `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
+	Id                   string                      `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Controller           []string                    `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
+	VerificationMethod   []*VerificationMethod       `protobuf:"bytes,4,rep,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
+	Authentication       []*VerificationRelationship `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
+	AssertionMethod      []*VerificationRelationship `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
+	CapabilityInvocation []*VerificationRelationship `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
+	CapabilityDelegation []*VerificationRelationship `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
+	KeyAgreement         []*VerificationRelationship `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
+	AlsoKnownAs          []string                    `protobuf:"bytes,10,rep,name=also_known_as,json=alsoKnownAs,proto3" json:"also_known_as,omitempty"`
+	Service              []*Service                  `protobuf:"bytes,11,rep,name=service,proto3" json:"service,omitempty"`
+	VersionId            string                      `protobuf:"bytes,12,opt,name=version_id,json=versionId,proto3" json:"version_id,omitempty"`
 }
 
 func (m *MsgUpdateDidDocPayload) Reset()         { *m = MsgUpdateDidDocPayload{} }
@@ -487,35 +487,35 @@ func (m *MsgUpdateDidDocPayload) GetVerificationMethod() []*VerificationMethod {
 	return nil
 }
 
-func (m *MsgUpdateDidDocPayload) GetAuthentication() []string {
+func (m *MsgUpdateDidDocPayload) GetAuthentication() []*VerificationRelationship {
 	if m != nil {
 		return m.Authentication
 	}
 	return nil
 }
 
-func (m *MsgUpdateDidDocPayload) GetAssertionMethod() []string {
+func (m *MsgUpdateDidDocPayload) GetAssertionMethod() []*VerificationRelationship {
 	if m != nil {
 		return m.AssertionMethod
 	}
 	return nil
 }
 
-func (m *MsgUpdateDidDocPayload) GetCapabilityInvocation() []string {
+func (m *MsgUpdateDidDocPayload) GetCapabilityInvocation() []*VerificationRelationship {
 	if m != nil {
 		return m.CapabilityInvocation
 	}
 	return nil
 }
 
-func (m *MsgUpdateDidDocPayload) GetCapabilityDelegation() []string {
+func (m *MsgUpdateDidDocPayload) GetCapabilityDelegation() []*VerificationRelationship {
 	if m != nil {
 		return m.CapabilityDelegation
 	}
 	return nil
 }
 
-func (m *MsgUpdateDidDocPayload) GetKeyAgreement() []string {
+func (m *MsgUpdateDidDocPayload) GetKeyAgreement() []*VerificationRelationship {
 	if m != nil {
 		return m.KeyAgreement
 	}
@@ -699,50 +699,52 @@ func init() {
 func init() { proto.RegisterFile("cheqd/did/v2/tx.proto", fileDescriptor_0e353aae8dd04717) }
 
 var fileDescriptor_0e353aae8dd04717 = []byte{
-	// 679 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x56, 0x4d, 0x6f, 0x12, 0x41,
-	0x18, 0xee, 0x42, 0x5b, 0xca, 0x0b, 0xfd, 0xc8, 0xf4, 0xc3, 0x15, 0x2d, 0x41, 0xfc, 0xa2, 0x07,
-	0x21, 0xa1, 0xa6, 0x47, 0x93, 0x56, 0x2e, 0xa4, 0x21, 0xb1, 0x6b, 0xab, 0x89, 0x07, 0x71, 0xba,
-	0xf3, 0x76, 0x99, 0x94, 0xee, 0xe0, 0xce, 0xb0, 0x96, 0x9f, 0x60, 0xbc, 0x68, 0xfc, 0x53, 0x1e,
-	0x7b, 0xf4, 0x68, 0xda, 0x3f, 0x62, 0x98, 0x65, 0xe9, 0xb2, 0x60, 0x1b, 0xd3, 0xde, 0xf4, 0x42,
-	0xc2, 0xf3, 0x3e, 0xef, 0x33, 0xcf, 0xce, 0x3c, 0xbb, 0xef, 0xc0, 0xaa, 0xdd, 0xc2, 0x8f, 0xac,
-	0xc2, 0x38, 0xab, 0xf8, 0xd5, 0x8a, 0x3a, 0x2d, 0x77, 0x3c, 0xa1, 0x04, 0xc9, 0x6a, 0xb8, 0xcc,
-	0x38, 0x2b, 0xfb, 0xd5, 0xdc, 0xdd, 0x11, 0x12, 0xe3, 0x8c, 0x09, 0x3b, 0x20, 0x16, 0x3f, 0x1b,
-	0xb0, 0xd8, 0x90, 0xce, 0x4b, 0x0f, 0xa9, 0xc2, 0x1a, 0x67, 0x35, 0x61, 0x93, 0x17, 0x90, 0xea,
-	0xd0, 0x5e, 0x5b, 0x50, 0x66, 0x1a, 0x05, 0xa3, 0x94, 0xa9, 0x3e, 0x2a, 0x47, 0xe5, 0xca, 0x31,
-	0xfe, 0xab, 0x80, 0x6b, 0x85, 0x4d, 0x64, 0x0b, 0x40, 0x72, 0xc7, 0xa5, 0xaa, 0xeb, 0xa1, 0x34,
-	0x13, 0x85, 0x64, 0x29, 0x53, 0x5d, 0x1b, 0x95, 0x78, 0xcd, 0x1d, 0xb7, 0xee, 0x1e, 0x09, 0x2b,
-	0xc2, 0x0c, 0xbd, 0x1c, 0x74, 0xd8, 0x5f, 0x79, 0x89, 0xf2, 0x6f, 0xcd, 0xcb, 0x37, 0x03, 0x96,
-	0x1b, 0xd2, 0xa9, 0x21, 0xb5, 0x15, 0xf7, 0x2f, 0xfd, 0xec, 0xc4, 0xfd, 0x94, 0xc6, 0xfc, 0xc4,
-	0x7b, 0x6e, 0xcd, 0xd3, 0x7b, 0x98, 0x0b, 0x71, 0xf2, 0x1c, 0xd6, 0x7c, 0xf4, 0xf8, 0x11, 0xb7,
-	0xa9, 0xe2, 0xc2, 0x6d, 0x9e, 0xa0, 0x6a, 0x09, 0xd6, 0xe4, 0x81, 0xad, 0xb4, 0xb5, 0x12, 0xad,
-	0x36, 0x74, 0xb1, 0xce, 0xc8, 0x7d, 0x48, 0x0f, 0xf5, 0xcc, 0x44, 0xc1, 0x28, 0x65, 0xad, 0x4b,
-	0xa0, 0xf8, 0x65, 0x1a, 0xd6, 0x26, 0x9f, 0x2d, 0x31, 0x21, 0x65, 0x0b, 0x57, 0xe1, 0xa9, 0x32,
-	0x8d, 0x42, 0xb2, 0x94, 0xb6, 0xc2, 0xbf, 0x64, 0x01, 0x12, 0x9c, 0x69, 0xad, 0xb4, 0x95, 0xe0,
-	0x8c, 0xe4, 0x01, 0xfa, 0x25, 0x4f, 0xb4, 0xdb, 0xe8, 0x99, 0x49, 0x4d, 0x8e, 0x20, 0x64, 0x0f,
-	0x96, 0x27, 0x18, 0x37, 0xa7, 0xf5, 0x2e, 0x14, 0x46, 0x77, 0xe1, 0xcd, 0xd8, 0x33, 0x58, 0x64,
-	0xfc, 0xb9, 0xc8, 0x13, 0x58, 0xa0, 0x5d, 0xd5, 0x42, 0x57, 0x0d, 0x70, 0x73, 0x46, 0x2f, 0x1b,
-	0x43, 0xc9, 0x06, 0x2c, 0x51, 0x29, 0xd1, 0x8b, 0xae, 0x3b, 0xab, 0x99, 0x8b, 0x43, 0x7c, 0x20,
-	0xb9, 0x09, 0xab, 0x36, 0xed, 0xd0, 0x43, 0xde, 0xe6, 0xaa, 0xd7, 0xe4, 0xae, 0x2f, 0x06, 0xca,
-	0x29, 0xcd, 0x5f, 0xb9, 0x2c, 0xd6, 0x87, 0xb5, 0x58, 0x13, 0xc3, 0x36, 0x3a, 0x41, 0xd3, 0x5c,
-	0xbc, 0xa9, 0x36, 0xac, 0x91, 0x87, 0x30, 0x7f, 0x8c, 0xbd, 0x26, 0x75, 0x3c, 0xc4, 0x13, 0x74,
-	0x95, 0x99, 0xd6, 0xe4, 0xec, 0x31, 0xf6, 0xb6, 0x43, 0x8c, 0x14, 0x61, 0x9e, 0xb6, 0xa5, 0x68,
-	0x1e, 0xbb, 0xe2, 0x93, 0xdb, 0xa4, 0xd2, 0x04, 0x4d, 0xca, 0xf4, 0xc1, 0xdd, 0x3e, 0xb6, 0x2d,
-	0x49, 0x05, 0x52, 0x12, 0x3d, 0x9f, 0xdb, 0x68, 0x66, 0xf4, 0x66, 0xae, 0xc6, 0x22, 0x15, 0x14,
-	0xad, 0x90, 0x45, 0xd6, 0x01, 0x7c, 0xf4, 0x64, 0x7f, 0x33, 0x38, 0x33, 0xb3, 0xfa, 0x04, 0xd3,
-	0x03, 0xa4, 0xce, 0x8a, 0x7b, 0x70, 0x27, 0x16, 0x06, 0x0b, 0x65, 0x47, 0xb8, 0x12, 0xc9, 0x16,
-	0xcc, 0xf8, 0xb4, 0xdd, 0xc5, 0xc1, 0x2b, 0x10, 0x3b, 0xb5, 0x80, 0xfc, 0x96, 0xab, 0x56, 0x03,
-	0x15, 0x65, 0x54, 0x51, 0x2b, 0xa0, 0x87, 0x01, 0x9b, 0xf0, 0xc2, 0xfe, 0x0f, 0xd8, 0xbf, 0x1a,
-	0xb0, 0x68, 0x18, 0x6e, 0x1c, 0xb0, 0x5d, 0xc8, 0xfd, 0xf9, 0x03, 0x3c, 0x48, 0x92, 0x31, 0x4c,
-	0xd2, 0xa8, 0xbf, 0x44, 0xdc, 0xdf, 0x01, 0xdc, 0x9b, 0x20, 0x76, 0x53, 0x8f, 0xd5, 0xef, 0x09,
-	0x48, 0x36, 0xa4, 0x43, 0xf6, 0x21, 0x3b, 0x32, 0x75, 0xd7, 0xaf, 0x1c, 0xb2, 0xb9, 0xc7, 0x57,
-	0x96, 0x87, 0xae, 0xf6, 0x21, 0x3b, 0x32, 0x3f, 0xd7, 0xaf, 0x1c, 0x97, 0x13, 0x54, 0x27, 0x9e,
-	0xc7, 0x07, 0x58, 0x1a, 0x9b, 0x84, 0x0f, 0xae, 0x1d, 0x7c, 0xb9, 0x8d, 0x6b, 0x29, 0xe1, 0x0a,
-	0x3b, 0xdb, 0x3f, 0xce, 0xf3, 0xc6, 0xd9, 0x79, 0xde, 0xf8, 0x75, 0x9e, 0x37, 0xbe, 0x5e, 0xe4,
-	0xa7, 0xce, 0x2e, 0xf2, 0x53, 0x3f, 0x2f, 0xf2, 0x53, 0xef, 0x9e, 0x3a, 0x5c, 0xb5, 0xba, 0x87,
-	0x65, 0x5b, 0x9c, 0x54, 0x82, 0x7b, 0x8c, 0xfe, 0x7d, 0xe6, 0x0a, 0x86, 0x95, 0x53, 0x7d, 0xa9,
-	0x51, 0xbd, 0x0e, 0xca, 0xc3, 0x59, 0x7d, 0xa3, 0xd9, 0xfc, 0x1d, 0x00, 0x00, 0xff, 0xff, 0xde,
-	0xf1, 0xc0, 0x25, 0x13, 0x09, 0x00, 0x00,
+	// 707 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x96, 0x5d, 0x6f, 0x12, 0x4d,
+	0x14, 0xc7, 0xbb, 0xf0, 0xb4, 0x94, 0x03, 0x7d, 0xc9, 0xf4, 0xe5, 0xd9, 0x87, 0xc7, 0x12, 0x24,
+	0x6a, 0xd0, 0xa4, 0x90, 0xa0, 0xe9, 0xa5, 0x49, 0x2b, 0x37, 0xa4, 0xc1, 0xd8, 0xb5, 0xd5, 0x44,
+	0x13, 0x71, 0xba, 0x73, 0xba, 0x4c, 0xba, 0xdd, 0xc1, 0x9d, 0x61, 0x5b, 0x3e, 0x82, 0x77, 0x1a,
+	0xbf, 0x94, 0x97, 0x4d, 0xbc, 0xf1, 0xd2, 0xb4, 0x5f, 0xc4, 0xb0, 0xcb, 0xd2, 0x65, 0xa1, 0x6d,
+	0xb0, 0xbd, 0x31, 0xe9, 0x15, 0xe1, 0x9c, 0xff, 0xf9, 0xed, 0x7f, 0x67, 0xce, 0x81, 0x03, 0x2b,
+	0x66, 0x0b, 0x3f, 0xb1, 0x0a, 0xe3, 0xac, 0xe2, 0x55, 0x2b, 0xea, 0xa4, 0xdc, 0x76, 0x85, 0x12,
+	0x24, 0xeb, 0x87, 0xcb, 0x8c, 0xb3, 0xb2, 0x57, 0xcd, 0xfd, 0x37, 0x24, 0x62, 0x9c, 0x31, 0x61,
+	0x06, 0xc2, 0xe2, 0x67, 0x0d, 0x16, 0x1a, 0xd2, 0x7a, 0xe1, 0x22, 0x55, 0x58, 0xe3, 0xac, 0x26,
+	0x4c, 0xf2, 0x1c, 0x52, 0x6d, 0xda, 0xb5, 0x05, 0x65, 0xba, 0x56, 0xd0, 0x4a, 0x99, 0xea, 0x83,
+	0x72, 0x14, 0x57, 0x8e, 0xe9, 0x5f, 0x05, 0x5a, 0x23, 0x2c, 0x22, 0x1b, 0x00, 0x92, 0x5b, 0x0e,
+	0x55, 0x1d, 0x17, 0xa5, 0x9e, 0x28, 0x24, 0x4b, 0x99, 0xea, 0xea, 0x30, 0xe2, 0x35, 0xb7, 0x9c,
+	0xba, 0x73, 0x20, 0x8c, 0x88, 0x32, 0xf4, 0xb2, 0xd7, 0x66, 0x13, 0x79, 0x89, 0xea, 0x6f, 0xcd,
+	0xcb, 0x57, 0x0d, 0x96, 0x1a, 0xd2, 0xaa, 0x21, 0x35, 0x15, 0xf7, 0x2e, 0xfc, 0x6c, 0xc5, 0xfd,
+	0x94, 0x46, 0xfc, 0xc4, 0x6b, 0x6e, 0xcd, 0xd3, 0x07, 0x98, 0x0d, 0xe3, 0xe4, 0x19, 0xac, 0x7a,
+	0xe8, 0xf2, 0x03, 0x6e, 0x52, 0xc5, 0x85, 0xd3, 0x3c, 0x42, 0xd5, 0x12, 0xac, 0xc9, 0x03, 0x5b,
+	0x69, 0x63, 0x39, 0x9a, 0x6d, 0xf8, 0xc9, 0x3a, 0x23, 0xf7, 0x20, 0x3d, 0xe0, 0xe9, 0x89, 0x82,
+	0x56, 0xca, 0x1a, 0x17, 0x81, 0xe2, 0x8f, 0x69, 0x58, 0x1d, 0x7f, 0xb7, 0x44, 0x87, 0x94, 0x29,
+	0x1c, 0x85, 0x27, 0x4a, 0xd7, 0x0a, 0xc9, 0x52, 0xda, 0x08, 0xbf, 0x92, 0x79, 0x48, 0x70, 0xe6,
+	0xb3, 0xd2, 0x46, 0x82, 0x33, 0x92, 0x07, 0xe8, 0xa5, 0x5c, 0x61, 0xdb, 0xe8, 0xea, 0x49, 0x5f,
+	0x1c, 0x89, 0x90, 0x1d, 0x58, 0x1a, 0x63, 0x5c, 0xff, 0xc7, 0x3f, 0x85, 0xc2, 0xf0, 0x29, 0xbc,
+	0x19, 0x79, 0x07, 0x83, 0x8c, 0xbe, 0x17, 0x79, 0x09, 0xf3, 0xb4, 0xa3, 0x5a, 0xe8, 0xa8, 0x7e,
+	0x5c, 0x9f, 0xf6, 0x69, 0x8f, 0x2e, 0xa7, 0x19, 0x68, 0xfb, 0x9f, 0xb2, 0xc5, 0xdb, 0x46, 0xac,
+	0x9a, 0xec, 0xc0, 0x22, 0x95, 0x12, 0xdd, 0xa8, 0xbf, 0x99, 0x89, 0x88, 0x0b, 0x83, 0xfa, 0xbe,
+	0xc5, 0xf7, 0xb0, 0x62, 0xd2, 0x36, 0xdd, 0xe7, 0x36, 0x57, 0xdd, 0x26, 0x77, 0x3c, 0xd1, 0x77,
+	0x9a, 0x9a, 0x88, 0xbb, 0x7c, 0x01, 0xa9, 0x0f, 0x18, 0x31, 0x38, 0x43, 0x1b, 0xad, 0x00, 0x3e,
+	0xfb, 0xa7, 0xf0, 0xda, 0x80, 0x41, 0xb6, 0x61, 0xee, 0x10, 0xbb, 0x4d, 0x6a, 0xb9, 0x88, 0x47,
+	0xe8, 0x28, 0x3d, 0x3d, 0x11, 0x34, 0x7b, 0x88, 0xdd, 0xcd, 0xb0, 0x96, 0x14, 0x61, 0x8e, 0xda,
+	0x52, 0x34, 0x0f, 0x1d, 0x71, 0xec, 0x34, 0xa9, 0xd4, 0xc1, 0xef, 0x8f, 0x4c, 0x2f, 0xb8, 0xdd,
+	0x8b, 0x6d, 0x4a, 0x52, 0x81, 0x94, 0x44, 0xd7, 0xe3, 0x26, 0xea, 0x19, 0xff, 0x51, 0x2b, 0xb1,
+	0xd1, 0x08, 0x92, 0x46, 0xa8, 0x22, 0x6b, 0x00, 0x1e, 0xba, 0xb2, 0x77, 0x59, 0x9c, 0xe9, 0x59,
+	0xbf, 0x13, 0xd3, 0xfd, 0x48, 0x9d, 0x15, 0x77, 0xe0, 0xdf, 0x58, 0x53, 0x1b, 0x28, 0xdb, 0xc2,
+	0x91, 0x48, 0x36, 0x60, 0xda, 0xa3, 0x76, 0x07, 0xfb, 0xa3, 0x1c, 0xeb, 0xbe, 0x40, 0xfc, 0x96,
+	0xab, 0x56, 0x03, 0x15, 0x65, 0x54, 0x51, 0x23, 0x90, 0x87, 0x83, 0x32, 0xe6, 0x87, 0xe7, 0x6e,
+	0x50, 0xee, 0x06, 0xe5, 0xef, 0x1e, 0x94, 0x68, 0x53, 0xdf, 0x78, 0x50, 0xb6, 0x21, 0x77, 0xf9,
+	0x1f, 0x62, 0x7f, 0x22, 0xb4, 0xc1, 0x44, 0x0c, 0xfb, 0x4b, 0xc4, 0xfd, 0xed, 0xc1, 0xff, 0x63,
+	0x60, 0x37, 0xf5, 0x58, 0xfd, 0x96, 0x80, 0x64, 0x43, 0x5a, 0x64, 0x17, 0xb2, 0x43, 0x5b, 0xd0,
+	0xda, 0x95, 0x4b, 0x4f, 0xee, 0xe1, 0x95, 0xe9, 0x81, 0xab, 0x5d, 0xc8, 0x0e, 0xed, 0x33, 0x6b,
+	0x57, 0xae, 0x2f, 0x63, 0xa8, 0x63, 0xef, 0xe3, 0x23, 0x2c, 0x8e, 0x6c, 0x26, 0xf7, 0xaf, 0x5d,
+	0x44, 0x72, 0x8f, 0xaf, 0x95, 0x84, 0x4f, 0xd8, 0xaa, 0x7d, 0x3f, 0xcb, 0x6b, 0xa7, 0x67, 0x79,
+	0xed, 0xd7, 0x59, 0x5e, 0xfb, 0x72, 0x9e, 0x9f, 0x3a, 0x3d, 0xcf, 0x4f, 0xfd, 0x3c, 0xcf, 0x4f,
+	0xbd, 0x7b, 0x62, 0x71, 0xd5, 0xea, 0xec, 0x97, 0x4d, 0x71, 0x54, 0x31, 0xa9, 0x23, 0x8e, 0xd7,
+	0x4d, 0x51, 0xf1, 0xb9, 0xeb, 0x8e, 0x60, 0x58, 0x39, 0xf1, 0xf7, 0x4c, 0xd5, 0x6d, 0xa3, 0xdc,
+	0x9f, 0xf1, 0x97, 0xcc, 0xa7, 0xbf, 0x03, 0x00, 0x00, 0xff, 0xff, 0x15, 0x3d, 0xa2, 0x66, 0xa6,
+	0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1133,45 +1135,70 @@ func (m *MsgCreateDidDocPayload) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	}
 	if len(m.KeyAgreement) > 0 {
 		for iNdEx := len(m.KeyAgreement) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.KeyAgreement[iNdEx])
-			copy(dAtA[i:], m.KeyAgreement[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.KeyAgreement[iNdEx])))
+			{
+				size, err := m.KeyAgreement[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x4a
 		}
 	}
 	if len(m.CapabilityDelegation) > 0 {
 		for iNdEx := len(m.CapabilityDelegation) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.CapabilityDelegation[iNdEx])
-			copy(dAtA[i:], m.CapabilityDelegation[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.CapabilityDelegation[iNdEx])))
+			{
+				size, err := m.CapabilityDelegation[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x42
 		}
 	}
 	if len(m.CapabilityInvocation) > 0 {
 		for iNdEx := len(m.CapabilityInvocation) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.CapabilityInvocation[iNdEx])
-			copy(dAtA[i:], m.CapabilityInvocation[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.CapabilityInvocation[iNdEx])))
+			{
+				size, err := m.CapabilityInvocation[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x3a
 		}
 	}
 	if len(m.AssertionMethod) > 0 {
 		for iNdEx := len(m.AssertionMethod) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.AssertionMethod[iNdEx])
-			copy(dAtA[i:], m.AssertionMethod[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.AssertionMethod[iNdEx])))
+			{
+				size, err := m.AssertionMethod[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x32
 		}
 	}
 	if len(m.Authentication) > 0 {
 		for iNdEx := len(m.Authentication) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.Authentication[iNdEx])
-			copy(dAtA[i:], m.Authentication[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.Authentication[iNdEx])))
+			{
+				size, err := m.Authentication[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x2a
 		}
@@ -1305,45 +1332,70 @@ func (m *MsgUpdateDidDocPayload) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	}
 	if len(m.KeyAgreement) > 0 {
 		for iNdEx := len(m.KeyAgreement) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.KeyAgreement[iNdEx])
-			copy(dAtA[i:], m.KeyAgreement[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.KeyAgreement[iNdEx])))
+			{
+				size, err := m.KeyAgreement[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x4a
 		}
 	}
 	if len(m.CapabilityDelegation) > 0 {
 		for iNdEx := len(m.CapabilityDelegation) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.CapabilityDelegation[iNdEx])
-			copy(dAtA[i:], m.CapabilityDelegation[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.CapabilityDelegation[iNdEx])))
+			{
+				size, err := m.CapabilityDelegation[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x42
 		}
 	}
 	if len(m.CapabilityInvocation) > 0 {
 		for iNdEx := len(m.CapabilityInvocation) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.CapabilityInvocation[iNdEx])
-			copy(dAtA[i:], m.CapabilityInvocation[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.CapabilityInvocation[iNdEx])))
+			{
+				size, err := m.CapabilityInvocation[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x3a
 		}
 	}
 	if len(m.AssertionMethod) > 0 {
 		for iNdEx := len(m.AssertionMethod) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.AssertionMethod[iNdEx])
-			copy(dAtA[i:], m.AssertionMethod[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.AssertionMethod[iNdEx])))
+			{
+				size, err := m.AssertionMethod[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x32
 		}
 	}
 	if len(m.Authentication) > 0 {
 		for iNdEx := len(m.Authentication) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.Authentication[iNdEx])
-			copy(dAtA[i:], m.Authentication[iNdEx])
-			i = encodeVarintTx(dAtA, i, uint64(len(m.Authentication[iNdEx])))
+			{
+				size, err := m.Authentication[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0x2a
 		}
@@ -1611,32 +1663,32 @@ func (m *MsgCreateDidDocPayload) Size() (n int) {
 		}
 	}
 	if len(m.Authentication) > 0 {
-		for _, s := range m.Authentication {
-			l = len(s)
+		for _, e := range m.Authentication {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
 	if len(m.AssertionMethod) > 0 {
-		for _, s := range m.AssertionMethod {
-			l = len(s)
+		for _, e := range m.AssertionMethod {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
 	if len(m.CapabilityInvocation) > 0 {
-		for _, s := range m.CapabilityInvocation {
-			l = len(s)
+		for _, e := range m.CapabilityInvocation {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
 	if len(m.CapabilityDelegation) > 0 {
-		for _, s := range m.CapabilityDelegation {
-			l = len(s)
+		for _, e := range m.CapabilityDelegation {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
 	if len(m.KeyAgreement) > 0 {
-		for _, s := range m.KeyAgreement {
-			l = len(s)
+		for _, e := range m.KeyAgreement {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
@@ -1701,32 +1753,32 @@ func (m *MsgUpdateDidDocPayload) Size() (n int) {
 		}
 	}
 	if len(m.Authentication) > 0 {
-		for _, s := range m.Authentication {
-			l = len(s)
+		for _, e := range m.Authentication {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
 	if len(m.AssertionMethod) > 0 {
-		for _, s := range m.AssertionMethod {
-			l = len(s)
+		for _, e := range m.AssertionMethod {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
 	if len(m.CapabilityInvocation) > 0 {
-		for _, s := range m.CapabilityInvocation {
-			l = len(s)
+		for _, e := range m.CapabilityInvocation {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
 	if len(m.CapabilityDelegation) > 0 {
-		for _, s := range m.CapabilityDelegation {
-			l = len(s)
+		for _, e := range m.CapabilityDelegation {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
 	if len(m.KeyAgreement) > 0 {
-		for _, s := range m.KeyAgreement {
-			l = len(s)
+		for _, e := range m.KeyAgreement {
+			l = e.Size()
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
@@ -2437,7 +2489,7 @@ func (m *MsgCreateDidDocPayload) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Authentication", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2447,29 +2499,31 @@ func (m *MsgCreateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Authentication = append(m.Authentication, string(dAtA[iNdEx:postIndex]))
+			m.Authentication = append(m.Authentication, &VerificationRelationship{})
+			if err := m.Authentication[len(m.Authentication)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field AssertionMethod", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2479,29 +2533,31 @@ func (m *MsgCreateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.AssertionMethod = append(m.AssertionMethod, string(dAtA[iNdEx:postIndex]))
+			m.AssertionMethod = append(m.AssertionMethod, &VerificationRelationship{})
+			if err := m.AssertionMethod[len(m.AssertionMethod)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CapabilityInvocation", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2511,29 +2567,31 @@ func (m *MsgCreateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.CapabilityInvocation = append(m.CapabilityInvocation, string(dAtA[iNdEx:postIndex]))
+			m.CapabilityInvocation = append(m.CapabilityInvocation, &VerificationRelationship{})
+			if err := m.CapabilityInvocation[len(m.CapabilityInvocation)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CapabilityDelegation", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2543,29 +2601,31 @@ func (m *MsgCreateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.CapabilityDelegation = append(m.CapabilityDelegation, string(dAtA[iNdEx:postIndex]))
+			m.CapabilityDelegation = append(m.CapabilityDelegation, &VerificationRelationship{})
+			if err := m.CapabilityDelegation[len(m.CapabilityDelegation)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field KeyAgreement", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2575,23 +2635,25 @@ func (m *MsgCreateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.KeyAgreement = append(m.KeyAgreement, string(dAtA[iNdEx:postIndex]))
+			m.KeyAgreement = append(m.KeyAgreement, &VerificationRelationship{})
+			if err := m.KeyAgreement[len(m.KeyAgreement)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
@@ -2961,7 +3023,7 @@ func (m *MsgUpdateDidDocPayload) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Authentication", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2971,29 +3033,31 @@ func (m *MsgUpdateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Authentication = append(m.Authentication, string(dAtA[iNdEx:postIndex]))
+			m.Authentication = append(m.Authentication, &VerificationRelationship{})
+			if err := m.Authentication[len(m.Authentication)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field AssertionMethod", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -3003,29 +3067,31 @@ func (m *MsgUpdateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.AssertionMethod = append(m.AssertionMethod, string(dAtA[iNdEx:postIndex]))
+			m.AssertionMethod = append(m.AssertionMethod, &VerificationRelationship{})
+			if err := m.AssertionMethod[len(m.AssertionMethod)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CapabilityInvocation", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -3035,29 +3101,31 @@ func (m *MsgUpdateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.CapabilityInvocation = append(m.CapabilityInvocation, string(dAtA[iNdEx:postIndex]))
+			m.CapabilityInvocation = append(m.CapabilityInvocation, &VerificationRelationship{})
+			if err := m.CapabilityInvocation[len(m.CapabilityInvocation)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CapabilityDelegation", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -3067,29 +3135,31 @@ func (m *MsgUpdateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.CapabilityDelegation = append(m.CapabilityDelegation, string(dAtA[iNdEx:postIndex]))
+			m.CapabilityDelegation = append(m.CapabilityDelegation, &VerificationRelationship{})
+			if err := m.CapabilityDelegation[len(m.CapabilityDelegation)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field KeyAgreement", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -3099,23 +3169,25 @@ func (m *MsgUpdateDidDocPayload) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.KeyAgreement = append(m.KeyAgreement, string(dAtA[iNdEx:postIndex]))
+			m.KeyAgreement = append(m.KeyAgreement, &VerificationRelationship{})
+			if err := m.KeyAgreement[len(m.KeyAgreement)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
