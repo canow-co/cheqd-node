@@ -4,8 +4,7 @@ const (
 	Name = "cheqd-node"
 	Home = ".cheqdnode"
 
-	UpgradeName           = "v0.6"
-	CosmovisorTestUpgrade = "cosmovisor_test"
+	UpgradeName = "v1.0.0"
 
 	// allowed msg types of ica host
 	authzMsgExec                        = "/cosmos.authz.v1beta1.MsgExec"
@@ -30,4 +29,10 @@ const (
 	stakingMsgCreateValidator           = "/cosmos.staking.v1beta1.MsgCreateValidator"
 	vestingMsgCreateVestingAccount      = "/cosmos.vesting.v1beta1.MsgCreateVestingAccount"
 	ibcMsgTransfer                      = "/ibc.applications.transfer.v1.MsgTransfer"
+
+	// cheqd namespace
+	didMsgCreateDidDoc        = "/cheqd.did.v2.MsgCreateDidDoc"
+	didMsgUpdateDidDoc        = "/cheqd.did.v2.MsgUpdateDidDoc"
+	didMsgDeactivateDidDoc    = "/cheqd.did.v2.MsgDeactivateDidDoc"
+	resourceMsgCreateResource = "/cheqd.resource.v2.MsgCreateResource"
 )
