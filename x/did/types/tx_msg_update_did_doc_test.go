@@ -81,7 +81,7 @@ var _ = Describe("Message for DID updating", func() {
 					Signatures: nil,
 				},
 				isValid:  false,
-				errorMsg: "payload: (authentication: there should be no duplicates.).: basic validation failed",
+				errorMsg: "payload: (authentication: there are verification relationships with same IDs.).: basic validation failed",
 			}),
 		Entry(
 			"VersionId is empty",
