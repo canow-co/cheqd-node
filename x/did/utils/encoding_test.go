@@ -77,7 +77,7 @@ var _ = Describe("Encoding checks", func() {
 
 	DescribeTable("Validate JWK",
 
-		func(data string, isValid bool) {
+		func(data []byte, isValid bool) {
 			_err := ValidateJWK(data)
 			if isValid {
 				Expect(_err).ShouldNot(HaveOccurred())
@@ -86,7 +86,7 @@ var _ = Describe("Encoding checks", func() {
 			}
 		},
 
-		Entry("Valid: General jwk", string(ValidJWKByte), true),
-		Entry("Not Valid: Bad jwk", string(NotValidJWKByte), false),
+		Entry("Valid: General jwk", ValidJWKByte, true),
+		Entry("Not Valid: Bad jwk", NotValidJWKByte, false),
 	)
 })

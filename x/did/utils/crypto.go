@@ -5,34 +5,60 @@ import (
 	"crypto/ecdsa"
 	"crypto/ed25519"
 	"crypto/rsa"
+	"encoding/binary"
 	"errors"
 	"fmt"
-	"reflect"
 
 	"filippo.io/edwards25519"
 
+	"github.com/canow-co/cheqd-node/x/did/utils/bls12381g2"
+	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
+	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwk"
+	"github.com/multiformats/go-multibase"
 )
 
-func ValidateJWK(jwk_string string) error {
-	var raw interface{}
-	err := jwk.ParseRawKey([]byte(jwk_string), &raw)
+func ValidateJWK(rawJwk []byte) error {
+	key, err := jwk.ParseKey(rawJwk)
 	if err != nil {
 		return fmt.Errorf("can't parse jwk: %s", err.Error())
 	}
 
-	switch key := raw.(type) {
-	case *rsa.PublicKey:
+	switch key.KeyType() {
+	case jwa.RSA:
 		break
-	case *ecdsa.PublicKey:
+	case jwa.EC:
 		break
-	case ed25519.PublicKey:
-		err := ValidateEd25519PubKey(key)
-		if err != nil {
-			return err
+	case jwa.OKP:
+		okpPubKey, ok := key.(jwk.OKPPublicKey)
+		if !ok {
+			return errors.New("jwk with kty=\"OKP\" is not actually OKP public key")
+		}
+
+		switch okpPubKey.Crv() {
+		case jwa.Ed25519:
+			var ed25519PubKey ed25519.PublicKey
+			err := okpPubKey.Raw(&ed25519PubKey)
+			if err != nil {
+				return fmt.Errorf("can't convert jwk to %T: %s", ed25519PubKey, err.Error())
+			}
+			err = ValidateEd25519PubKey(ed25519PubKey)
+			if err != nil {
+				return err
+			}
+
+		case bls12381g2.Bls12381G2:
+			bls12381G2PubKey := bls12381g2.PublicKey(okpPubKey.X())
+			err := ValidateBls12381G2PubKey(bls12381G2PubKey)
+			if err != nil {
+				return err
+			}
+
+		default:
+			return fmt.Errorf("unsupported jwk cryptographic curve: %s. supported curves are: Ed25519, Bls12381G2", okpPubKey.Crv())
 		}
 	default:
-		return fmt.Errorf("unsupported jwk type: %s. supported types are: rsa/pub, ecdsa/pub, ed25519/pub", reflect.TypeOf(raw).Name())
+		return fmt.Errorf("unsupported jwk key type: %s. supported key types are: RSA/pub, EC/pub, OKP/pub", key.KeyType())
 	}
 
 	return nil
@@ -49,12 +75,72 @@ func ValidateEd25519PubKey(keyBytes []byte) error {
 	return nil
 }
 
+func ValidateMultibaseEncodedBls12381G2PubKey(key string) error {
+	_, multicodec, err := multibase.Decode(key)
+	if err != nil {
+		return err
+	}
+
+	code, codePrefixLength := binary.Uvarint(multicodec)
+	if codePrefixLength <= 0 {
+		return errors.New("Invalid multicodec value")
+	}
+	if code != bls12381g2.Bls12381G2PubCode {
+		return errors.New("Not a Bls12381G2 public key")
+	}
+
+	keyBytes := multicodec[codePrefixLength:]
+
+	return ValidateBls12381G2PubKey(keyBytes)
+}
+
+func ValidateBls12381G2PubKeyJwk(rawJwk []byte) error {
+	key, err := jwk.ParseKey(rawJwk)
+	if err != nil {
+		return fmt.Errorf("can't parse jwk: %s", err.Error())
+	}
+
+	if key.KeyType() != jwa.OKP {
+		return fmt.Errorf("Bls12381G2Key2020 key type must be %s rather than %s", jwa.OKP, key.KeyType())
+	}
+
+	okpPubKey, ok := key.(jwk.OKPPublicKey)
+	if !ok {
+		return errors.New("jwk with kty=\"OKP\" is not actually OKP public key")
+	}
+
+	if okpPubKey.Crv() != bls12381g2.Bls12381G2 {
+		return fmt.Errorf("Bls12381G2Key2020 curve must be %s rather than %s", bls12381g2.Bls12381G2, okpPubKey.Crv())
+	}
+
+	bls12381G2PubKey := bls12381g2.PublicKey(okpPubKey.X())
+	return ValidateBls12381G2PubKey(bls12381G2PubKey)
+}
+
+func ValidateBls12381G2PubKey(keyBytes []byte) error {
+	_, err := bbs12381g2pub.UnmarshalPublicKey(keyBytes)
+	if err != nil {
+		return fmt.Errorf("Bls12381G2: %s", err.Error())
+	}
+	return nil
+}
+
 func VerifyED25519Signature(pubKey ed25519.PublicKey, message []byte, signature []byte) error {
 	valid := ed25519.Verify(pubKey, message, signature)
 	if !valid {
 		return errors.New("invalid ed25519 signature")
 	}
 
+	return nil
+}
+
+func VerifyBLS12381G2Signature(pubKey bls12381g2.PublicKey, message []byte, signature []byte) error {
+	messages := [][]byte{message}
+
+	err := bbs12381g2pub.New().Verify(messages, signature, pubKey)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
