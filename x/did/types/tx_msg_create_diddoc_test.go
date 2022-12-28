@@ -44,9 +44,6 @@ var _ = Describe("Message for DID creation", func() {
 							{
 								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
 							},
-							{
-								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#aaa",
-							},
 						},
 						VersionId: uuid.NewString(),
 					},

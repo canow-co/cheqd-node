@@ -43,9 +43,6 @@ var _ = Describe("Message for DID updating", func() {
 							{
 								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
 							},
-							{
-								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#aaa",
-							},
 						},
 						VersionId: "version1",
 					},
@@ -100,9 +97,6 @@ var _ = Describe("Message for DID updating", func() {
 						Authentication: []*VerificationRelationship{
 							{
 								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
-							},
-							{
-								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#aaa",
 							},
 						},
 					},

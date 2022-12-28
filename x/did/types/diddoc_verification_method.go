@@ -35,14 +35,14 @@ func NewVerificationMethod(id string, type_ string, controller string, verificat
 
 // Helpers
 
-func FindVerificationMethod(vms []VerificationMethod, id string) (VerificationMethod, bool) {
+func FindVerificationMethod(vms []*VerificationMethod, id string) (*VerificationMethod, bool) {
 	for _, vm := range vms {
 		if vm.Id == id {
 			return vm, true
 		}
 	}
 
-	return VerificationMethod{}, false
+	return &VerificationMethod{}, false
 }
 
 func GetVerificationMethodIds(vms []*VerificationMethod) []string {

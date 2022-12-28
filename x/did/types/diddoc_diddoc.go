@@ -81,7 +81,7 @@ func (didDoc *DidDoc) GetVerificationMethodControllers() []string {
 // Validation
 
 func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
-	return validation.ValidateStruct(&didDoc,
+	err := validation.ValidateStruct(&didDoc,
 		validation.Field(&didDoc.Id, validation.Required, IsDID(allowedNamespaces)),
 		validation.Field(&didDoc.Controller, IsUniqueStrList(), validation.Each(IsDID(allowedNamespaces))),
 		validation.Field(&didDoc.VerificationMethod,
@@ -89,22 +89,52 @@ func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
 		),
 
 		validation.Field(&didDoc.Authentication,
-			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
+			IsUniqueVerificationRelationshipListByIdRule(),
 		),
 		validation.Field(&didDoc.AssertionMethod,
-			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
+			IsUniqueVerificationRelationshipListByIdRule(),
 		),
 		validation.Field(&didDoc.CapabilityInvocation,
-			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
+			IsUniqueVerificationRelationshipListByIdRule(),
 		),
 		validation.Field(&didDoc.CapabilityDelegation,
-			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
+			IsUniqueVerificationRelationshipListByIdRule(),
 		),
 		validation.Field(&didDoc.KeyAgreement,
-			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
+			IsUniqueVerificationRelationshipListByIdRule(),
 		),
 
 		validation.Field(&didDoc.Service, IsUniqueServiceListByIdRule(), validation.Each(ValidServiceRule(didDoc.Id, allowedNamespaces))),
 		validation.Field(&didDoc.AlsoKnownAs, IsUniqueStrList(), validation.Each(IsURI())),
 	)
+	if err != nil {
+		return err
+	}
+
+	var allVerificationMethods []*VerificationMethod
+	allVerificationMethods = append(allVerificationMethods, didDoc.VerificationMethod...)
+	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.Authentication)...)
+	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.AssertionMethod)...)
+	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.CapabilityInvocation)...)
+	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.CapabilityDelegation)...)
+	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.KeyAgreement)...)
+
+	return validation.Validate(allVerificationMethods, IsUniqueVerificationMethodListByIdRule())
+}
+
+func filterEmbeddedVerificationMethods(vrs []*VerificationRelationship) []*VerificationMethod {
+	var embeddedVMs []*VerificationMethod
+
+	for _, vr := range vrs {
+		if vr.VerificationMethod != nil {
+			embeddedVMs = append(embeddedVMs, vr.VerificationMethod)
+		}
+	}
+
+	return embeddedVMs
 }

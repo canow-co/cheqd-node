@@ -405,7 +405,7 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: newKeyId,
 					},
 				},
 				VersionId: uuid.NewString(),

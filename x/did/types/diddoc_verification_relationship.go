@@ -16,11 +16,15 @@ func NewVerificationRelationship(verificationMethodId string, verificationMethod
 
 // Validation
 
-func (vm VerificationRelationship) Validate(baseDid string, allowedNamespaces []string) error {
+func (vm VerificationRelationship) Validate(
+	baseDid string,
+	allowedNamespaces []string,
+	sharedVerificationMethods []*VerificationMethod,
+) error {
 	if vm.VerificationMethodId != "" && vm.VerificationMethod != nil {
 		return errors.New("Only one of VerificationMethodId and VerificationMethod must be set in VerificationRelationship")
 	} else if vm.VerificationMethodId != "" {
-		return validation.Validate(vm.VerificationMethodId, IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid))
+		return validation.Validate(vm.VerificationMethodId, IsValidVerificationMethodReference(sharedVerificationMethods))
 	} else if vm.VerificationMethod != nil {
 		return validation.Validate(vm.VerificationMethod, ValidVerificationMethodRule(baseDid, allowedNamespaces))
 	} else {
@@ -28,14 +32,18 @@ func (vm VerificationRelationship) Validate(baseDid string, allowedNamespaces []
 	}
 }
 
-func ValidVerificationRelationshipRule(baseDid string, allowedNamespaces []string) *CustomErrorRule {
+func ValidVerificationRelationshipRule(
+	baseDid string,
+	allowedNamespaces []string,
+	sharedVerificationMethods []*VerificationMethod,
+) *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(VerificationRelationship)
 		if !ok {
 			panic("ValidVerificationRelationshipRule must be only applied on verification relationships")
 		}
 
-		return casted.Validate(baseDid, allowedNamespaces)
+		return casted.Validate(baseDid, allowedNamespaces, sharedVerificationMethods)
 	})
 }
 
