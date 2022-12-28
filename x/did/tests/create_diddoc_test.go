@@ -26,8 +26,12 @@ var _ = Describe("Create DID tests", func() {
 		keyId := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyId},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,
@@ -61,8 +65,12 @@ var _ = Describe("Create DID tests", func() {
 		keyId := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyId},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,
@@ -101,9 +109,13 @@ var _ = Describe("Create DID tests", func() {
 		bobKeyId := bobDid + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             bobDid,
-			Controller:     []string{alice.Did, anna.Did},
-			Authentication: []string{bobKeyId},
+			Id:         bobDid,
+			Controller: []string{alice.Did, anna.Did},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: bobKeyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   bobKeyId,
@@ -171,11 +183,49 @@ var _ = Describe("Create DID tests", func() {
 					VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(keypair4.Public),
 				},
 			},
-			Authentication:       []string{keyId1, keyId2},
-			AssertionMethod:      []string{keyId3},
-			CapabilityInvocation: []string{keyId4, keyId1},
-			CapabilityDelegation: []string{keyId4, keyId2},
-			KeyAgreement:         []string{keyId1, keyId2, keyId3, keyId4},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId1,
+				},
+				{
+					VerificationMethodId: keyId2,
+				},
+			},
+			AssertionMethod: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId3,
+				},
+			},
+			CapabilityInvocation: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId4,
+				},
+				{
+					VerificationMethodId: keyId1,
+				},
+			},
+			CapabilityDelegation: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId4,
+				},
+				{
+					VerificationMethodId: keyId2,
+				},
+			},
+			KeyAgreement: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId1,
+				},
+				{
+					VerificationMethodId: keyId2,
+				},
+				{
+					VerificationMethodId: keyId3,
+				},
+				{
+					VerificationMethodId: keyId4,
+				},
+			},
 			Service: []*types.Service{
 				{
 					Id:              did + "#service-1",
@@ -219,9 +269,13 @@ var _ = Describe("Create DID tests", func() {
 		bobKeyId := bobDid + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             bobDid,
-			Controller:     []string{alice.Did, bobDid},
-			Authentication: []string{bobKeyId},
+			Id:         bobDid,
+			Controller: []string{alice.Did, bobDid},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: bobKeyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   bobKeyId,
@@ -250,9 +304,13 @@ var _ = Describe("Create DID tests", func() {
 		keyId := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Controller:     []string{did},
-			Authentication: []string{keyId},
+			Id:         did,
+			Controller: []string{did},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,
@@ -278,9 +336,13 @@ var _ = Describe("Create DID tests", func() {
 		nonExistingDid := GenerateDID(Base58_16bytes)
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Controller:     []string{nonExistingDid},
-			Authentication: []string{keyId},
+			Id:         did,
+			Controller: []string{nonExistingDid},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,
@@ -304,9 +366,13 @@ var _ = Describe("Create DID tests", func() {
 		keyId := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Controller:     []string{did},
-			Authentication: []string{keyId},
+			Id:         did,
+			Controller: []string{did},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,
@@ -341,9 +407,13 @@ var _ = Describe("Create DID tests", func() {
 		bobKeyId := bobDid + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             bobDid,
-			Controller:     []string{bobDid},
-			Authentication: []string{bobKeyId},
+			Id:         bobDid,
+			Controller: []string{bobDid},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: bobKeyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   bobKeyId,
@@ -367,9 +437,13 @@ var _ = Describe("Create DID tests", func() {
 		keyId := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Controller:     []string{did},
-			Authentication: []string{keyId},
+			Id:         did,
+			Controller: []string{did},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,
@@ -399,8 +473,12 @@ var _ = Describe("Create DID tests", func() {
 		alice := setup.CreateSimpleDid()
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             alice.Did,
-			Authentication: []string{alice.KeyId},
+			Id: alice.Did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: alice.KeyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   alice.KeyId,
@@ -423,8 +501,12 @@ var _ = Describe("Create DID tests", func() {
 		keyId := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyId},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,
@@ -463,8 +545,12 @@ var _ = Describe("Create DID tests", func() {
 		newRoutingKeys := []string{"did:example:HPXoCUSjrSvWC53SLWQjsm#somekey", "did:example:HPXoCUSjrSvWC53SLWQjsm#somekey"}
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyId},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,
@@ -512,8 +598,12 @@ var _ = Describe("Check upper/lower case for DID creation", func() {
 		keyId := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyId},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                   keyId,

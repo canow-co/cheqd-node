@@ -45,8 +45,12 @@ func (s *TestSetup) BuildDidDocWithCustomDID(did string) DidDocInfo {
 				VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(keyPair.Public),
 			},
 		},
-		Authentication: []string{keyId},
-		VersionId:      uuid.NewString(),
+		Authentication: []*types.VerificationRelationship{
+			{
+				VerificationMethodId: keyId,
+			},
+		},
+		VersionId: uuid.NewString(),
 	}
 
 	signInput := SignInput{

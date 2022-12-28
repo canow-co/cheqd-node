@@ -14,8 +14,12 @@ var _ = Describe("Create DID Payload Validation tests", func() {
 
 	DescribeTable("UUID validation tests", func(testCase TestCaseUUIDDidStruct) {
 		inputMsg := MsgCreateDidDocPayload{
-			Id:             testCase.inputId,
-			Authentication: []string{testCase.inputId + "#key1"},
+			Id: testCase.inputId,
+			Authentication: []*VerificationRelationship{
+				{
+					VerificationMethodId: testCase.inputId + "#key1",
+				},
+			},
 			VerificationMethod: []*VerificationMethod{
 				{
 					Id:         testCase.inputId + "#key1",
@@ -25,8 +29,12 @@ var _ = Describe("Create DID Payload Validation tests", func() {
 			},
 		}
 		expectedMsg := MsgCreateDidDocPayload{
-			Id:             testCase.expectedId,
-			Authentication: []string{testCase.expectedId + "#key1"},
+			Id: testCase.expectedId,
+			Authentication: []*VerificationRelationship{
+				{
+					VerificationMethodId: testCase.expectedId + "#key1",
+				},
+			},
 			VerificationMethod: []*VerificationMethod{
 				{
 					Id:         testCase.expectedId + "#key1",

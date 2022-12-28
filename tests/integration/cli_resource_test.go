@@ -47,8 +47,12 @@ var _ = Describe("cheqd cli - positive resource", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs := []clitypes.SignInput{
@@ -145,8 +149,12 @@ var _ = Describe("cheqd cli - positive resource", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(secondPubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{secondKeyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: secondKeyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		secondSignInputs := []clitypes.SignInput{

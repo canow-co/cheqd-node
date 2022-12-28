@@ -46,8 +46,12 @@ var _ = Describe("cheqd cli - negative did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\":\"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs := []cli_types.SignInput{
@@ -80,8 +84,12 @@ var _ = Describe("cheqd cli - negative did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\":\"" + string(pubKeyMultibase582) + "\"}",
 				},
 			},
-			Authentication: []string{keyId2},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId2,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs2 := []cli_types.SignInput{
@@ -179,8 +187,12 @@ var _ = Describe("cheqd cli - negative did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\":\"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs := []cli_types.SignInput{
@@ -205,9 +217,17 @@ var _ = Describe("cheqd cli - negative did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\":\"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication:  []string{keyId},
-			AssertionMethod: []string{keyId},
-			VersionId:       uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			AssertionMethod: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		res, err = cli.UpdateDidDoc(tmpDir, updatedPayload, signInputs, testdata.BASE_ACCOUNT_1)
@@ -236,8 +256,12 @@ var _ = Describe("cheqd cli - negative did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\":\"" + string(pubKeyMultibase582) + "\"}",
 				},
 			},
-			Authentication: []string{keyId2},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId2,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs2 := []cli_types.SignInput{
@@ -292,9 +316,19 @@ var _ = Describe("cheqd cli - negative did", func() {
 			Controller:           did2,
 			VerificationMaterial: "{\"publicKeyMultibase\":\"" + string(pubKeyMultibase582) + "\"}",
 		})
-		followingUpdatedPayload.Authentication = append(followingUpdatedPayload.Authentication, keyId2AsExtraController)
-		followingUpdatedPayload.CapabilityDelegation = []string{keyId}
-		followingUpdatedPayload.CapabilityInvocation = []string{keyId}
+		followingUpdatedPayload.Authentication = append(followingUpdatedPayload.Authentication, &types.VerificationRelationship{
+			VerificationMethodId: keyId2AsExtraController,
+		})
+		followingUpdatedPayload.CapabilityDelegation = []*types.VerificationRelationship{
+			{
+				VerificationMethodId: keyId,
+			},
+		}
+		followingUpdatedPayload.CapabilityInvocation = []*types.VerificationRelationship{
+			{
+				VerificationMethodId: keyId,
+			},
+		}
 		followingUpdatedPayload.VersionId = uuid.NewString()
 
 		signInputsAugmented := append(signInputs, signInputs2...)
@@ -435,8 +469,12 @@ var _ = Describe("cheqd cli - negative did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 			Service: []*types.Service{
 				{
 					Id:              did + "#service-1",

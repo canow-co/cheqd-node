@@ -40,8 +40,15 @@ var _ = Describe("Message for DID creation", func() {
 								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#aaa"},
-						VersionId:      uuid.NewString(),
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#aaa",
+							},
+						},
+						VersionId: uuid.NewString(),
 					},
 					Signatures: nil,
 				},
@@ -62,7 +69,14 @@ var _ = Describe("Message for DID creation", func() {
 								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#key1"},
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
 					},
 					Signatures: nil,
 				},

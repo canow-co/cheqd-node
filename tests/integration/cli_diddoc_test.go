@@ -47,8 +47,12 @@ var _ = Describe("cheqd cli - positive did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs := []cli_types.SignInput{
@@ -80,8 +84,12 @@ var _ = Describe("cheqd cli - positive did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(newPubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs2 := []cli_types.SignInput{
@@ -139,8 +147,12 @@ var _ = Describe("cheqd cli - positive did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 			Service: []*types.Service{
 				{
 					Id:              did + "#service-1",
@@ -195,8 +207,12 @@ var _ = Describe("cheqd cli - positive did", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		res2, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs, testdata.BASE_ACCOUNT_1)

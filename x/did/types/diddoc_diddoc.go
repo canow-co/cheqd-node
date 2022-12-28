@@ -5,9 +5,18 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 
-func NewDidDoc(context []string, id string, controller []string, verificationMethod []*VerificationMethod,
-	authentication []string, assertionMethod []string, capabilityInvocation []string, capabilityDelegation []string,
-	keyAgreement []string, service []*Service, alsoKnownAs []string,
+func NewDidDoc(
+	context []string,
+	id string,
+	controller []string,
+	verificationMethod []*VerificationMethod,
+	authentication []*VerificationRelationship,
+	assertionMethod []*VerificationRelationship,
+	capabilityInvocation []*VerificationRelationship,
+	capabilityDelegation []*VerificationRelationship,
+	keyAgreement []*VerificationRelationship,
+	service []*Service,
+	alsoKnownAs []string,
 ) *DidDoc {
 	return &DidDoc{
 		Context:              context,
@@ -80,19 +89,19 @@ func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
 		),
 
 		validation.Field(&didDoc.Authentication,
-			IsUniqueStrList(), validation.Each(IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(didDoc.Id)),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
 		),
 		validation.Field(&didDoc.AssertionMethod,
-			IsUniqueStrList(), validation.Each(IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(didDoc.Id)),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
 		),
 		validation.Field(&didDoc.CapabilityInvocation,
-			IsUniqueStrList(), validation.Each(IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(didDoc.Id)),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
 		),
 		validation.Field(&didDoc.CapabilityDelegation,
-			IsUniqueStrList(), validation.Each(IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(didDoc.Id)),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
 		),
 		validation.Field(&didDoc.KeyAgreement,
-			IsUniqueStrList(), validation.Each(IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(didDoc.Id)),
+			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces)), IsUniqueVerificationRelationshipListByIdRule(),
 		),
 
 		validation.Field(&didDoc.Service, IsUniqueServiceListByIdRule(), validation.Each(ValidServiceRule(didDoc.Id, allowedNamespaces))),
