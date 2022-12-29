@@ -26,7 +26,7 @@ func (vm VerificationRelationship) Validate(
 	} else if vm.VerificationMethodId != "" {
 		return validation.Validate(vm.VerificationMethodId, IsValidVerificationMethodReference(sharedVerificationMethods))
 	} else if vm.VerificationMethod != nil {
-		return validation.Validate(vm.VerificationMethod, ValidVerificationMethodRule(baseDid, allowedNamespaces))
+		return validation.Validate(*vm.VerificationMethod, ValidVerificationMethodRule(baseDid, allowedNamespaces))
 	} else {
 		return errors.New("One of VerificationMethodId or VerificationMethod must be set in VerificationRelationship")
 	}

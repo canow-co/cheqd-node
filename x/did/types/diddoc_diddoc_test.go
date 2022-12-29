@@ -229,4 +229,182 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 			isValid:  false,
 			errorMsg: "verification_method: there are verification method duplicates.",
 		}),
+
+	Entry(
+		"Verification method is JWK",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
+						Type:                 "JsonWebKey2020",
+						Controller:           ValidTestDID,
+						VerificationMaterial: ValidJwkVerificationMaterial,
+					},
+				},
+			},
+			isValid:  true,
+			errorMsg: "",
+		}),
+	Entry("Mixed Verification Relationship fields successfully validated",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                   fmt.Sprintf("%s#fragment0", ValidTestDID),
+						Type:                 "JsonWebKey2020",
+						Controller:           ValidTestDID,
+						VerificationMaterial: ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
+							Type:                 "JsonWebKey2020",
+							Controller:           ValidTestDID,
+							VerificationMaterial: ValidJwkVerificationMaterial,
+						}},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+				AssertionMethod: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                   fmt.Sprintf("%s#fragment2", ValidTestDID),
+							Type:                 "JsonWebKey2020",
+							Controller:           ValidTestDID,
+							VerificationMaterial: ValidJwkVerificationMaterial,
+						}},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+				CapabilityInvocation: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                   fmt.Sprintf("%s#fragment3", ValidTestDID),
+							Type:                 "JsonWebKey2020",
+							Controller:           ValidTestDID,
+							VerificationMaterial: ValidJwkVerificationMaterial,
+						}},
+
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+				CapabilityDelegation: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                   fmt.Sprintf("%s#fragment4", ValidTestDID),
+							Type:                 "JsonWebKey2020",
+							Controller:           ValidTestDID,
+							VerificationMaterial: ValidJwkVerificationMaterial,
+						}},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+				KeyAgreement: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                   fmt.Sprintf("%s#fragment5", ValidTestDID),
+							Type:                 "JsonWebKey2020",
+							Controller:           ValidTestDID,
+							VerificationMaterial: ValidJwkVerificationMaterial,
+						}},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+			},
+			isValid:  true,
+			errorMsg: "",
+		}),
+	Entry("Verification Relationship method has wrong ID",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                   InvalidTestDID,
+							Type:                 "JsonWebKey2020",
+							Controller:           ValidTestDID,
+							VerificationMaterial: ValidJwkVerificationMaterial,
+						}},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: (0: (id: unable to split did into method, namespace and id.).).",
+		}),
+	Entry(
+		"Verification Relationship method has wrong controller",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
+							Type:                 "JsonWebKey2020",
+							Controller:           InvalidTestDID,
+							VerificationMaterial: ValidJwkVerificationMaterial,
+						}},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: (0: (controller: unable to split did into method, namespace and id.).).",
+		}),
+	Entry(
+		"Verification Method and Relationship methods has double method definition",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
+						Type:                 "JsonWebKey2020",
+						Controller:           ValidTestDID,
+						VerificationMaterial: ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
+							Type:                 "JsonWebKey2020",
+							Controller:           ValidTestDID,
+							VerificationMaterial: ValidJwkVerificationMaterial,
+						}},
+				},
+			},
+			isValid:  false,
+			errorMsg: "there are verification method duplicates",
+		}),
+	Entry(
+		"Verification Relationship Id is not contained in VM",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
+						Type:                 "JsonWebKey2020",
+						Controller:           ValidTestDID,
+						VerificationMaterial: ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment2", ValidTestDID),
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: (0: can't resolve verification method reference: did:canow:testnet:zABCDEFG123456789abcd#fragment2.).",
+		}),
 )
