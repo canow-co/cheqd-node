@@ -465,7 +465,7 @@ var _ = Describe("Create DID tests", func() {
 		}
 
 		_, err := setup.CreateDid(msg, signatures)
-		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("%s: verification method not found", invalidKeyId)))
+		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("%s: authentication method not found", invalidKeyId)))
 	})
 
 	It("Not Valid: DIDDoc already exists", func() {

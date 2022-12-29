@@ -118,16 +118,16 @@ func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
 
 	var allVerificationMethods []*VerificationMethod
 	allVerificationMethods = append(allVerificationMethods, didDoc.VerificationMethod...)
-	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.Authentication)...)
-	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.AssertionMethod)...)
-	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.CapabilityInvocation)...)
-	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.CapabilityDelegation)...)
-	allVerificationMethods = append(allVerificationMethods, filterEmbeddedVerificationMethods(didDoc.KeyAgreement)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.Authentication)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.AssertionMethod)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.CapabilityInvocation)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.CapabilityDelegation)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.KeyAgreement)...)
 
 	return validation.Validate(allVerificationMethods, IsUniqueVerificationMethodListByIdRule())
 }
 
-func filterEmbeddedVerificationMethods(vrs []*VerificationRelationship) []*VerificationMethod {
+func FilterEmbeddedVerificationMethods(vrs []*VerificationRelationship) []*VerificationMethod {
 	var embeddedVMs []*VerificationMethod
 
 	for _, vr := range vrs {
