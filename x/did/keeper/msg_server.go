@@ -87,8 +87,8 @@ func FindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[stri
 		return types.VerificationMethod{}, found, err
 	}
 
-	// In the current implementation, when searching for a given assertion method,
-	// we fall back into `verificationMethod` list in case the method is not found in `assertion` list.
+	// In the current implementation, when searching for a given authentication method,
+	// we fall back into `verificationMethod` list in case the method is not found in `authentication` list.
 	methodsToSearch := types.FilterEmbeddedVerificationMethods(didDoc.DidDoc.Authentication)
 	methodsToSearch = append(methodsToSearch, didDoc.DidDoc.VerificationMethod...)
 
