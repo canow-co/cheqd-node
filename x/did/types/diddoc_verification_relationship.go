@@ -14,6 +14,19 @@ func NewVerificationRelationship(verificationMethodId string, verificationMethod
 	}
 }
 
+// ReplaceDids replaces ids in all fields
+func (vr *VerificationRelationship) ReplaceDids(old, new string) {
+	if vr.VerificationMethod != nil {
+		vr.VerificationMethod.ReplaceDids(old, new)
+	} else {
+		did, path, query, fragment := utils.MustSplitDIDUrl(vr.VerificationMethodId)
+		if did == old {
+			did = new
+		}
+		vr.VerificationMethodId = utils.JoinDIDUrl(did, path, query, fragment)
+	}
+}
+
 // Validation
 
 func (vm VerificationRelationship) Validate(
