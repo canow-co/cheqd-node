@@ -87,12 +87,7 @@ func FindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[stri
 		return types.VerificationMethod{}, found, err
 	}
 
-	// In the current implementation, when searching for a given authentication method,
-	// we fall back into `verificationMethod` list in case the method is not found in `authentication` list.
-	methodsToSearch := types.FilterEmbeddedVerificationMethods(didDoc.DidDoc.Authentication)
-	methodsToSearch = append(methodsToSearch, didDoc.DidDoc.VerificationMethod...)
-
-	vm, found := types.FindVerificationMethod(methodsToSearch, didUrl)
+	vm, found := types.FindVerificationMethod(getEffectiveAuthenticationMethods(didDoc.DidDoc), didUrl)
 	if !found {
 		return types.VerificationMethod{}, false, nil
 	}
@@ -179,4 +174,11 @@ func VerifyAllSignersHaveAtLeastOneValidSignature(k *Keeper, ctx *sdk.Context, i
 	}
 
 	return nil
+}
+
+func getEffectiveAuthenticationMethods(didDoc *types.DidDoc) []*types.VerificationMethod {
+	// In the current implementation, when searching for a given authentication method,
+	// we fall back into `verificationMethod` list in case the method is not found in `authentication` list.
+	embeddedAuthenticationMethods := types.FilterEmbeddedVerificationMethods(didDoc.Authentication)
+	return append(embeddedAuthenticationMethods, didDoc.VerificationMethod...)
 }

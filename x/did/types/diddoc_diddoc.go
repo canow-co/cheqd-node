@@ -38,7 +38,18 @@ func NewDidDoc(
 // AllControllerDids returns controller DIDs used in both did.controllers and did.verification_method.controller
 func (didDoc *DidDoc) AllControllerDids() []string {
 	result := didDoc.Controller
-	result = append(result, didDoc.GetVerificationMethodControllers()...)
+
+	var allVerificationMethods []*VerificationMethod
+	allVerificationMethods = append(allVerificationMethods, didDoc.VerificationMethod...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.Authentication)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.AssertionMethod)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.CapabilityInvocation)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.CapabilityDelegation)...)
+	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.KeyAgreement)...)
+
+	for _, vm := range allVerificationMethods {
+		result = append(result, vm.Controller)
+	}
 
 	return utils.UniqueSorted(result)
 }
@@ -83,16 +94,6 @@ func (didDoc *DidDoc) GetControllersOrSubject() []string {
 
 	if len(result) == 0 {
 		result = append(result, didDoc.Id)
-	}
-
-	return result
-}
-
-func (didDoc *DidDoc) GetVerificationMethodControllers() []string {
-	var result []string
-
-	for _, vm := range didDoc.VerificationMethod {
-		result = append(result, vm.Controller)
 	}
 
 	return result

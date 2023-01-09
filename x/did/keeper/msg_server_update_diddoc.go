@@ -125,10 +125,13 @@ func GetSignerDIDsForDIDUpdate(existingDidDoc types.DidDoc, updatedDidDoc types.
 	signers := existingDidDoc.GetControllersOrSubject()
 	signers = append(signers, updatedDidDoc.GetControllersOrSubject()...)
 
-	existingVMMap := types.VerificationMethodListToMapByFragment(existingDidDoc.VerificationMethod)
-	updatedVMMap := types.VerificationMethodListToMapByFragment(updatedDidDoc.VerificationMethod)
+	existingVMs := getEffectiveAuthenticationMethods(&existingDidDoc)
+	updatedVMs := getEffectiveAuthenticationMethods(&updatedDidDoc)
 
-	for _, updatedVM := range updatedDidDoc.VerificationMethod {
+	existingVMMap := types.VerificationMethodListToMapByFragment(existingVMs)
+	updatedVMMap := types.VerificationMethodListToMapByFragment(updatedVMs)
+
+	for _, updatedVM := range updatedVMs {
 		_, _, _, fragment := utils.MustSplitDIDUrl(updatedVM.Id)
 		existingVM, found := existingVMMap[fragment]
 
@@ -153,7 +156,7 @@ func GetSignerDIDsForDIDUpdate(existingDidDoc types.DidDoc, updatedDidDoc types.
 		// VM not changed
 	}
 
-	for _, existingVM := range existingDidDoc.VerificationMethod {
+	for _, existingVM := range existingVMs {
 		_, _, _, fragment := utils.MustSplitDIDUrl(existingVM.Id)
 		_, found := updatedVMMap[fragment]
 
