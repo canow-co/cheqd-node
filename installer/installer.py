@@ -19,6 +19,9 @@ import shutil
 import signal
 import platform
 import copy
+import re
+import shutil
+
 
 ###############################################################
 ###     				Installer defaults    				###
@@ -73,15 +76,28 @@ MAX_SNAPSHOT_DAYS = 7
 ###############################################################
 DEFAULT_RPC_PORT = "26657"
 DEFAULT_P2P_PORT = "26656"
-DEFAULT_GAS_PRICE = "25ncheq"
+DEFAULT_GAS_PRICE = "50ncheq"
+DEFAULT_LOG_LEVEL = "error"
+DEFAULT_LOG_FORMAT = "json"
 
 
-def sigint_handler(signal, frame):
-    print ('Exiting from cheqd-node installer')
+def sigint_handler (signal, frame):
+    print('Exiting from cheqd-node installer')
     sys.exit(0)
 
 signal.signal(signal.SIGINT, sigint_handler)
 
+def search_and_replace(search_text, replace_text, file_path):
+    file = open(file_path, "r")
+    for line in file:
+        line = line.strip()
+        if search_text in line:
+            with open(file_path, 'r') as file:
+                data = file.read()
+                data = data.replace(line, replace_text)
+            with open(file_path, 'w') as file:
+                file.write(data)
+    file.close()
 
 class Release:
     def __init__(self, release_map):
@@ -96,9 +112,11 @@ class Release:
             os_name = platform.system()
             for _url_item in self.assets:
                 _url = _url_item["browser_download_url"]
-                if os.path.basename(_url) == f"cheqd-noded-{self.version}-{os_name}-{os_arch}.tar.gz" or \
+                version_without_v_prefix = self.version.replace('v', '' ,1)
+                if os.path.basename(_url) == f"cheqd-noded-{version_without_v_prefix}-{os_name}-{os_arch}.tar.gz" or \
                     os.path.basename(_url) == "cheqd-noded":
-                    return _url          
+                    return _url
+
             else:
                 failure_exit(f"No asset found to download for release: {self.version}")
         except:
@@ -168,7 +186,7 @@ class Installer():
                 f.read()
             )
         self.remove_safe(fname)
-        return s 
+        return s
 
     @property
     def logrotate_cfg(self):
@@ -189,9 +207,9 @@ class Installer():
         fname = os.path.basename(RSYSLOG_TEMPLATE)
         self.exec(f"wget -c {RSYSLOG_TEMPLATE}")
         with open(fname) as f:
-            s =re.sub(
+            s = re.sub(
                 r'({BINARY_FOR_LOGGING}|{CHEQD_LOG_DIR})',
-                lambda m:{'{BINARY_FOR_LOGGING}': binary_name,
+                lambda m: {'{BINARY_FOR_LOGGING}': binary_name,
                         '{CHEQD_LOG_DIR}': self.cheqd_log_dir}[m.group()],
                 f.read()
             )
@@ -249,7 +267,7 @@ class Installer():
         try:
             self.exec(f"wget -c {binary_url}")
             if fname.find(".tar.gz") != -1:
-                self.exec(f"tar -xzf {fname} -C . --strip-components=1")
+                self.exec(f"tar -xzf {fname} -C .")
                 self.remove_safe(fname)
             self.exec(f"chmod +x {DEFAULT_BINARY_NAME}")
         except:
@@ -263,14 +281,12 @@ class Installer():
         except KeyError:
             self.log(f"User {username} does not exist")
             return False
-        
 
     def remove_safe(self, path, is_dir=False):
         if is_dir and os.path.exists(path):
             shutil.rmtree(path)
         if os.path.exists(path):
             os.remove(path)
-
 
     def pre_install(self):
         if self.interviewer.is_from_scratch:
@@ -418,30 +434,78 @@ class Installer():
     def post_install(self):
         # Init the node with provided moniker
         if not os.path.exists(os.path.join(self.cheqd_config_dir, 'genesis.json')):
-            self.exec(f"""sudo su -c 'cheqd-noded init "{self.interviewer.moniker}"' {DEFAULT_CHEQD_USER}""")
+            self.exec(f"""sudo su -c 'cheqd-noded init {self.interviewer.moniker}' {DEFAULT_CHEQD_USER}""")
 
             # Downloading genesis file
             self.exec(f"curl {GENESIS_FILE.format(self.interviewer.chain)} > {os.path.join(self.cheqd_config_dir, 'genesis.json')}")
             shutil.chown(os.path.join(self.cheqd_config_dir, 'genesis.json'),
-                         DEFAULT_CHEQD_USER,
-                         DEFAULT_CHEQD_USER)
+                DEFAULT_CHEQD_USER,
+                DEFAULT_CHEQD_USER)
+
+        # Replace the default RCP port to listen to anyone
+        rpc_default_value= 'laddr = "tcp://127.0.0.1:{}"'.format(DEFAULT_RPC_PORT)
+        new_rpc_default_value = 'laddr = "tcp://0.0.0.0:{}"'.format(DEFAULT_RPC_PORT)
+        search_and_replace(rpc_default_value, new_rpc_default_value, os.path.join(self.cheqd_config_dir, "config.toml"))
+
+        # Set create empty blocks to false by default
+        create_empty_blocks_search_text = 'create_empty_blocks = true'
+        create_empty_blocks_replace_text = 'create_empty_blocks = false'
+        search_and_replace(create_empty_blocks_search_text, create_empty_blocks_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
 
         # Setting up the external_address
         if self.interviewer.external_address:
-            self.exec(f"sudo su -c 'cheqd-noded configure p2p external-address {self.interviewer.external_address}:{self.interviewer.p2p_port}' {DEFAULT_CHEQD_USER}")
+            external_address_search_text='external_address = ""'
+            external_address_replace_text='external_address = "{}:{}"'.format(self.interviewer.external_address, self.interviewer.p2p_port)
+            search_and_replace(external_address_search_text, external_address_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
 
         # Setting up the seeds
         seeds = self.exec(f"curl {SEEDS_FILE.format(self.interviewer.chain)}").stdout.decode("utf-8").strip()
-        self.exec(f"sudo su -c 'cheqd-noded configure p2p seeds {seeds}' {DEFAULT_CHEQD_USER}")
+        seeds_search_text = 'seeds = ""'
+        seeds_replace_text= 'seeds = "{}"'.format(seeds)
+        search_and_replace(seeds_search_text, seeds_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
 
         # Setting up the RPC port
-        self.exec(f"sudo su -c 'cheqd-noded configure rpc-laddr \"tcp://0.0.0.0:{self.interviewer.rpc_port}\"' {DEFAULT_CHEQD_USER}")
-
+        if self.interviewer.rpc_port:
+            rpc_laddr_search_text= 'laddr = "tcp://0.0.0.0:{}"'.format(DEFAULT_RPC_PORT)
+            rpc_laddr_replace_text= 'laddr = "tcp://0.0.0.0:{}"'.format(self.interviewer.rpc_port)
+            search_and_replace(rpc_laddr_search_text,rpc_laddr_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
         # Setting up the P2P port
-        self.exec(f"sudo su -c 'cheqd-noded configure p2p laddr \"tcp://0.0.0.0:{self.interviewer.p2p_port}\"' {DEFAULT_CHEQD_USER}")
+        if self.interviewer.p2p_port:
+            p2p_laddr_search_text='laddr = "tcp://0.0.0.0:{}"'.format(DEFAULT_P2P_PORT)
+            p2p_laddr_replace_text='laddr = "tcp://0.0.0.0:{}"'.format(self.interviewer.p2p_port)
+            search_and_replace(p2p_laddr_search_text, p2p_laddr_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
 
         # Setting up min gas-price
-        self.exec(f"sudo su -c 'cheqd-noded configure min-gas-prices {self.interviewer.gas_price}' {DEFAULT_CHEQD_USER}")
+        if self.interviewer.gas_price:
+            min_gas_price_search_text='minimum-gas-prices = '
+            min_gas_price_replace_text = 'minimum-gas-prices = "{}"'.format(self.interviewer.gas_price)
+            search_and_replace(min_gas_price_search_text, min_gas_price_replace_text, os.path.join(self.cheqd_config_dir, "app.toml"))
+
+        # Setting up persistent peers
+        if self.interviewer.persistent_peers:
+            persistent_peers_search_text='persistent_peers = ""'
+            persistent_peers_replace_text='persistent_peers = "{}"'.format(self.interviewer.persistent_peers)
+            search_and_replace(persistent_peers_search_text, persistent_peers_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
+
+        # Setting up log level
+        if self.interviewer.log_level:
+            log_level_search_text = 'log_level'
+            log_level_replace_text = 'log_level = "{}"'.format(self.interviewer.log_level)
+            search_and_replace(log_level_search_text, log_level_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
+        else:
+            log_level_search_text = 'log_level'
+            log_level_replace_text = 'log_level = "{}"'.format(DEFAULT_LOG_LEVEL)
+            search_and_replace(log_level_search_text, log_level_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
+
+        # Setting up log format
+        if self.interviewer.log_format:
+            log_format_search_text = 'log_format'
+            log_format_replace_text = 'log_format = "{}"'.format(self.interviewer.log_format)
+            search_and_replace(log_format_search_text, log_format_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
+        else:
+            log_format_search_text = 'log_format'
+            log_format_replace_text = 'log_format = "{}"'.format(DEFAULT_LOG_FORMAT)
+            search_and_replace(log_format_search_text, log_format_replace_text, os.path.join(self.cheqd_config_dir, "config.toml"))
 
     def prepare_cheqd_user(self):
         try:
@@ -480,10 +544,12 @@ class Installer():
             self.remove_safe("CHANGELOG.md")
             self.remove_safe("README.md")
             self.remove_safe("LICENSE")
+
             self.mkdir_p(self.cosmovisor_root_dir)
             self.mkdir_p(os.path.join(self.cosmovisor_root_dir, "genesis"))
             self.mkdir_p(os.path.join(self.cosmovisor_root_dir, "genesis/bin"))
             self.mkdir_p(os.path.join(self.cosmovisor_root_dir, "upgrades"))
+
             if not os.path.exists(os.path.join(DEFAULT_INSTALL_PATH, DEFAULT_COSMOVISOR_BINARY_NAME)):
                 self.log(f"Moving Cosmovisor binary to installation directory")
                 shutil.move("./cosmovisor", DEFAULT_INSTALL_PATH)
@@ -511,7 +577,7 @@ class Installer():
                             os.path.join(self.cosmovisor_root_dir, "current"))
                 self.log(f"Changing owner to {DEFAULT_CHEQD_USER} user")
                 self.exec(f"chown -R {DEFAULT_CHEQD_USER}:{DEFAULT_CHEQD_USER} {self.cosmovisor_root_dir}")
-        
+
             self.log(f"Changing directory ownership for Cosmovisor to {DEFAULT_CHEQD_USER} user")
             self.exec(f"chown -R {DEFAULT_CHEQD_USER}:{DEFAULT_CHEQD_USER} {self.cosmovisor_root_dir}")
         except:
@@ -561,12 +627,12 @@ class Installer():
                     self.log(f"Snapshot download was successful but checksums do not match.")
                     failure_exit(f"Snapshot download was successful but checksums do not match.")
             elif int(archive_size) > int(free_disk_space):
-                failure_exit (f"Snapshot archive is too large to fit in free disk space. Please free up some space and try again.")
+                failure_exit(f"Snapshot archive is too large to fit in free disk space. Please free up some space and try again.")
             else:
-                failure_exit (f"Error encountered when downloading snapshot archive.")
+                failure_exit(f"Error encountered when downloading snapshot archive.")
         except:
             failure_exit(f"Failed to download snapshot")
-        
+
     def untar_from_snapshot(self):
         try:
             archive_path = os.path.join(self.cheqd_root_dir, os.path.basename(self.interviewer.snapshot_url))
@@ -576,7 +642,7 @@ class Installer():
 
             # Extract to cheqd node data directory EXCEPT for validator state
             self.exec(f"sudo su -c 'pv {archive_path} | tar --use-compress-program=lz4 -xf - -C {self.cheqd_root_dir} --exclude priv_validator_state.json' {DEFAULT_CHEQD_USER}")
-            
+
             # Delete snapshot archive file
             self.log(f"Snapshot extraction was successful. Deleting snapshot archive.")
             self.remove_safe(archive_path)
@@ -593,8 +659,8 @@ class Installer():
             failure_exit(f"Failed to extract snapshot")
 
     def print_success(self):
-        self.log("The cheqd-noded has been successfully installed")
-        
+        self.log("The cheqd-noded binary has been successfully installed")
+
 
 class Interviewer:
     def __init__(self,
@@ -614,6 +680,9 @@ class Interviewer:
         self._rpc_port = DEFAULT_RPC_PORT
         self._p2p_port = DEFAULT_P2P_PORT
         self._gas_price = DEFAULT_GAS_PRICE
+        self._persistent_peers = ""
+        self._log_level = DEFAULT_LOG_LEVEL
+        self._log_format = DEFAULT_LOG_FORMAT
         self._is_from_scratch = False
         self._rewrite_systemd = False
         self._rewrite_rsyslog = False
@@ -623,7 +692,6 @@ class Interviewer:
     def cheqd_root_dir(self):
         return os.path.join(self.home_dir, ".cheqdnode")
 
-    
     @property
     def cheqd_config_dir(self):
         return os.path.join(self.cheqd_root_dir, "config")
@@ -700,6 +768,18 @@ class Interviewer:
     def gas_price(self) -> str:
         return self._gas_price
 
+    @property
+    def persistent_peers(self) -> str:
+        return self._persistent_peers
+
+    @property
+    def log_level(self) -> str:
+        return self._log_level
+
+    @property
+    def log_format(self) -> str:
+        return self._log_format
+
     @release.setter
     def release(self, release):
         self._release = release
@@ -768,6 +848,18 @@ class Interviewer:
     def gas_price(self, gas_price):
         self._gas_price = gas_price
 
+    @persistent_peers.setter
+    def persistent_peers(self, persistent_peers):
+        self._persistent_peers = persistent_peers
+
+    @log_level.setter
+    def log_level(self, log_level):
+        self._log_level = log_level
+
+    @log_format.setter
+    def log_format(self, log_format):
+        self._log_format = log_format
+
     def log(self, msg):
         if self.verbose:
             print(f"{PRINT_PREFIX} {msg}")
@@ -829,7 +921,7 @@ class Interviewer:
         all_releases.insert(0, default)
         for i, release in enumerate(all_releases[0: LAST_N_RELEASES]):
             print(f"{i + 1}) {release.version}")
-        release_num = int(self.ask("Choose list option number above to select version of cheqd-node to install", 
+        release_num = int(self.ask("Choose list option number above to select version of cheqd-node to install",
             default=1))
         if release_num >= 1 and release_num <= len(all_releases):
             self.release = all_releases[release_num - 1]
@@ -947,11 +1039,11 @@ class Interviewer:
     def ask_for_external_address(self):
         answer = self.ask(
             f"What is the externally-reachable IP address or DNS name for your cheqd-node? [default: Fetch automatically via DNS resolver lookup]: {os.linesep}")
-        if answer is not None:
+        if answer:
             self.external_address = answer
         else:
             try:
-                self.external_address = self.exec("dig +short txt ch whoami.cloudflare @1.1.1.1").stdout.replace('"', '').strip()
+                self.external_address = str(self.exec("dig +short txt ch whoami.cloudflare @1.1.1.1").stdout).strip("""b'"\\n""")
             except:
                 failure_exit(f"Unable to fetch external IP address for your node.")
 
@@ -966,6 +1058,20 @@ class Interviewer:
     def ask_for_gas_price(self):
         self.gas_price = self.ask(
             f"Specify minimum gas price for transactions", default=DEFAULT_GAS_PRICE)
+
+    def ask_for_persistent_peers(self):
+        self.persistent_peers = self.ask(
+            f"INFO: Persistent peers are nodes that you want to always keep connected to. "
+            f"Values for persistent peers should be specified in format: <nodeID>@<IP>:<port>,<nodeID>@<IP>:<port>... "
+            f"Specify persistent peers [default: none]: {os.linesep}")
+
+    def ask_for_log_level(self):
+        self.log_level = self.ask(
+            f"Specify log level (trace|debug|info|warn|error|fatal|panic)", default=DEFAULT_LOG_LEVEL)
+
+    def ask_for_log_format(self):
+        self.log_format = self.ask(
+            f"Specify log format (json|plain)", default=DEFAULT_LOG_FORMAT)
 
     def prepare_url_for_latest(self) -> str:
         template = TESTNET_SNAPSHOT if self.chain == "testnet" else MAINNET_SNAPSHOT
@@ -991,8 +1097,9 @@ class Interviewer:
         self.verbose = curr_verbose
         return False
 
+
 if __name__ == '__main__':
-    
+
     # Steps to execute if installing from scratch
     def install_steps():
         interviewer.ask_for_setup()
@@ -1005,6 +1112,9 @@ if __name__ == '__main__':
             interviewer.ask_for_rpc_port()
             interviewer.ask_for_p2p_port()
             interviewer.ask_for_gas_price()
+            interviewer.ask_for_persistent_peers()
+            interviewer.ask_for_log_level()
+            interviewer.ask_for_log_format()
 
     # Steps to execute if upgrading existing node
     def upgrade_steps():
@@ -1015,7 +1125,7 @@ if __name__ == '__main__':
             interviewer.ask_for_rewrite_rsyslog()
         if os.path.exists(DEFAULT_LOGROTATE_FILE):
             interviewer.ask_for_rewrite_logrotate()
-    
+
     # Ask user for information
     interviewer = Interviewer()
     interviewer.ask_for_version()
@@ -1023,7 +1133,7 @@ if __name__ == '__main__':
 
     # Check if cheqd configuration directory exists
     is_installed = interviewer.is_already_installed()
-    
+
     # First-time new node setup
     if is_installed is False:
         install_steps()

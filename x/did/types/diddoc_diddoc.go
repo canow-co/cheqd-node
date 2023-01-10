@@ -64,10 +64,12 @@ func (didDoc *DidDoc) ReplaceDids(old, new string) {
 		didDoc.Id = new
 	}
 
+	// Verification methods
 	for _, vm := range didDoc.VerificationMethod {
 		vm.ReplaceDids(old, new)
 	}
 
+	// Verification relationships
 	for _, vr := range didDoc.Authentication {
 		vr.ReplaceDids(old, new)
 	}
@@ -86,6 +88,11 @@ func (didDoc *DidDoc) ReplaceDids(old, new string) {
 
 	for _, vr := range didDoc.KeyAgreement {
 		vr.ReplaceDids(old, new)
+	}
+
+	// Services
+	for _, service := range didDoc.Service {
+		service.ReplaceDids(old, new)
 	}
 }
 

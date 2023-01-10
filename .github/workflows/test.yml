@@ -1,4 +1,4 @@
-name: "Unit"
+name: "Tests"
 on:
   workflow_call:
 defaults:
@@ -15,7 +15,7 @@ jobs:
 
   unit-tests:
     name: "Unit Tests"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
@@ -30,8 +30,8 @@ jobs:
         run: |
           go install github.com/onsi/ginkgo/v2/ginkgo@latest
 
-      - name: Run Ginkgo tests
-        run: ginkgo -r --race --randomize-all --randomize-suites --keep-going --trace --junit-report report-unit.xml
+      - name: Run Ginkgo unit tests
+        run: ginkgo -r --tags upgrade_unit --race --randomize-all --randomize-suites --keep-going --trace --junit-report report-unit.xml
 
       - name: Upload unit tests result
         uses: actions/upload-artifact@v3
@@ -40,8 +40,8 @@ jobs:
           path: report-unit.xml
 
   integration-tests:
-    name: "Integration Test"
-    runs-on: ubuntu-latest
+    name: "Integration Tests"
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
@@ -55,7 +55,7 @@ jobs:
 
       - name: Restore binary permissions
         run: sudo chmod +x ${{ env.RUNNER_BIN_DIR }}/cheqd-noded
-      
+
       - name: Change broadcast-mode an application CLI configuration file
         run: cheqd-noded config broadcast-mode block
 
@@ -76,7 +76,7 @@ jobs:
       - name: Set up Docker localnet
         working-directory: ./docker/localnet
         run: |
-          docker compose --env-file docker-compose.env up --detach --no-build
+          docker compose --env-file build-latest.env up --detach --no-build
 
       - name: Import keys
         working-directory: ./docker/localnet
@@ -92,10 +92,16 @@ jobs:
         working-directory: ./..
         run: go install github.com/onsi/ginkgo/v2/ginkgo@latest
 
-      - name: Run tests
+      - name: Run Gingko integration tests
         working-directory: ./tests/integration
-        run: ginkgo -r --tags integration --race --randomize-suites --keep-going --trace --junit-report ../../report-integration.xml
-      
+        run: |
+          ginkgo -r --tags integration --race --randomize-suites --keep-going --trace --junit-report ../../report-integration.xml
+
+      - name: Show logs
+        if: failure()
+        working-directory: ./docker/localnet
+        run: docker compose --env-file build-latest.env logs --tail --follow
+
       - name: Upload integration tests result
         uses: actions/upload-artifact@v3
         with:
@@ -104,31 +110,30 @@ jobs:
 
   report-results:
     name: "Report"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [unit-tests, integration-tests]
     if: always()
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Download unit tests report
+      - name: Download unit test
         uses: actions/download-artifact@v3
         with:
           name: report-unit.xml
 
-      - name: Download integration tests report
+      - name: Download integration test report
         uses: actions/download-artifact@v3
         with:
           name: report-integration.xml
 
       - name: Combine test results
         run: |
-          python .github/scripts/xml_combine.py report-integration.xml report-unit.xml > report.xml
+          python ./.github/scripts/xml_combine.py report-unit.xml report-integration.xml > report.xml
 
       - uses: mikepenz/action-junit-report@v3
         with:
-          report_paths: 'report.xml'
-          token: ${{ secrets.GH_TOKEN }}
+          report_paths: 'reports/report.xml'
           check_name: ""
           suite_regex: '*'
           include_passed: true
