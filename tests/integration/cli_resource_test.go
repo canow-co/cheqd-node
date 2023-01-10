@@ -243,7 +243,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -263,7 +263,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			ResourceVersion: resourceVersion,
 			ResourceType:    resourceType,
 			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1)
+		}, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -314,7 +314,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -334,7 +334,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			ResourceVersion: resourceVersion,
 			ResourceType:    resourceType,
 			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1)
+		}, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -383,7 +383,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -403,7 +403,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			ResourceVersion: resourceVersion,
 			ResourceType:    resourceType,
 			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1)
+		}, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 

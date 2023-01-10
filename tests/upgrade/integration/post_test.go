@@ -144,19 +144,19 @@ var _ = Describe("Upgrade - Post", func() {
 					DidDocUpdateRecord.Context = []string{}
 				}
 				if DidDocUpdateRecord.Authentication == nil {
-					DidDocUpdateRecord.Authentication = []string{}
+					DidDocUpdateRecord.Authentication = []*didtypesv2.VerificationRelationship{}
 				}
 				if DidDocUpdateRecord.AssertionMethod == nil {
-					DidDocUpdateRecord.AssertionMethod = []string{}
+					DidDocUpdateRecord.AssertionMethod = []*didtypesv2.VerificationRelationship{}
 				}
 				if DidDocUpdateRecord.CapabilityInvocation == nil {
-					DidDocUpdateRecord.CapabilityInvocation = []string{}
+					DidDocUpdateRecord.CapabilityInvocation = []*didtypesv2.VerificationRelationship{}
 				}
 				if DidDocUpdateRecord.CapabilityDelegation == nil {
-					DidDocUpdateRecord.CapabilityDelegation = []string{}
+					DidDocUpdateRecord.CapabilityDelegation = []*didtypesv2.VerificationRelationship{}
 				}
 				if DidDocUpdateRecord.KeyAgreement == nil {
-					DidDocUpdateRecord.KeyAgreement = []string{}
+					DidDocUpdateRecord.KeyAgreement = []*didtypesv2.VerificationRelationship{}
 				}
 				if DidDocUpdateRecord.Service == nil {
 					DidDocUpdateRecord.Service = []*didtypesv2.Service{}

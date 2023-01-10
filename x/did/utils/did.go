@@ -57,16 +57,6 @@ func ReplaceDidInDidUrl(didUrl string, oldDid string, newDid string) string {
 	return JoinDIDUrl(did, path, query, fragment)
 }
 
-func ReplaceDidInDidUrlList(didUrlList []string, oldDid string, newDid string) []string {
-	res := make([]string, len(didUrlList))
-
-	for i := range didUrlList {
-		res[i] = ReplaceDidInDidUrl(didUrlList[i], oldDid, newDid)
-	}
-
-	return res
-}
-
 // ValidateDID checks method and allowed namespaces only when the corresponding parameters are specified.
 func ValidateDID(did string, method string, allowedNamespaces []string) error {
 	sMethod, sNamespace, sUniqueId, err := TrySplitDID(did)

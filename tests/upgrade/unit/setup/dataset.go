@@ -228,19 +228,19 @@ func (d *ExpectedDataset) CheckStore() error {
 			didDoc.DidDoc.Context = []string{}
 		}
 		if didDoc.DidDoc.Authentication == nil {
-			didDoc.DidDoc.Authentication = []string{}
+			didDoc.DidDoc.Authentication = []*didtypes.VerificationRelationship{}
 		}
 		if didDoc.DidDoc.AssertionMethod == nil {
-			didDoc.DidDoc.AssertionMethod = []string{}
+			didDoc.DidDoc.AssertionMethod = []*didtypes.VerificationRelationship{}
 		}
 		if didDoc.DidDoc.CapabilityInvocation == nil {
-			didDoc.DidDoc.CapabilityInvocation = []string{}
+			didDoc.DidDoc.CapabilityInvocation = []*didtypes.VerificationRelationship{}
 		}
 		if didDoc.DidDoc.CapabilityDelegation == nil {
-			didDoc.DidDoc.CapabilityDelegation = []string{}
+			didDoc.DidDoc.CapabilityDelegation = []*didtypes.VerificationRelationship{}
 		}
 		if didDoc.DidDoc.KeyAgreement == nil {
-			didDoc.DidDoc.KeyAgreement = []string{}
+			didDoc.DidDoc.KeyAgreement = []*didtypes.VerificationRelationship{}
 		}
 		if didDoc.DidDoc.Service == nil {
 			didDoc.DidDoc.Service = []*didtypes.Service{}

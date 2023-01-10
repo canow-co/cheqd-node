@@ -53,8 +53,12 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs = []clitypes.SignInput{
@@ -204,9 +208,13 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 					VerificationMaterial: payload.VerificationMethod[0].VerificationMaterial,
 				},
 			},
-			Authentication:  payload.Authentication,
-			AssertionMethod: []string{payload.VerificationMethod[0].Id}, // <-- changed
-			VersionId:       uuid.NewString(),                           // <-- changed
+			Authentication: payload.Authentication,
+			AssertionMethod: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: payload.VerificationMethod[0].Id,
+				},
+			}, // <-- changed
+			VersionId: uuid.NewString(), // <-- changed
 		}
 
 		By("querying the fee payer account balance before the transaction")
@@ -286,9 +294,13 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 					VerificationMaterial: payload.VerificationMethod[0].VerificationMaterial,
 				},
 			},
-			Authentication:  payload.Authentication,
-			AssertionMethod: []string{payload.VerificationMethod[0].Id}, // <-- changed
-			VersionId:       uuid.NewString(),                           // <-- changed
+			Authentication: payload.Authentication,
+			AssertionMethod: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: payload.VerificationMethod[0].Id,
+				},
+			}, // <-- changed
+			VersionId: uuid.NewString(), // <-- changed
 		}
 
 		By("querying the fee payer account balance before the transaction")
@@ -553,9 +565,13 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 					VerificationMaterial: payload.VerificationMethod[0].VerificationMaterial,
 				},
 			},
-			Authentication:  payload.Authentication,
-			AssertionMethod: []string{payload.VerificationMethod[0].Id}, // <-- changed
-			VersionId:       uuid.NewString(),                           // <-- changed
+			Authentication: payload.Authentication,
+			AssertionMethod: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: payload.VerificationMethod[0].Id,
+				},
+			}, // <-- changed
+			VersionId: uuid.NewString(), // <-- changed
 		}
 
 		By("creating a feegrant")
