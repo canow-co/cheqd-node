@@ -203,4 +203,218 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		Expect(res5.Resources[0].CollectionId).To(Equal(secondCollectionId))
 		Expect(res5.Resources[0].Id).To(Equal(secondResourceId))
 	})
+
+	It("can create resource using signature by method referenced from Authentication verification relationship of DID document", func() {
+		// Create a new DID Doc
+		collectionId := uuid.NewString()
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + collectionId
+		keyId := did + "#key1"
+
+		pubKey, privKey, err := ed25519.GenerateKey(nil)
+		Expect(err).To(BeNil())
+
+		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
+		Expect(err).To(BeNil())
+
+		payload := types.MsgCreateDidDocPayload{
+			Id: did,
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                   keyId,
+					Type:                 "Ed25519VerificationKey2020",
+					Controller:           did,
+					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+				},
+			},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
+		}
+
+		signInputs := []clitypes.SignInput{
+			{
+				VerificationMethodId: keyId,
+				PrivKey:              privKey,
+			},
+		}
+
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		Expect(err).To(BeNil())
+		Expect(res.Code).To(BeEquivalentTo(0))
+
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can create resource"))
+		// Create a new Resource
+		resourceId := uuid.NewString()
+		resourceName := "TestResource"
+		resourceVersion := "1.0"
+		resourceType := "TestType"
+		resourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
+		Expect(err).To(BeNil())
+
+		res, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
+			CollectionId:    collectionId,
+			ResourceId:      resourceId,
+			ResourceName:    resourceName,
+			ResourceVersion: resourceVersion,
+			ResourceType:    resourceType,
+			ResourceFile:    resourceFile,
+		}, signInputs, testdata.BASE_ACCOUNT_1)
+		Expect(err).To(BeNil())
+		Expect(res.Code).To(BeEquivalentTo(0))
+
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query resource"))
+		// Query the Resource
+		res2, err := cli.QueryResource(collectionId, resourceId)
+		Expect(err).To(BeNil())
+
+		Expect(res2.Resource.Metadata.CollectionId).To(BeEquivalentTo(collectionId))
+		Expect(res2.Resource.Metadata.Id).To(BeEquivalentTo(resourceId))
+		Expect(res2.Resource.Metadata.Name).To(BeEquivalentTo(resourceName))
+		Expect(res2.Resource.Metadata.ResourceType).To(BeEquivalentTo(resourceType))
+		Expect(res2.Resource.Metadata.MediaType).To(Equal("application/json"))
+		Expect(res2.Resource.Resource.Data).To(BeEquivalentTo(testdata.JSON_FILE_CONTENT))
+	})
+
+	It("can create resource using signature by method embedded in Authentication verification relationship of DID document", func() {
+		// Create a new DID Doc
+		collectionId := uuid.NewString()
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + collectionId
+		keyId := did + "#key1"
+
+		pubKey, privKey, err := ed25519.GenerateKey(nil)
+		Expect(err).To(BeNil())
+
+		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
+		Expect(err).To(BeNil())
+
+		payload := types.MsgCreateDidDocPayload{
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethod: &types.VerificationMethod{
+						Id:                   keyId,
+						Type:                 "Ed25519VerificationKey2020",
+						Controller:           did,
+						VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+					},
+				},
+			},
+			VersionId: uuid.NewString(),
+		}
+
+		signInputs := []clitypes.SignInput{
+			{
+				VerificationMethodId: keyId,
+				PrivKey:              privKey,
+			},
+		}
+
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		Expect(err).To(BeNil())
+		Expect(res.Code).To(BeEquivalentTo(0))
+
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can create resource"))
+		// Create a new Resource
+		resourceId := uuid.NewString()
+		resourceName := "TestResource"
+		resourceVersion := "1.0"
+		resourceType := "TestType"
+		resourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
+		Expect(err).To(BeNil())
+
+		res, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
+			CollectionId:    collectionId,
+			ResourceId:      resourceId,
+			ResourceName:    resourceName,
+			ResourceVersion: resourceVersion,
+			ResourceType:    resourceType,
+			ResourceFile:    resourceFile,
+		}, signInputs, testdata.BASE_ACCOUNT_1)
+		Expect(err).To(BeNil())
+		Expect(res.Code).To(BeEquivalentTo(0))
+
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query resource"))
+		// Query the Resource
+		res2, err := cli.QueryResource(collectionId, resourceId)
+		Expect(err).To(BeNil())
+
+		Expect(res2.Resource.Metadata.CollectionId).To(BeEquivalentTo(collectionId))
+		Expect(res2.Resource.Metadata.Id).To(BeEquivalentTo(resourceId))
+		Expect(res2.Resource.Metadata.Name).To(BeEquivalentTo(resourceName))
+		Expect(res2.Resource.Metadata.ResourceType).To(BeEquivalentTo(resourceType))
+		Expect(res2.Resource.Metadata.MediaType).To(Equal("application/json"))
+		Expect(res2.Resource.Resource.Data).To(BeEquivalentTo(testdata.JSON_FILE_CONTENT))
+	})
+
+	It("can create resource using signature by method from VerificationMethod list of DID document and not referenced from its Authentication verification relationship", func() {
+		// Create a new DID Doc
+		collectionId := uuid.NewString()
+		did := "did:canow:" + network.DID_NAMESPACE + ":" + collectionId
+		keyId := did + "#key1"
+
+		pubKey, privKey, err := ed25519.GenerateKey(nil)
+		Expect(err).To(BeNil())
+
+		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
+		Expect(err).To(BeNil())
+
+		payload := types.MsgCreateDidDocPayload{
+			Id: did,
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                   keyId,
+					Type:                 "Ed25519VerificationKey2020",
+					Controller:           did,
+					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+				},
+			},
+			VersionId: uuid.NewString(),
+		}
+
+		signInputs := []clitypes.SignInput{
+			{
+				VerificationMethodId: keyId,
+				PrivKey:              privKey,
+			},
+		}
+
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1)
+		Expect(err).To(BeNil())
+		Expect(res.Code).To(BeEquivalentTo(0))
+
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can create resource"))
+		// Create a new Resource
+		resourceId := uuid.NewString()
+		resourceName := "TestResource"
+		resourceVersion := "1.0"
+		resourceType := "TestType"
+		resourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
+		Expect(err).To(BeNil())
+
+		res, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
+			CollectionId:    collectionId,
+			ResourceId:      resourceId,
+			ResourceName:    resourceName,
+			ResourceVersion: resourceVersion,
+			ResourceType:    resourceType,
+			ResourceFile:    resourceFile,
+		}, signInputs, testdata.BASE_ACCOUNT_1)
+		Expect(err).To(BeNil())
+		Expect(res.Code).To(BeEquivalentTo(0))
+
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query resource"))
+		// Query the Resource
+		res2, err := cli.QueryResource(collectionId, resourceId)
+		Expect(err).To(BeNil())
+
+		Expect(res2.Resource.Metadata.CollectionId).To(BeEquivalentTo(collectionId))
+		Expect(res2.Resource.Metadata.Id).To(BeEquivalentTo(resourceId))
+		Expect(res2.Resource.Metadata.Name).To(BeEquivalentTo(resourceName))
+		Expect(res2.Resource.Metadata.ResourceType).To(BeEquivalentTo(resourceType))
+		Expect(res2.Resource.Metadata.MediaType).To(Equal("application/json"))
+		Expect(res2.Resource.Resource.Data).To(BeEquivalentTo(testdata.JSON_FILE_CONTENT))
+	})
 })
