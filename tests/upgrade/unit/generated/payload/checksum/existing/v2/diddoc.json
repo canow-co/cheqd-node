@@ -6,7 +6,9 @@
             "did:canow:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb"
         ],
         "authentication": [
-            "did:canow:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb#key-1"
+            {
+                "verificationMethodId": "did:canow:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb#key-1"
+            }
         ],
         "assertionMethod": [],
         "capabilityInvocation": [],

@@ -35,25 +35,47 @@
             }
         ],
         "authentication": [
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-1",
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-2"
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-1"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-2"
+            }
         ],
         "assertion_method": [
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-3"
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-3"
+            }
         ],
         "capability_invocation": [
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-4",
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-1"
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-4"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-1"
+            }
         ],
         "capability_delegation": [
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-4",
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-2"
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-4"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-2"
+            }
         ],
         "key_agreement": [
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-1",
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-2",
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-3",
-            "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-4"
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-1"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-2"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-3"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:FDFECBD2-A84A-4FB2-B634-E3FDB00F2ABC#key-4"
+            }
         ],
         "service": [
             {
