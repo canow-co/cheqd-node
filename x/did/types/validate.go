@@ -83,6 +83,17 @@ func IsDIDUrl(method string, allowedNamespaces []string, pathRule, queryRule, fr
 	})
 }
 
+func IsValidVerificationMethodReference(sharedVerificationMethods []*VerificationMethod) *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsValidVerificationMethodReference must be only applied on string properties")
+		}
+
+		return validateVerificationMethodReference(casted, sharedVerificationMethods)
+	})
+}
+
 func IsURI() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
@@ -229,6 +240,15 @@ func validateDIDUrl(did string, method string, allowedNamespaces []string, pathR
 
 	if fragmentRule == Empty && fragment != "" {
 		return errors.New("fragment must be empty")
+	}
+
+	return nil
+}
+
+func validateVerificationMethodReference(verificationMethodReference string, sharedVerificationMethods []*VerificationMethod) error {
+	_, found := FindVerificationMethod(sharedVerificationMethods, verificationMethodReference)
+	if !found {
+		return fmt.Errorf("can't resolve verification method reference: %s", verificationMethodReference)
 	}
 
 	return nil

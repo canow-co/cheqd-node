@@ -55,8 +55,12 @@ var _ = Describe("cheqd cli - positive resource pricing", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*didtypes.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs = []clitypes.SignInput{

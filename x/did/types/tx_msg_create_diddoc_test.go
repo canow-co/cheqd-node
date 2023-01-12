@@ -40,8 +40,12 @@ var _ = Describe("Message for DID creation", func() {
 								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#aaa"},
-						VersionId:      uuid.NewString(),
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
+						VersionId: uuid.NewString(),
 					},
 					Signatures: nil,
 				},
@@ -62,12 +66,19 @@ var _ = Describe("Message for DID creation", func() {
 								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#key1"},
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
 					},
 					Signatures: nil,
 				},
 				isValid:  false,
-				errorMsg: "payload: (authentication: there should be no duplicates.).: basic validation failed",
+				errorMsg: "payload: (authentication: there are verification relationships with same IDs.).: basic validation failed",
 			}),
 	)
 })

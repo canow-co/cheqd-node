@@ -67,7 +67,10 @@ func (k MsgServer) CreateDidDoc(goCtx context.Context, msg *types.MsgCreateDidDo
 
 func GetSignerDIDsForDIDCreation(did types.DidDoc) []string {
 	res := did.GetControllersOrSubject()
-	res = append(res, did.GetVerificationMethodControllers()...)
+
+	for _, vm := range getEffectiveAuthenticationMethods(&did) {
+		res = append(res, vm.Controller)
+	}
 
 	return utils.UniqueSorted(res)
 }

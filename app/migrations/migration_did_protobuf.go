@@ -128,11 +128,11 @@ func MigrateDidDoc(oldDid *didtypesv1.Did) didtypes.DidDoc {
 		Service:              srvs,
 		Context:              oldDid.Context,
 		Controller:           oldDid.Controller,
-		Authentication:       oldDid.Authentication,
-		AssertionMethod:      oldDid.AssertionMethod,
-		CapabilityDelegation: oldDid.CapabilityDelegation,
-		CapabilityInvocation: oldDid.CapabilityInvocation,
-		KeyAgreement:         oldDid.KeyAgreement,
+		Authentication:       MigrateVerificationRelationships(oldDid.Authentication),
+		AssertionMethod:      MigrateVerificationRelationships(oldDid.AssertionMethod),
+		CapabilityDelegation: MigrateVerificationRelationships(oldDid.CapabilityDelegation),
+		CapabilityInvocation: MigrateVerificationRelationships(oldDid.CapabilityInvocation),
+		KeyAgreement:         MigrateVerificationRelationships(oldDid.KeyAgreement),
 		AlsoKnownAs:          oldDid.AlsoKnownAs,
 	}
 }
@@ -185,4 +185,14 @@ func MigrateVerificationMaterial(vm *didtypesv1.VerificationMethod) string {
 	default:
 		panic("Unknown type")
 	}
+}
+
+func MigrateVerificationRelationships(vrs []string) []*didtypes.VerificationRelationship {
+	res := []*didtypes.VerificationRelationship{}
+	for _, vr := range vrs {
+		res = append(res, &didtypes.VerificationRelationship{
+			VerificationMethodId: vr,
+		})
+	}
+	return res
 }

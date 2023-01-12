@@ -73,8 +73,12 @@ var _ = Describe("cheqd cli - negative resource pricing", func() {
 					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
 				},
 			},
-			Authentication: []string{keyId},
-			VersionId:      uuid.NewString(),
+			Authentication: []*didtypes.VerificationRelationship{
+				{
+					VerificationMethodId: keyId,
+				},
+			},
+			VersionId: uuid.NewString(),
 		}
 
 		signInputs = []clitypes.SignInput{
