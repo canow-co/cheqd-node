@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strconv"
 
-	integrationhelpers "github.com/cheqd/cheqd-node/tests/integration/helpers"
+	integrationhelpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/google/uuid"
 )
 

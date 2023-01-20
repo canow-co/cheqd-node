@@ -4,60 +4,60 @@
             "abc",
             "def"
         ],
-        "id": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
+        "id": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
         "controller": [
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5"
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5"
         ],
         "verification_method": [
             {
-                "id": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-1",
+                "id": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-1",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
+                "controller": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
                 "verification_material": "z6Mkw16FU8WVLAqScmkaj1AHHfGVSzAjsbccjuxYGiP2ZSiN"
             },
             {
-                "id": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-2",
+                "id": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-2",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
+                "controller": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
                 "verification_material": "z6Mks54F5e3v1uDtdGTmFRd71ed19h56SyABVL7SwPoSk4Fq"
             },
             {
-                "id": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-3",
+                "id": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-3",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
+                "controller": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
                 "verification_material": "z6MkfsqJdjYSsuBSL3osT7a9VRAMhKPztqvA2otbr6cKWvRJ"
             },
             {
-                "id": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-4",
+                "id": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-4",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
+                "controller": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5",
                 "verification_material": "z6MknyD9Tm3NN6khHabqkt5jEwfSaRCXM4stL6UhJjwrgYZG"
             }
         ],
         "authentication": [
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-1",
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-2"
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-1",
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-2"
         ],
         "assertion_method": [
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-3"
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-3"
         ],
         "capability_invocation": [
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-4",
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-1"
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-4",
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-1"
         ],
         "capability_delegation": [
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-4",
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-2"
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-4",
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-2"
         ],
         "key_agreement": [
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-1",
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-2",
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-3",
-            "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-4"
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-1",
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-2",
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-3",
+            "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#key-4"
         ],
         "service": [
             {
-                "id": "did:cheqd:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#service-1",
+                "id": "did:canow:testnet:e77cc679-ada0-4a71-8738-918f388fcbb5#service-1",
                 "serviceType": "type-1",
                 "service_endpoint": [
                     "endpoint-1"

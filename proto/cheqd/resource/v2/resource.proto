@@ -80,8 +80,8 @@ message Metadata {
 message AlternativeUri {
   // uri is the URI of the Resource.
   // Examples:
-  // - did:cheqd:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
-  // - https://resolver..cheqd.net/1.0/identifiers/did:cheqd:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
+  // - did:canow:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
+  // - https://resolver..cheqd.net/1.0/identifiers/did:canow:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
   // - https://example.com/example.json
   // - https://gateway.ipfs.io/ipfs/bafybeihetj2ng3d74k7t754atv2s5dk76pcqtvxls6dntef3xa6rax25xe
   // - ipfs://bafybeihetj2ng3d74k7t754atv2s5dk76pcqtvxls6dntef3xa6rax25xe

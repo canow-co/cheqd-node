@@ -5,8 +5,8 @@ import (
 
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	cheqdsimapp "github.com/cheqd/cheqd-node/simapp"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
+	cheqdsimapp "github.com/canow-co/cheqd-node/simapp"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	"github.com/cosmos/cosmos-sdk/x/params"

@@ -5,7 +5,7 @@ import "cosmos/base/v1beta1/coin.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/cheqd/cheqd-node/x/resource/types";
+option go_package = "github.com/canow-co/cheqd-node/x/resource/types";
 option (gogoproto.equal_all) = true;
 
 // FeeParams defines the parameters for the cheqd Resource module fixed fee.

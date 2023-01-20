@@ -10,7 +10,7 @@ import (
 	"github.com/canow-co/cheqd-node/tests/integration/network"
 	"github.com/canow-co/cheqd-node/tests/integration/testdata"
 	cli_types "github.com/canow-co/cheqd-node/x/did/client/cli"
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	"github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/google/uuid"
 
@@ -149,7 +149,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 	It("can create diddoc, update it and query the result (JsonWebKey2020)", func() {
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can create diddoc (JsonWebKey2020)"))
 		// Create a new DID Doc
-		did := "did:cheqd:" + network.DidNamespace + ":" + uuid.NewString()
+		did := "did:canow:" + network.DidNamespace + ":" + uuid.NewString()
 		keyID := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -270,7 +270,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 	It("can create diddoc, update it and query the result (Ed25519VerificationKey2018)", func() {
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can create diddoc (Ed25519VerificationKey2018)"))
 		// Create a new DID Doc
-		did := "did:cheqd:" + network.DidNamespace + ":" + uuid.NewString()
+		did := "did:canow:" + network.DidNamespace + ":" + uuid.NewString()
 		keyID := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)

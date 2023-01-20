@@ -7,10 +7,10 @@ import (
 	"github.com/stretchr/testify/suite"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	cheqdapp "github.com/cheqd/cheqd-node/app"
-	"github.com/cheqd/cheqd-node/simapp"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	cheqdapp "github.com/canow-co/cheqd-node/app"
+	"github.com/canow-co/cheqd-node/simapp"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/tx"

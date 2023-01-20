@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	helpers "github.com/cheqd/cheqd-node/tests/integration/helpers"
+	helpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
 )
 
 func GetCaseName(path string) string {

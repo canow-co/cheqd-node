@@ -1,12 +1,12 @@
 package migrations
 
 import (
-	didkeeper "github.com/cheqd/cheqd-node/x/did/keeper"
-	didkeeperv1 "github.com/cheqd/cheqd-node/x/did/keeper/v1"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcekeeper "github.com/cheqd/cheqd-node/x/resource/keeper"
-	resourcekeeperv1 "github.com/cheqd/cheqd-node/x/resource/keeper/v1"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	didkeeper "github.com/canow-co/cheqd-node/x/did/keeper"
+	didkeeperv1 "github.com/canow-co/cheqd-node/x/did/keeper/v1"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcekeeper "github.com/canow-co/cheqd-node/x/resource/keeper"
+	resourcekeeperv1 "github.com/canow-co/cheqd-node/x/resource/keeper/v1"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"

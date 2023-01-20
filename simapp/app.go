@@ -97,14 +97,14 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v6/modules/core/keeper"
 
 	// cheqd specific imports
-	cheqdapp "github.com/cheqd/cheqd-node/app"
-	cheqdposthandler "github.com/cheqd/cheqd-node/post"
-	did "github.com/cheqd/cheqd-node/x/did"
-	didkeeper "github.com/cheqd/cheqd-node/x/did/keeper"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resource "github.com/cheqd/cheqd-node/x/resource"
-	resourcekeeper "github.com/cheqd/cheqd-node/x/resource/keeper"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	cheqdapp "github.com/canow-co/cheqd-node/app"
+	cheqdposthandler "github.com/canow-co/cheqd-node/post"
+	did "github.com/canow-co/cheqd-node/x/did"
+	didkeeper "github.com/canow-co/cheqd-node/x/did/keeper"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resource "github.com/canow-co/cheqd-node/x/resource"
+	resourcekeeper "github.com/canow-co/cheqd-node/x/resource/keeper"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 
 	// unnamed import of statik for swagger UI support
 	_ "github.com/cosmos/cosmos-sdk/client/docs/statik"

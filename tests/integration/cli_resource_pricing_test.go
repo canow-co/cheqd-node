@@ -5,15 +5,15 @@ package integration
 import (
 	"crypto/ed25519"
 
-	"github.com/cheqd/cheqd-node/tests/integration/cli"
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
-	"github.com/cheqd/cheqd-node/tests/integration/testdata"
-	clitypes "github.com/cheqd/cheqd-node/x/did/client/cli"
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcecli "github.com/cheqd/cheqd-node/x/resource/client/cli"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	"github.com/canow-co/cheqd-node/tests/integration/cli"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/tests/integration/testdata"
+	clitypes "github.com/canow-co/cheqd-node/x/did/client/cli"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcecli "github.com/canow-co/cheqd-node/x/resource/client/cli"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	"github.com/google/uuid"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -36,7 +36,7 @@ var _ = Describe("cheqd cli - positive resource pricing", func() {
 
 		// Create a new DID Doc
 		collectionID = uuid.NewString()
-		did := "did:cheqd:" + network.DidNamespace + ":" + collectionID
+		did := "did:canow:" + network.DidNamespace + ":" + collectionID
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)

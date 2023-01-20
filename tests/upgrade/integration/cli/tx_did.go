@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	integrationhelpers "github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/x/did/client/cli"
-	didtypesv2 "github.com/cheqd/cheqd-node/x/did/types"
-	didtypesv1 "github.com/cheqd/cheqd-node/x/did/types/v1"
+	integrationhelpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/x/did/client/cli"
+	didtypesv2 "github.com/canow-co/cheqd-node/x/did/types"
+	didtypesv1 "github.com/canow-co/cheqd-node/x/did/types/v1"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

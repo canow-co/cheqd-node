@@ -28,10 +28,17 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// QueryResourceRequest is the request type for the Query/Resource RPC method
 type QueryResourceRequest struct {
-	// is unique identifier a for collection
+	// collection_id is an identifier of the DidDocument the resource belongs to.
+	// Format: <unique-identifier>
+	//
+	// Examples:
+	// - c82f2b02-bdab-4dd7-b833-3e143745d612
+	// - wGHEXrZvJxR8vw5P3UWH1j
 	CollectionId string `protobuf:"bytes,1,opt,name=collection_id,json=collectionId,proto3" json:"collection_id,omitempty"`
-	// is unique identifier for a resource
+	// id is a unique id of the resource.
+	// Format: <uuid>
 	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 }
 
@@ -82,7 +89,11 @@ func (m *QueryResourceRequest) GetId() string {
 	return ""
 }
 
+// QueryResourceResponse is the response type for the Query/Resource RPC method
 type QueryResourceResponse struct {
+	// Successful resolution of the resource returns the following:
+	// - resource is the requested resource
+	// - metadata is the resource metadata associated with the requested resource
 	Resource *ResourceWithMetadata `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"`
 }
 
@@ -126,10 +137,17 @@ func (m *QueryResourceResponse) GetResource() *ResourceWithMetadata {
 	return nil
 }
 
+// QueryResourceMetadataRequest is the request type for the Query/ResourceMetadata RPC method
 type QueryResourceMetadataRequest struct {
-	// is unique identifier a for collection
+	// collection_id is an identifier of the DidDocument the resource belongs to.
+	// Format: <unique-identifier>
+	//
+	// Examples:
+	// - c82f2b02-bdab-4dd7-b833-3e143745d612
+	// - wGHEXrZvJxR8vw5P3UWH1j
 	CollectionId string `protobuf:"bytes,1,opt,name=collection_id,json=collectionId,proto3" json:"collection_id,omitempty"`
-	// is unique identifier for a resource
+	// id is a unique id of the resource.
+	// Format: <uuid>
 	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 }
 
@@ -180,7 +198,9 @@ func (m *QueryResourceMetadataRequest) GetId() string {
 	return ""
 }
 
+// QueryResourceMetadataResponse is the response type for the Query/ResourceMetadata RPC method
 type QueryResourceMetadataResponse struct {
+	// resource is the requested resource metadata
 	Resource *Metadata `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"`
 }
 
@@ -224,8 +244,14 @@ func (m *QueryResourceMetadataResponse) GetResource() *Metadata {
 	return nil
 }
 
+// QueryCollectionResourcesRequest is the request type for the Query/CollectionResources RPC method
 type QueryCollectionResourcesRequest struct {
-	// is unique identifier a for collection
+	// collection_id is an identifier of the DidDocument the resource belongs to.
+	// Format: <unique-identifier>
+	//
+	// Examples:
+	// - c82f2b02-bdab-4dd7-b833-3e143745d612
+	// - wGHEXrZvJxR8vw5P3UWH1j
 	CollectionId string `protobuf:"bytes,1,opt,name=collection_id,json=collectionId,proto3" json:"collection_id,omitempty"`
 }
 
@@ -269,7 +295,9 @@ func (m *QueryCollectionResourcesRequest) GetCollectionId() string {
 	return ""
 }
 
+// QueryCollectionResourcesResponse is the response type for the Query/CollectionResources RPC method
 type QueryCollectionResourcesResponse struct {
+	// resources is the requested collection of resource metadata
 	Resources []*Metadata `protobuf:"bytes,1,rep,name=resources,proto3" json:"resources,omitempty"`
 }
 
@@ -325,7 +353,7 @@ func init() {
 func init() { proto.RegisterFile("cheqd/resource/v2/query.proto", fileDescriptor_14284472e64722d9) }
 
 var fileDescriptor_14284472e64722d9 = []byte{
-	// 449 bytes of a gzipped FileDescriptorProto
+	// 456 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x4d, 0xce, 0x48, 0x2d,
 	0x4c, 0xd1, 0x2f, 0x4a, 0x2d, 0xce, 0x2f, 0x2d, 0x4a, 0x4e, 0xd5, 0x2f, 0x33, 0xd2, 0x2f, 0x2c,
 	0x4d, 0x2d, 0xaa, 0xd4, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0x04, 0x4b, 0xeb, 0xc1, 0xa4,
@@ -349,12 +377,12 @@ var fileDescriptor_14284472e64722d9 = []byte{
 	0x91, 0x32, 0x20, 0x5e, 0x03, 0xd4, 0xc9, 0x4e, 0x60, 0x27, 0xdb, 0x08, 0x59, 0x91, 0xec, 0x64,
 	0xfd, 0x5c, 0x98, 0x33, 0x37, 0x33, 0x72, 0x09, 0x63, 0x89, 0x3b, 0x21, 0x23, 0x5c, 0xae, 0xc1,
 	0x9d, 0x60, 0xa4, 0x8c, 0x49, 0xd2, 0x03, 0xf5, 0x84, 0x31, 0xd8, 0x13, 0xba, 0x42, 0xda, 0x44,
-	0x78, 0x02, 0xe6, 0x6a, 0x27, 0xb7, 0x13, 0x8f, 0xe4, 0x18, 0x2f, 0x3c, 0x92, 0x63, 0x7c, 0xf0,
+	0x78, 0x02, 0xe6, 0x6a, 0x27, 0xcf, 0x13, 0x8f, 0xe4, 0x18, 0x2f, 0x3c, 0x92, 0x63, 0x7c, 0xf0,
 	0x48, 0x8e, 0x71, 0xc2, 0x63, 0x39, 0x86, 0x0b, 0x8f, 0xe5, 0x18, 0x6e, 0x3c, 0x96, 0x63, 0x88,
-	0xd2, 0x49, 0xcf, 0x2c, 0xc9, 0x28, 0x4d, 0xd2, 0x4b, 0xce, 0xcf, 0x85, 0x1a, 0x08, 0x26, 0x75,
-	0xf3, 0xf2, 0x53, 0x52, 0xf5, 0x2b, 0x10, 0xa6, 0x97, 0x54, 0x16, 0xa4, 0x16, 0x27, 0xb1, 0x81,
-	0x8b, 0x19, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0xda, 0xf9, 0xe7, 0x82, 0xda, 0x04, 0x00,
-	0x00,
+	0xd2, 0x4f, 0xcf, 0x2c, 0xc9, 0x28, 0x4d, 0xd2, 0x4b, 0xce, 0xcf, 0xd5, 0x4f, 0x4e, 0xcc, 0xcb,
+	0x2f, 0xd7, 0x4d, 0xce, 0x87, 0x98, 0xac, 0x9b, 0x97, 0x9f, 0x92, 0xaa, 0x5f, 0x81, 0xb0, 0xa0,
+	0xa4, 0xb2, 0x20, 0xb5, 0x38, 0x89, 0x0d, 0x5c, 0xd2, 0x18, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff,
+	0x2a, 0x79, 0xf8, 0xfa, 0xdd, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -369,8 +397,11 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
+	// Fetch a resource from a collection with a given collection_id and id
 	Resource(ctx context.Context, in *QueryResourceRequest, opts ...grpc.CallOption) (*QueryResourceResponse, error)
+	// Fetch a resource's metadata from a collection with a given collection_id and id
 	ResourceMetadata(ctx context.Context, in *QueryResourceMetadataRequest, opts ...grpc.CallOption) (*QueryResourceMetadataResponse, error)
+	// Fetch all resource metadata from a collection with a given collection_id
 	CollectionResources(ctx context.Context, in *QueryCollectionResourcesRequest, opts ...grpc.CallOption) (*QueryCollectionResourcesResponse, error)
 }
 
@@ -411,8 +442,11 @@ func (c *queryClient) CollectionResources(ctx context.Context, in *QueryCollecti
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
+	// Fetch a resource from a collection with a given collection_id and id
 	Resource(context.Context, *QueryResourceRequest) (*QueryResourceResponse, error)
+	// Fetch a resource's metadata from a collection with a given collection_id and id
 	ResourceMetadata(context.Context, *QueryResourceMetadataRequest) (*QueryResourceMetadataResponse, error)
+	// Fetch all resource metadata from a collection with a given collection_id
 	CollectionResources(context.Context, *QueryCollectionResourcesRequest) (*QueryCollectionResourcesResponse, error)
 }
 

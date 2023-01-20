@@ -3,7 +3,7 @@ package resourcev2
 
 import (
 	fmt "fmt"
-	v2 "github.com/cheqd/cheqd-node/api/cheqd/did/v2"
+	v2 "github.com/canow-co/cheqd-node/api/cheqd/did/v2"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"

@@ -9,7 +9,7 @@ import (
 	"crypto/rsa"
 	"encoding/json"
 
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/lestrrat-go/jwx/jwk"
 	. "github.com/onsi/ginkgo/v2"
@@ -64,9 +64,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Verification method with expected base58 key",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#uio",
+				Id:                     "did:canow:zABCDEFG123456789abcd#uio",
 				VerificationMethodType: "Ed25519VerificationKey2018",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidEd25519VerificationKey2018VerificationMaterial,
 			},
 			isValid:  true,
@@ -158,9 +158,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Ed25519 key 2020 has unexpected format",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadlength,
 			},
 			isValid:  false,
@@ -340,9 +340,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Valid Ed25519VerificationKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 			},
 			isValid:  true,
@@ -353,9 +353,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Valid JsonWebKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			isValid:  true,
@@ -366,9 +366,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Valid Ed25519VerificationKey2018 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2018",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidEd25519VerificationKey2018VerificationMaterial,
 			},
 			isValid:  true,
@@ -379,9 +379,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Invalid Ed25519VerificationKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadlength,
 			},
 			isValid:  false,
@@ -392,9 +392,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Invalid Ed25519VerificationKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadPrefix,
 			},
 			isValid:  false,
@@ -405,9 +405,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Invalid JsonWebKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidJWK2020VerificationMaterial,
 			},
 			isValid:  false,
@@ -418,9 +418,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Invalid Ed25519VerificationKey2018 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2018",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2018VerificationMaterialBadLength,
 			},
 			isValid:  false,

@@ -9,7 +9,7 @@ import (
 
 	"github.com/canow-co/cheqd-node/app/migrations"
 	appparams "github.com/canow-co/cheqd-node/app/params"
-	posthandler "github.com/cheqd/cheqd-node/post"
+	posthandler "github.com/canow-co/cheqd-node/post"
 	did "github.com/canow-co/cheqd-node/x/did"
 	didkeeper "github.com/canow-co/cheqd-node/x/did/keeper"
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"

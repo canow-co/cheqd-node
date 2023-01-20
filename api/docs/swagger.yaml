@@ -63,7 +63,7 @@ paths:
                         type: string
                         title: |-
                           id is the DID of the DID document.
-                          Format: did:cheqd:<namespace>:<unique-identifier>
+                          Format: did:canow:<namespace>:<unique-identifier>
                       controller:
                         type: array
                         items:
@@ -83,7 +83,7 @@ paths:
                                 method.
 
                                 Format:
-                                did:cheqd:<namespace>:<unique-identifier>#<key-id>
+                                did:canow:<namespace>:<unique-identifier>#<key-id>
                             verification_method_type:
                               type: string
                               title: |-
@@ -96,7 +96,7 @@ paths:
                                 verification method.
 
                                 Format:
-                                did:cheqd:<namespace>:<unique-identifier>
+                                did:canow:<namespace>:<unique-identifier>
                             verification_material:
                               type: string
                               title: >-
@@ -172,7 +172,7 @@ paths:
                                 id is the unique identifier of the service.
 
                                 Format:
-                                did:cheqd:<namespace>:<unique-identifier>#<service-id>
+                                did:canow:<namespace>:<unique-identifier>#<service-id>
                             service_type:
                               type: string
                               title: |-
@@ -306,11 +306,11 @@ paths:
             DID unique identifier of the DID Document to fetch.
             UUID-style DIDs as well as Indy-style DID are supported.
 
-            Format: did:cheqd:<namespace>:<unique-identifier>
+            Format: did:canow:<namespace>:<unique-identifier>
 
             Examples:
-            - did:cheqd:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
-            - did:cheqd:testnet:wGHEXrZvJxR8vw5P3UWH1j
+            - did:canow:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
+            - did:canow:testnet:wGHEXrZvJxR8vw5P3UWH1j
           in: path
           required: true
           type: string
@@ -354,7 +354,7 @@ paths:
                         type: string
                         title: |-
                           id is the DID of the DID document.
-                          Format: did:cheqd:<namespace>:<unique-identifier>
+                          Format: did:canow:<namespace>:<unique-identifier>
                       controller:
                         type: array
                         items:
@@ -374,7 +374,7 @@ paths:
                                 method.
 
                                 Format:
-                                did:cheqd:<namespace>:<unique-identifier>#<key-id>
+                                did:canow:<namespace>:<unique-identifier>#<key-id>
                             verification_method_type:
                               type: string
                               title: |-
@@ -387,7 +387,7 @@ paths:
                                 verification method.
 
                                 Format:
-                                did:cheqd:<namespace>:<unique-identifier>
+                                did:canow:<namespace>:<unique-identifier>
                             verification_material:
                               type: string
                               title: >-
@@ -463,7 +463,7 @@ paths:
                                 id is the unique identifier of the service.
 
                                 Format:
-                                did:cheqd:<namespace>:<unique-identifier>#<service-id>
+                                did:canow:<namespace>:<unique-identifier>#<service-id>
                             service_type:
                               type: string
                               title: |-
@@ -597,11 +597,11 @@ paths:
             DID unique identifier of the DID Document to fetch.
             UUID-style DIDs as well as Indy-style DID are supported.
 
-            Format: did:cheqd:<namespace>:<unique-identifier>
+            Format: did:canow:<namespace>:<unique-identifier>
 
             Examples:
-            - did:cheqd:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
-            - did:cheqd:testnet:wGHEXrZvJxR8vw5P3UWH1j
+            - did:canow:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
+            - did:canow:testnet:wGHEXrZvJxR8vw5P3UWH1j
           in: path
           required: true
           type: string
@@ -746,11 +746,11 @@ paths:
             DID unique identifier of the DID Document to fetch version metadata.
             UUID-style DIDs as well as Indy-style DID are supported.
 
-            Format: did:cheqd:<namespace>:<unique-identifier>
+            Format: did:canow:<namespace>:<unique-identifier>
 
             Examples:
-            - did:cheqd:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
-            - did:cheqd:testnet:wGHEXrZvJxR8vw5P3UWH1j
+            - did:canow:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
+            - did:canow:testnet:wGHEXrZvJxR8vw5P3UWH1j
           in: path
           required: true
           type: string
@@ -884,10 +884,10 @@ paths:
                               Examples:
 
                               -
-                              did:cheqd:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
+                              did:canow:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
 
                               -
-                              https://resolver..cheqd.net/1.0/identifiers/did:cheqd:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
+                              https://resolver..cheqd.net/1.0/identifiers/did:canow:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
 
                               - https://example.com/example.json
 
@@ -1095,10 +1095,10 @@ paths:
                                 Examples:
 
                                 -
-                                did:cheqd:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
+                                did:canow:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
 
                                 -
-                                https://resolver..cheqd.net/1.0/identifiers/did:cheqd:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
+                                https://resolver..cheqd.net/1.0/identifiers/did:canow:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
 
                                 - https://example.com/example.json
 
@@ -1296,10 +1296,10 @@ paths:
                             Examples:
 
                             -
-                            did:cheqd:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
+                            did:canow:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
 
                             -
-                            https://resolver..cheqd.net/1.0/identifiers/did:cheqd:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
+                            https://resolver..cheqd.net/1.0/identifiers/did:canow:testnet:MjYxNzYKMjYxNzYK/resources/4600ea35-8916-4ac4-b412-55b8f49dd94e
 
                             - https://example.com/example.json
 

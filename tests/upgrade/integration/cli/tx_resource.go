@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"path/filepath"
 
-	// integrationhelpers "github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/x/did/client/cli"
-	types "github.com/cheqd/cheqd-node/x/resource/types"
+	// integrationhelpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/x/did/client/cli"
+	types "github.com/canow-co/cheqd-node/x/resource/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	// . "github.com/onsi/ginkgo/v2"
 )

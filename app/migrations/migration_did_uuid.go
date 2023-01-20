@@ -1,8 +1,8 @@
 package migrations
 
 import (
-	"github.com/cheqd/cheqd-node/app/migrations/helpers"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/app/migrations/helpers"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

@@ -5,13 +5,13 @@ package integration
 import (
 	"crypto/ed25519"
 
-	"github.com/cheqd/cheqd-node/tests/integration/cli"
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
-	"github.com/cheqd/cheqd-node/tests/integration/testdata"
-	clitypes "github.com/cheqd/cheqd-node/x/did/client/cli"
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/tests/integration/cli"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/tests/integration/testdata"
+	clitypes "github.com/canow-co/cheqd-node/x/did/client/cli"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	"github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/google/uuid"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -53,7 +53,7 @@ var _ = Describe("cheqd cli - negative diddoc pricing", func() {
 		Expect(err).To(BeNil())
 
 		// Create a new DID Doc
-		did := "did:cheqd:" + network.DidNamespace + ":" + uuid.NewString()
+		did := "did:canow:" + network.DidNamespace + ":" + uuid.NewString()
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)

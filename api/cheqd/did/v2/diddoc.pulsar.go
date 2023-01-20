@@ -4220,7 +4220,7 @@ type DidDoc struct {
 	// Default: https://www.w3.org/ns/did/v1
 	Context []string `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
 	// id is the DID of the DID document.
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	// controller is a list of DIDs that are allowed to control the DID document.
 	Controller []string `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
@@ -4353,13 +4353,13 @@ type VerificationMethod struct {
 	unknownFields protoimpl.UnknownFields
 
 	// id is the unique identifier of the verification method.
-	// Format: did:cheqd:<namespace>:<unique-identifier>#<key-id>
+	// Format: did:canow:<namespace>:<unique-identifier>#<key-id>
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// type is the type of the verification method.
 	// Example: Ed25519VerificationKey2020
 	VerificationMethodType string `protobuf:"bytes,2,opt,name=verification_method_type,json=verificationMethodType,proto3" json:"verification_method_type,omitempty"`
 	// controller is the DID of the controller of the verification method.
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	Controller string `protobuf:"bytes,3,opt,name=controller,proto3" json:"controller,omitempty"`
 	// verification_material is the public key of the verification method.
 	// Commonly used verification material types: publicJwk, publicKeyBase58, publicKeyMultibase
@@ -4422,7 +4422,7 @@ type Service struct {
 	unknownFields protoimpl.UnknownFields
 
 	// id is the unique identifier of the service.
-	// Format: did:cheqd:<namespace>:<unique-identifier>#<service-id>
+	// Format: did:canow:<namespace>:<unique-identifier>#<service-id>
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// type is the type of the service.
 	// Example: LinkedResource
