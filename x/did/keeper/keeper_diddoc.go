@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/canow-co/cheqd-node/x/did/types"
-	. "github.com/canow-co/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -14,7 +14,7 @@ import (
 func (k Keeper) GetDidDocCount(ctx *sdk.Context) uint64 {
 	store := ctx.KVStore(k.storeKey)
 
-	key := StrBytes(types.DidDocCountKey)
+	key := utils.StrBytes(types.DidDocCountKey)
 	valueBytes := store.Get(key)
 
 	// Count doesn't exist: no element
@@ -36,7 +36,7 @@ func (k Keeper) GetDidDocCount(ctx *sdk.Context) uint64 {
 func (k Keeper) SetDidDocCount(ctx *sdk.Context, count uint64) {
 	store := ctx.KVStore(k.storeKey)
 
-	key := StrBytes(types.DidDocCountKey)
+	key := utils.StrBytes(types.DidDocCountKey)
 	valueBytes := []byte(strconv.FormatUint(count, 10))
 
 	store.Set(key, valueBytes)
@@ -50,12 +50,12 @@ func (k Keeper) AddNewDidDocVersion(ctx *sdk.Context, didDoc *types.DidDocWithMe
 
 	// Link to the previous version if it exists
 	if k.HasDidDoc(ctx, didDoc.DidDoc.Id) {
-		latestVersionId, err := k.GetLatestDidDocVersion(ctx, didDoc.DidDoc.Id)
+		latestVersionID, err := k.GetLatestDidDocVersion(ctx, didDoc.DidDoc.Id)
 		if err != nil {
 			return err
 		}
 
-		latestVersion, err := k.GetDidDocVersion(ctx, didDoc.DidDoc.Id, latestVersionId)
+		latestVersion, err := k.GetDidDocVersion(ctx, didDoc.DidDoc.Id, latestVersionID)
 		if err != nil {
 			return err
 		}
@@ -82,12 +82,12 @@ func (k Keeper) AddNewDidDocVersion(ctx *sdk.Context, didDoc *types.DidDocWithMe
 }
 
 func (k Keeper) GetLatestDidDoc(ctx *sdk.Context, did string) (types.DidDocWithMetadata, error) {
-	latestVersionId, err := k.GetLatestDidDocVersion(ctx, did)
+	latestVersionID, err := k.GetLatestDidDocVersion(ctx, did)
 	if err != nil {
 		return types.DidDocWithMetadata{}, err
 	}
 
-	latestVersion, err := k.GetDidDocVersion(ctx, did, latestVersionId)
+	latestVersion, err := k.GetDidDocVersion(ctx, did, latestVersionID)
 	if err != nil {
 		return types.DidDocWithMetadata{}, err
 	}
@@ -156,7 +156,7 @@ func (k Keeper) SetLatestDidDocVersion(ctx *sdk.Context, did, version string) er
 	store := ctx.KVStore(k.storeKey)
 
 	key := types.GetLatestDidDocVersionKey(did)
-	valueBytes := StrBytes(version)
+	valueBytes := utils.StrBytes(version)
 	store.Set(key, valueBytes)
 
 	return nil
@@ -187,41 +187,85 @@ func (k Keeper) HasDidDocVersion(ctx *sdk.Context, id, version string) bool {
 	return store.Has(types.GetDidDocVersionKey(id, version))
 }
 
-// GetAllDidDocs returns all did
-// Loads all DIDs in memory. Use only for genesis export.
-func (k Keeper) GetAllDidDocs(ctx *sdk.Context) []*types.DidDocVersionSet {
+func (k Keeper) IterateDids(ctx *sdk.Context, callback func(did string) (continue_ bool)) {
 	store := ctx.KVStore(k.storeKey)
 	latestVersionIterator := sdk.KVStorePrefixIterator(store, types.GetLatestDidDocVersionPrefix())
 	defer closeIteratorOrPanic(latestVersionIterator)
 
-	var didDocs []*types.DidDocVersionSet
-
 	for ; latestVersionIterator.Valid(); latestVersionIterator.Next() {
 		// Get did from key
 		key := string(latestVersionIterator.Key())
-		did := strings.Split(key, ":")[1]
+		did := strings.Join(strings.Split(key, ":")[1:], ":")
 
-		// Get the latest version
-		latestVersion := string(latestVersionIterator.Value())
+		if !callback(did) {
+			break
+		}
+	}
+}
+
+func (k Keeper) IterateDidDocVersions(ctx *sdk.Context, did string, callback func(version types.DidDocWithMetadata) (continue_ bool)) {
+	store := ctx.KVStore(k.storeKey)
+	versionIterator := sdk.KVStorePrefixIterator(store, types.GetDidDocVersionsPrefix(did))
+	defer closeIteratorOrPanic(versionIterator)
+
+	for ; versionIterator.Valid(); versionIterator.Next() {
+		var didDoc types.DidDocWithMetadata
+		k.cdc.MustUnmarshal(versionIterator.Value(), &didDoc)
+
+		if !callback(didDoc) {
+			break
+		}
+	}
+}
+
+func (k Keeper) IterateAllDidDocVersions(ctx *sdk.Context, callback func(version types.DidDocWithMetadata) (continue_ bool)) {
+	store := ctx.KVStore(k.storeKey)
+	allVersionsIterator := sdk.KVStorePrefixIterator(store, []byte(types.DidDocVersionKey))
+	defer closeIteratorOrPanic(allVersionsIterator)
+
+	for ; allVersionsIterator.Valid(); allVersionsIterator.Next() {
+		var didDoc types.DidDocWithMetadata
+		k.cdc.MustUnmarshal(allVersionsIterator.Value(), &didDoc)
+
+		if !callback(didDoc) {
+			break
+		}
+	}
+}
+
+// GetAllDidDocs returns all did
+// Loads all DIDs in memory. Use only for genesis export.
+func (k Keeper) GetAllDidDocs(ctx *sdk.Context) ([]*types.DidDocVersionSet, error) {
+	var didDocs []*types.DidDocVersionSet
+	var err error
+
+	k.IterateDids(ctx, func(did string) bool {
+		var latestVersion string
+		latestVersion, err = k.GetLatestDidDocVersion(ctx, did)
+		if err != nil {
+			return false
+		}
 
 		didDocVersionSet := types.DidDocVersionSet{
 			LatestVersion: latestVersion,
 		}
 
-		// Get all versions
-		versionIterator := sdk.KVStorePrefixIterator(store, types.GetDidDocVersionsPrefix(did))
-		defer closeIteratorOrPanic(versionIterator)
+		k.IterateDidDocVersions(ctx, did, func(version types.DidDocWithMetadata) bool {
+			didDocVersionSet.DidDocs = append(didDocVersionSet.DidDocs, &version)
 
-		for ; versionIterator.Valid(); versionIterator.Next() {
-			// Get the diddoc
-			var didDoc types.DidDocWithMetadata
-			k.cdc.MustUnmarshal(versionIterator.Value(), &didDoc)
+			return true
+		})
 
-			didDocVersionSet.DidDocs = append(didDocVersionSet.DidDocs, &didDoc)
-		}
+		didDocs = append(didDocs, &didDocVersionSet)
+
+		return true
+	})
+
+	if err != nil {
+		return nil, err
 	}
 
-	return didDocs
+	return didDocs, nil
 }
 
 func closeIteratorOrPanic(iterator sdk.Iterator) {

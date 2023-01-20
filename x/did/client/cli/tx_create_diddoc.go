@@ -12,8 +12,8 @@ import (
 func CmdCreateDidDoc() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-did [payload-file]",
-		Short: "Creates a new DID and associated DIDDoc.",
-		Long: "Creates a new DID and associated DIDDoc. " +
+		Short: "Create a new DID and associated DID Document.",
+		Long: "Creates a new DID and associated DID Document. " +
 			"[payload-file] is JSON encoded MsgCreateDidDocPayload alongside with sign inputs.",
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -22,16 +22,21 @@ func CmdCreateDidDoc() *cobra.Command {
 				return err
 			}
 
+			// 1. Add utility-fee as 2nd arg
+			// 2. Short
+			// 3. Long
+			// 4. Show example to query the actual params `cheqd-noded query params subspace cheqd`
+
 			payloadFile := args[0]
 
-			payloadJson, signInputs, err := ReadPayloadWithSignInputsFromFile(payloadFile)
+			payloadJSON, signInputs, err := ReadPayloadWithSignInputsFromFile(payloadFile)
 			if err != nil {
 				return err
 			}
 
 			// Unmarshal payload
 			var payload types.MsgCreateDidDocPayload
-			err = clientCtx.Codec.UnmarshalJSON([]byte(payloadJson), &payload)
+			err = clientCtx.Codec.UnmarshalJSON([]byte(payloadJSON), &payload)
 			if err != nil {
 				return err
 			}

@@ -2,7 +2,6 @@ package cli
 
 import (
 	"encoding/json"
-	"strings"
 
 	"github.com/canow-co/cheqd-node/tests/integration/helpers"
 	"github.com/canow-co/cheqd-node/tests/integration/network"
@@ -12,21 +11,27 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-var CLI_TX_PARAMS = []string{
-	"--chain-id", network.CHAIN_ID,
-	"--keyring-backend", KEYRING_BACKEND,
-	"--output", OUTPUT_FORMAT,
-	"--gas", GAS,
-	"--gas-adjustment", GAS_ADJUSTMENT,
-	"--gas-prices", GAS_PRICES,
+var CLITxParams = []string{
+	"--chain-id", network.ChainID,
+	"--keyring-backend", KeyringBackend,
+	"--output", OutputFormat,
 	"--yes",
 }
 
-func Tx(module, tx, from string, txArgs ...string) (sdk.TxResponse, error) {
+var CliGasParams = []string{
+	"--gas", Gas,
+	"--gas-adjustment", GasAdjustment,
+	"--gas-prices", GasPrices,
+}
+
+func Tx(module, tx, from string, feeParams []string, txArgs ...string) (sdk.TxResponse, error) {
 	args := []string{"tx", module, tx}
 
 	// Common params
-	args = append(args, CLI_TX_PARAMS...)
+	args = append(args, CLITxParams...)
+
+	// Fee params
+	args = append(args, feeParams...)
 
 	// Cosmos account
 	args = append(args, "--from", from)
@@ -39,8 +44,8 @@ func Tx(module, tx, from string, txArgs ...string) (sdk.TxResponse, error) {
 		return sdk.TxResponse{}, err
 	}
 
-	// Skip 'gas estimate: xxx' string
-	output = strings.Split(output, "\n")[1]
+	// Skip 'gas estimate: xxx' string, trim 'Successfully migrated key' string
+	output = helpers.TrimImportedStdout(output)
 
 	var resp sdk.TxResponse
 
@@ -51,6 +56,15 @@ func Tx(module, tx, from string, txArgs ...string) (sdk.TxResponse, error) {
 
 	return resp, nil
 }
+
+func GrantFees(granter, grantee string, feeParams []string) (sdk.TxResponse, error) {
+	return Tx("feegrant", "grant", granter, feeParams, granter, grantee)
+}
+
+func RevokeFeeGrant(granter, grantee string, feeParams []string) (sdk.TxResponse, error) {
+	return Tx("feegrant", "revoke", granter, feeParams, granter, grantee)
+}
+
 
 func TransferToken(from string, to string, amount string) (sdk.TxResponse, error) {
 	return Tx("bank", "send", from, from, to, amount)
@@ -64,82 +78,79 @@ func CreateDidDoc(tmpDit string, payload types.MsgCreateDidDocPayload, signInput
 	}
 
 	payloadWithSignInputs := cli.PayloadWithSignInputs{
-		Payload:    payloadJson,
+		Payload:    payloadJSON,
 		SignInputs: signInputs,
 	}
 
-	payloadWithSignInputsJson, err := json.Marshal(&payloadWithSignInputs)
+	payloadWithSignInputsJSON, err := json.Marshal(&payloadWithSignInputs)
 	if err != nil {
 		return sdk.TxResponse{}, err
 	}
 
-	payloadFile := helpers.MustWriteTmpFile(tmpDit, []byte(payloadWithSignInputsJson))
+	payloadFile := helpers.MustWriteTmpFile(tmpDir, payloadWithSignInputsJSON)
 
-	return Tx("cheqd", "create-did", from, payloadFile)
+	return Tx("cheqd", "create-did", from, feeParams, payloadFile)
 }
 
-func UpdateDidDoc(tmpDir string, payload types.MsgUpdateDidDocPayload, signInputs []cli.SignInput, from string) (sdk.TxResponse, error) {
-	// Payload
-	payloadJson, err := helpers.Codec.MarshalJSON(&payload)
+func UpdateDidDoc(tmpDir string, payload types.MsgUpdateDidDocPayload, signInputs []cli.SignInput, from string, feeParams []string) (sdk.TxResponse, error) {
+	payloadJSON, err := helpers.Codec.MarshalJSON(&payload)
 	if err != nil {
 		return sdk.TxResponse{}, err
 	}
 
 	payloadWithSignInputs := cli.PayloadWithSignInputs{
-		Payload:    payloadJson,
+		Payload:    payloadJSON,
 		SignInputs: signInputs,
 	}
 
-	payloadWithSignInputsJson, err := json.Marshal(&payloadWithSignInputs)
+	payloadWithSignInputsJSON, err := json.Marshal(&payloadWithSignInputs)
 	if err != nil {
 		return sdk.TxResponse{}, err
 	}
 
-	payloadFile := helpers.MustWriteTmpFile(tmpDir, []byte(payloadWithSignInputsJson))
+	payloadFile := helpers.MustWriteTmpFile(tmpDir, payloadWithSignInputsJSON)
 
-	return Tx("cheqd", "update-did", from, payloadFile)
+	return Tx("cheqd", "update-did", from, feeParams, payloadFile)
 }
 
-func DeactivateDidDoc(tmpDir string, payload types.MsgUpdateDidDocPayload, signInputs []cli.SignInput, from string) (sdk.TxResponse, error) {
-	// Payload
-	payloadJson, err := helpers.Codec.MarshalJSON(&payload)
+func DeactivateDidDoc(tmpDir string, payload types.MsgDeactivateDidDocPayload, signInputs []cli.SignInput, from string, feeParams []string) (sdk.TxResponse, error) {
+	payloadJSON, err := helpers.Codec.MarshalJSON(&payload)
 	if err != nil {
 		return sdk.TxResponse{}, err
 	}
 
 	payloadWithSignInputs := cli.PayloadWithSignInputs{
-		Payload:    payloadJson,
+		Payload:    payloadJSON,
 		SignInputs: signInputs,
 	}
 
-	payloadWithSignInputsJson, err := json.Marshal(&payloadWithSignInputs)
+	payloadWithSignInputsJSON, err := json.Marshal(&payloadWithSignInputs)
 	if err != nil {
 		return sdk.TxResponse{}, err
 	}
 
-	payloadFile := helpers.MustWriteTmpFile(tmpDir, []byte(payloadWithSignInputsJson))
+	payloadFile := helpers.MustWriteTmpFile(tmpDir, payloadWithSignInputsJSON)
 
-	return Tx("cheqd", "deactivate-did", from, payloadFile)
+	return Tx("cheqd", "deactivate-did", from, feeParams, payloadFile)
 }
 
-func CreateResource(tmpDir string, options resourcecli.CreateResourceOptions, signInputs []cli.SignInput, from string) (sdk.TxResponse, error) {
-	// Payload
-	payloadJson, err := json.Marshal(&options)
+func CreateResource(tmpDir string, options resourcecli.CreateResourceOptions, signInputs []cli.SignInput, from string, feeParams []string) (sdk.TxResponse, error) {
+	payloadJSON, err := json.Marshal(&options)
 	if err != nil {
 		return sdk.TxResponse{}, err
 	}
 
 	payloadWithSignInputs := cli.PayloadWithSignInputs{
-		Payload:    payloadJson,
+		Payload:    payloadJSON,
 		SignInputs: signInputs,
 	}
 
-	payloadWithSignInputsJson, err := json.Marshal(&payloadWithSignInputs)
+	payloadWithSignInputsJSON, err := json.Marshal(&payloadWithSignInputs)
 	if err != nil {
 		return sdk.TxResponse{}, err
 	}
 
-	payloadFile := helpers.MustWriteTmpFile("", []byte(payloadWithSignInputsJson))
+	payloadFile := helpers.MustWriteTmpFile("", payloadWithSignInputsJSON)
 
-	return Tx("resource", "create-resource", from, payloadFile)
+	return Tx("resource", "create", from, feeParams, payloadFile)
 }

@@ -12,8 +12,8 @@ import (
 func CmdUpdateDidDoc() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update-did [payload-file]",
-		Short: "Updates a DIDDoc.",
-		Long: "Updates a DIDDoc. " +
+		Short: "Update DID Document associated with a DID.",
+		Long: "Update DID Document associated with a given DID. " +
 			"[payload-file] is JSON encoded MsgCreateDidDocPayload alongside with sign inputs.",
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -24,14 +24,14 @@ func CmdUpdateDidDoc() *cobra.Command {
 
 			payloadFile := args[0]
 
-			payloadJson, signInputs, err := ReadPayloadWithSignInputsFromFile(payloadFile)
+			payloadJSON, signInputs, err := ReadPayloadWithSignInputsFromFile(payloadFile)
 			if err != nil {
 				return err
 			}
 
 			// Unmarshal payload
 			var payload types.MsgUpdateDidDocPayload
-			err = clientCtx.Codec.UnmarshalJSON([]byte(payloadJson), &payload)
+			err = clientCtx.Codec.UnmarshalJSON([]byte(payloadJSON), &payload)
 			if err != nil {
 				return err
 			}

@@ -12,8 +12,8 @@ import (
 func CmdDeactivateDidDoc() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "deactivate-did [payload-file]",
-		Short: "Deactivates a DIDDoc.",
-		Long: "Deactivates a DIDDoc. " +
+		Short: "Deactivate a DID.",
+		Long: "Deactivates a DID and its associated DID Document." +
 			"[payload-file] is JSON encoded MsgCreateDidDocPayload alongside with sign inputs.",
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -24,14 +24,14 @@ func CmdDeactivateDidDoc() *cobra.Command {
 
 			payloadFile := args[0]
 
-			payloadJson, signInputs, err := ReadPayloadWithSignInputsFromFile(payloadFile)
+			payloadJSON, signInputs, err := ReadPayloadWithSignInputsFromFile(payloadFile)
 			if err != nil {
 				return err
 			}
 
 			// Build payload
 			payload := types.MsgDeactivateDidDocPayload{}
-			err = clientCtx.Codec.UnmarshalJSON([]byte(payloadJson), &payload)
+			err = clientCtx.Codec.UnmarshalJSON([]byte(payloadJSON), &payload)
 			if err != nil {
 				return err
 			}

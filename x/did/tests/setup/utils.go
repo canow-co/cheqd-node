@@ -4,18 +4,19 @@ import (
 	"crypto/ed25519"
 	"crypto/rand"
 	"encoding/json"
+	mathrand "math/rand"
+	"time"
 
-	"github.com/canow-co/cheqd-node/x/did/types"
-	. "github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/google/uuid"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/mr-tron/base58"
+	"github.com/multiformats/go-multibase"
 )
 
 func randBase58Seq(bytes int) string {
 	b := make([]byte, bytes)
 
-	_, err := rand.Read(b)
+	_, err := mathrand.Read(b)
 	if err != nil {
 		panic(err)
 	}
@@ -26,16 +27,30 @@ func randBase58Seq(bytes int) string {
 type IDType int
 
 const (
-	Base58_16bytes IDType = iota
-	UUID           IDType = iota
+	Base58_16bytes   IDType = iota
+	Base58_16symbols IDType = iota
+	UUID             IDType = iota
 )
 
+var letters = []rune("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz")
+
+func randSeq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[mathrand.Intn(len(letters))]
+	}
+	return string(b)
+}
+
 func GenerateDID(idtype IDType) string {
-	prefix := "did:canow:" + DID_NAMESPACE + ":"
+	prefix := "did:canow:" + DidNamespace + ":"
+	mathrand.Seed(time.Now().UnixNano())
 
 	switch idtype {
 	case Base58_16bytes:
 		return prefix + randBase58Seq(16)
+	case Base58_16symbols:
+		return prefix + randSeq(16)
 	case UUID:
 		return prefix + uuid.NewString()
 	default:
@@ -48,24 +63,27 @@ func GenerateKeyPair() KeyPair {
 	return KeyPair{PrivateKey, PublicKey}
 }
 
-func BuildEd25519VerificationKey2020VerificationMaterial(publicKey ed25519.PublicKey) string {
-	return MustEncodeJson(types.Ed25519VerificationKey2020{
-		PublicKeyMultibase: MustEncodeMultibaseBase58(publicKey),
-	})
+func GenerateEd25519VerificationKey2020VerificationMaterial(publicKey ed25519.PublicKey) string {
+	publicKeyMultibaseBytes := []byte{0xed, 0x01}
+	publicKeyMultibaseBytes = append(publicKeyMultibaseBytes, publicKey...)
+	keyStr, _ := multibase.Encode(multibase.Base58BTC, publicKeyMultibaseBytes)
+	return keyStr
 }
 
-func BuildJsonWebKey2020VerificationMaterial(publicKey ed25519.PublicKey) string {
+func GenerateJSONWebKey2020VerificationMaterial(publicKey ed25519.PublicKey) string {
 	pubKeyJwk, err := jwk.New(publicKey)
 	if err != nil {
 		panic(err)
 	}
 
-	pubKeyJwkJson, err := json.Marshal(pubKeyJwk)
+	pubKeyJwkJSON, err := json.Marshal(pubKeyJwk)
 	if err != nil {
 		panic(err)
 	}
 
-	return MustEncodeJson(types.JsonWebKey2020{
-		PublicKeyJwk: json.RawMessage(pubKeyJwkJson),
-	})
+	return string(pubKeyJwkJSON)
+}
+
+func GenerateEd25519VerificationKey2018VerificationMaterial(publicKey ed25519.PublicKey) string {
+	return base58.Encode(publicKey)
 }

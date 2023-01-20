@@ -10,7 +10,7 @@ jobs:
 
   sh-euox-pipefail-check:
     name: "Shell pipefail check"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     
     steps:
       - uses: actions/checkout@v3
@@ -20,7 +20,7 @@ jobs:
   
   md-link-check:
     name: "Broken Markdown links"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     
     steps:
       - uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
     # We can't use VALIDATE_GO from super linter because of this issue:
     # https://github.com/github/super-linter/issues/143
     name: "Golang"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     
     steps:
       - uses: actions/checkout@v3
@@ -48,30 +48,35 @@ jobs:
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
-          version: v1.47
+          version: v1.49.0
           args: --config .github/linters/.golangci.yaml
 
   proto-lint:
     name: "Protobuf"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       
       # Install the `buf` CLI
-      - uses: bufbuild/buf-setup-action@v1.8.0
+      - uses: bufbuild/buf-setup-action@v1.12.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       
       # Lint
       - uses: bufbuild/buf-lint-action@v1
-      
+        with:
+          input: proto
+
       # Breaking change detection
-      # - uses: bufbuild/buf-breaking-action@v1
-        # with:
-          # input: 'proto'
-          # against: 'https://github.com/canow-co/cheqd-node.git#branch=develop,ref=HEAD~1,subdir=proto'
+#      - uses: bufbuild/buf-breaking-action@v1
+#        continue-on-error: true
+#        with:
+#          input: proto
+#          against: 'https://github.com/canow-co/cheqd-node.git#branch=main,ref=HEAD~1,subdir=proto'
 
   super-lint:
     name: "Super Linter"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     
     steps:
     - uses: actions/checkout@v3
@@ -85,7 +90,7 @@ jobs:
         DEFAULT_BRANCH: main
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         LOG_LEVEL: WARN
-        VALIDATE_ALL_CODEBASE: true
+        VALIDATE_ALL_CODEBASE: false
         MULTI_STATUS: true
 
         VALIDATE_BASH: true

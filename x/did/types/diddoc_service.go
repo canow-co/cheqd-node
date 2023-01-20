@@ -7,12 +7,18 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 
-func NewService(id string, type_ string, serviceEndpoint []string) *Service {
+func NewService(id string, serviceType string, serviceEndpoint []string) *Service {
 	return &Service{
 		Id:              id,
-		Type:            type_,
+		ServiceType:     serviceType,
 		ServiceEndpoint: serviceEndpoint,
 	}
+}
+
+// ReplaceDids replaces ids in all fields
+func (s *Service) ReplaceDids(old, new string) {
+	// Id
+	s.Id = utils.ReplaceDidInDidURL(s.Id, old, new)
 }
 
 // Helpers
@@ -32,7 +38,7 @@ func GetServiceIds(vms []*Service) []string {
 func (s Service) Validate(baseDid string, allowedNamespaces []string) error {
 	return validation.ValidateStruct(&s,
 		validation.Field(&s.Id, validation.Required, IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid)),
-		validation.Field(&s.Type, validation.Required, validation.Length(1, 255)),
+		validation.Field(&s.ServiceType, validation.Required, validation.Length(1, 255)),
 		validation.Field(&s.ServiceEndpoint, validation.Each(validation.Required)),
 		validation.Field(&s.Accept, validation.Each(validation.Required, validation.Length(1, 255))),
 		validation.Field(&s.RoutingKeys, IsUniqueStrList(), validation.Each(validation.Required, IsDIDUrl("", []string{}, Empty, Empty, Required))),
@@ -50,7 +56,7 @@ func ValidServiceRule(baseDid string, allowedNamespaces []string) *CustomErrorRu
 	})
 }
 
-func IsUniqueServiceListByIdRule() *CustomErrorRule {
+func IsUniqueServiceListByIDRule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]*Service)
 		if !ok {
