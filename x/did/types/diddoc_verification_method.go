@@ -94,7 +94,6 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 		}
 
 		keyBytes, err := multicodec[codePrefixLength:], nil
-
 		if err != nil {
 			return err
 		}
