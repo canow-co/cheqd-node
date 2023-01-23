@@ -7,6 +7,7 @@ import (
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	paramproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 )
 
@@ -72,7 +73,7 @@ func QueryGetBalances(address string) (banktypes.QueryAllBalancesResponse, error
 	return resp, err
 }
 
-func QueryDidDoc(did string) (didtypes.QueryGetDidDocResponse, error) {
+func QueryDidDoc(did string) (didtypes.QueryDidDocResponse, error) {
 	res, err := Query("cheqd", "diddoc", did)
 	if err != nil {
 		return didtypes.QueryDidDocResponse{}, err

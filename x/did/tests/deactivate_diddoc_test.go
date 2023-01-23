@@ -3,7 +3,6 @@ package tests
 import (
 	"fmt"
 
-	. "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	"github.com/google/uuid"
 
 	. "github.com/onsi/ginkgo/v2"

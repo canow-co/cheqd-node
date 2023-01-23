@@ -14,7 +14,7 @@ func (s *TestSetup) DeactivateDidDoc(payload *types.MsgDeactivateDidDocPayload, 
 		signature := ed25519.Sign(input.Key, signBytes)
 
 		signatures = append(signatures, &types.SignInfo{
-			VerificationMethodId: input.VerificationMethodID,
+			VerificationMethodID: input.VerificationMethodID,
 			Signature:            signature,
 		})
 	}

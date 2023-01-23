@@ -9,7 +9,7 @@ import (
 )
 
 func NewSignInfo(verificationMethodID string, signature []byte) *SignInfo {
-	return &SignInfo{VerificationMethodId: verificationMethodID, Signature: signature}
+	return &SignInfo{VerificationMethodID: verificationMethodID, Signature: signature}
 }
 
 // Helpers
@@ -18,7 +18,7 @@ func GetSignInfoIds(infos []*SignInfo) []string {
 	res := make([]string, len(infos))
 
 	for i := range infos {
-		res[i] = infos[i].VerificationMethodId
+		res[i] = infos[i].VerificationMethodID
 	}
 
 	return res
@@ -26,7 +26,7 @@ func GetSignInfoIds(infos []*SignInfo) []string {
 
 func IsUniqueSignInfoList(infos []*SignInfo) bool {
 	hash := func(si *SignInfo) string {
-		return si.VerificationMethodId + ":" + base58.Encode(si.Signature)
+		return si.VerificationMethodID + ":" + base58.Encode(si.Signature)
 	}
 
 	tmp := map[string]bool{}
@@ -48,7 +48,7 @@ func FindSignInfosBySigner(infos []*SignInfo, signer string) []SignInfo {
 	var result []SignInfo
 
 	for _, info := range infos {
-		did, _, _, _ := utils.MustSplitDIDUrl(info.VerificationMethodId)
+		did, _, _, _ := utils.MustSplitDIDUrl(info.VerificationMethodID)
 
 		if did == signer {
 			result = append(result, *info)
@@ -73,7 +73,7 @@ func FindSignInfoBySigner(infos []*SignInfo, signer string) (info SignInfo, foun
 
 func (si SignInfo) Validate(allowedNamespaces []string) error {
 	return validation.ValidateStruct(&si,
-		validation.Field(&si.VerificationMethodId, validation.Required, IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required)),
+		validation.Field(&si.VerificationMethodID, validation.Required, IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required)),
 		validation.Field(&si.Signature, validation.Required),
 	)
 }
@@ -123,7 +123,7 @@ func IsUniqueSignInfoListRule() *CustomErrorRule {
 // Normalization
 
 func (si *SignInfo) Normalize() {
-	si.VerificationMethodId = utils.NormalizeDIDUrl(si.VerificationMethodId)
+	si.VerificationMethodID = utils.NormalizeDIDUrl(si.VerificationMethodID)
 }
 
 func NormalizeSignInfoList(signatures []*SignInfo) {

@@ -446,7 +446,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 		signInputs := []cli_types.SignInput{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}

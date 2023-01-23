@@ -198,7 +198,7 @@ func (m *MsgDeactivateDidDoc) GetSignatures() []*SignInfo {
 // SignInfo defines the structure of a DID Document controller's signature
 type SignInfo struct {
 	// Verification method ID of the DID Controller
-	VerificationMethodId string `protobuf:"bytes,1,opt,name=verification_method_id,json=verificationMethodId,proto3" json:"verification_method_id,omitempty"`
+	VerificationMethodID string `protobuf:"bytes,1,opt,name=verification_method_id,json=verificationMethodId,proto3" json:"verification_method_id,omitempty"`
 	// Signature of the DID Document controller
 	Signature []byte `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
 }
@@ -238,7 +238,7 @@ var xxx_messageInfo_SignInfo proto.InternalMessageInfo
 
 func (m *SignInfo) GetVerificationMethodId() string {
 	if m != nil {
-		return m.VerificationMethodId
+		return m.VerificationMethodID
 	}
 	return ""
 }
@@ -1174,10 +1174,10 @@ func (m *SignInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.VerificationMethodId) > 0 {
-		i -= len(m.VerificationMethodId)
-		copy(dAtA[i:], m.VerificationMethodId)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.VerificationMethodId)))
+	if len(m.VerificationMethodID) > 0 {
+		i -= len(m.VerificationMethodID)
+		copy(dAtA[i:], m.VerificationMethodID)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.VerificationMethodID)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -1674,7 +1674,7 @@ func (m *SignInfo) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.VerificationMethodId)
+	l = len(m.VerificationMethodID)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
@@ -2292,7 +2292,7 @@ func (m *SignInfo) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VerificationMethodId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field VerificationMethodID", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2320,7 +2320,7 @@ func (m *SignInfo) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.VerificationMethodId = string(dAtA[iNdEx:postIndex])
+			m.VerificationMethodID = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {

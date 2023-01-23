@@ -1809,8 +1809,8 @@ func (x *fastReflection_SignInfo) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_SignInfo) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.VerificationMethodId != "" {
-		value := protoreflect.ValueOfString(x.VerificationMethodId)
+	if x.VerificationMethodID != "" {
+		value := protoreflect.ValueOfString(x.VerificationMethodID)
 		if !f(fd_SignInfo_verification_method_id, value) {
 			return
 		}
@@ -1837,7 +1837,7 @@ func (x *fastReflection_SignInfo) Range(f func(protoreflect.FieldDescriptor, pro
 func (x *fastReflection_SignInfo) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "cheqd.did.v2.SignInfo.verification_method_id":
-		return x.VerificationMethodId != ""
+		return x.VerificationMethodID != ""
 	case "cheqd.did.v2.SignInfo.signature":
 		return len(x.Signature) != 0
 	default:
@@ -1857,7 +1857,7 @@ func (x *fastReflection_SignInfo) Has(fd protoreflect.FieldDescriptor) bool {
 func (x *fastReflection_SignInfo) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "cheqd.did.v2.SignInfo.verification_method_id":
-		x.VerificationMethodId = ""
+		x.VerificationMethodID = ""
 	case "cheqd.did.v2.SignInfo.signature":
 		x.Signature = nil
 	default:
@@ -1877,7 +1877,7 @@ func (x *fastReflection_SignInfo) Clear(fd protoreflect.FieldDescriptor) {
 func (x *fastReflection_SignInfo) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
 	case "cheqd.did.v2.SignInfo.verification_method_id":
-		value := x.VerificationMethodId
+		value := x.VerificationMethodID
 		return protoreflect.ValueOfString(value)
 	case "cheqd.did.v2.SignInfo.signature":
 		value := x.Signature
@@ -1903,7 +1903,7 @@ func (x *fastReflection_SignInfo) Get(descriptor protoreflect.FieldDescriptor) p
 func (x *fastReflection_SignInfo) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	case "cheqd.did.v2.SignInfo.verification_method_id":
-		x.VerificationMethodId = value.Interface().(string)
+		x.VerificationMethodID = value.Interface().(string)
 	case "cheqd.did.v2.SignInfo.signature":
 		x.Signature = value.Bytes()
 	default:
@@ -2016,7 +2016,7 @@ func (x *fastReflection_SignInfo) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		l = len(x.VerificationMethodId)
+		l = len(x.VerificationMethodID)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -2060,10 +2060,10 @@ func (x *fastReflection_SignInfo) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x12
 		}
-		if len(x.VerificationMethodId) > 0 {
-			i -= len(x.VerificationMethodId)
-			copy(dAtA[i:], x.VerificationMethodId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.VerificationMethodId)))
+		if len(x.VerificationMethodID) > 0 {
+			i -= len(x.VerificationMethodID)
+			copy(dAtA[i:], x.VerificationMethodID)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.VerificationMethodID)))
 			i--
 			dAtA[i] = 0xa
 		}
@@ -2118,7 +2118,7 @@ func (x *fastReflection_SignInfo) ProtoMethods() *protoiface.Methods {
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field VerificationMethodId", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field VerificationMethodID", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -2146,7 +2146,7 @@ func (x *fastReflection_SignInfo) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.VerificationMethodId = string(dAtA[iNdEx:postIndex])
+				x.VerificationMethodID = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 2:
 				if wireType != 2 {
@@ -7671,7 +7671,7 @@ type SignInfo struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Verification method ID of the DID Controller
-	VerificationMethodId string `protobuf:"bytes,1,opt,name=verification_method_id,json=verificationMethodId,proto3" json:"verification_method_id,omitempty"`
+	VerificationMethodID string `protobuf:"bytes,1,opt,name=verification_method_id,json=verificationMethodId,proto3" json:"verification_method_id,omitempty"`
 	// Signature of the DID Document controller
 	Signature []byte `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
 }
@@ -7698,7 +7698,7 @@ func (*SignInfo) Descriptor() ([]byte, []int) {
 
 func (x *SignInfo) GetVerificationMethodId() string {
 	if x != nil {
-		return x.VerificationMethodId
+		return x.VerificationMethodID
 	}
 	return ""
 }

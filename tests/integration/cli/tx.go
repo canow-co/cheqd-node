@@ -11,6 +11,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
+const (
+	FlagVersionID = "--version-id"
+)
+
 var CLITxParams = []string{
 	"--chain-id", network.ChainID,
 	"--keyring-backend", KeyringBackend,
@@ -66,13 +70,12 @@ func RevokeFeeGrant(granter, grantee string, feeParams []string) (sdk.TxResponse
 }
 
 
-func TransferToken(from string, to string, amount string) (sdk.TxResponse, error) {
-	return Tx("bank", "send", from, from, to, amount)
+func TransferToken(from string, to string, amount string, feeParams []string) (sdk.TxResponse, error) {
+	return Tx("bank", "send", from, feeParams, from, to, amount)
 }
 
-func CreateDidDoc(tmpDit string, payload types.MsgCreateDidDocPayload, signInputs []cli.SignInput, from string) (sdk.TxResponse, error) {
-	// Payload
-	payloadJson, err := helpers.Codec.MarshalJSON(&payload)
+func CreateDidDoc(tmpDir string, payload cli.DIDDocument, signInputs []cli.SignInput, versionID, from string, feeParams []string) (sdk.TxResponse, error) {
+	payloadJSON, err := json.Marshal(&payload)
 	if err != nil {
 		return sdk.TxResponse{}, err
 	}
@@ -88,6 +91,10 @@ func CreateDidDoc(tmpDit string, payload types.MsgCreateDidDocPayload, signInput
 	}
 
 	payloadFile := helpers.MustWriteTmpFile(tmpDir, payloadWithSignInputsJSON)
+
+	if versionID != "" {
+		return Tx("cheqd", "create-did", from, feeParams, payloadFile, FlagVersionID, versionID)
+	}
 
 	return Tx("cheqd", "create-did", from, feeParams, payloadFile)
 }

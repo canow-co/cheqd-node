@@ -17,7 +17,7 @@ func (s *TestSetup) CreateResource(payload *types.MsgCreateResourcePayload, sign
 		signature := ed25519.Sign(input.Key, signBytes)
 
 		signatures = append(signatures, &didtypes.SignInfo{
-			VerificationMethodId: input.VerificationMethodID,
+			VerificationMethodID: input.VerificationMethodID,
 			Signature:            signature,
 		})
 	}

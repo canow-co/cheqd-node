@@ -81,14 +81,14 @@ func MustFindVerificationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[st
 }
 
 func VerifySignature(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, message []byte, signature types.SignInfo) error {
-	verificationMethod, err := MustFindVerificationMethod(k, ctx, inMemoryDIDs, signature.VerificationMethodId)
+	verificationMethod, err := MustFindVerificationMethod(k, ctx, inMemoryDIDs, signature.VerificationMethodID)
 	if err != nil {
 		return err
 	}
 
 	err = types.VerifySignature(verificationMethod, message, signature.Signature)
 	if err != nil {
-		return types.ErrInvalidSignature.Wrapf("method id: %s", signature.VerificationMethodId)
+		return types.ErrInvalidSignature.Wrapf("method id: %s", signature.VerificationMethodID)
 	}
 
 	return nil

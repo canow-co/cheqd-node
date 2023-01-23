@@ -2,8 +2,6 @@ package tests
 
 import (
 	"fmt"
-
-	. "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	"github.com/google/uuid"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -461,24 +459,24 @@ var _ = Describe("Create DID tests", func() {
 	It("Not Valid: DIDDoc Service Routing Keys field", func() {
 		did := GenerateDID(Base58_16bytes)
 		keypair := GenerateKeyPair()
-		keyId := did + "#key-1"
+		keyID := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
 			Id:             did,
-			Authentication: []string{keyId},
+			Authentication: []string{keyID},
 			VerificationMethod: []*types.VerificationMethod{
 				{
-					Id:                   keyId,
-					Type:                 types.Ed25519VerificationKey2020{}.Type(),
-					Controller:           did,
-					VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+					Id:                     keyID,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   string(keypair.Public),
 				},
 			},
 			VersionId: uuid.NewString(),
 			Service: []*types.Service{
 				{
 					Id:              did + "#service-1",
-					Type:            "type-1",
+					ServiceType:     "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
 					Accept:          []string{"accept-1"},
 					RoutingKeys:     []string{"invalid value"},
@@ -488,7 +486,7 @@ var _ = Describe("Create DID tests", func() {
 
 		signatures := []SignInput{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodID: keyID,
 				Key:                  keypair.Private,
 			},
 		}
@@ -499,26 +497,26 @@ var _ = Describe("Create DID tests", func() {
 	It("Not Valid: DIDDoc Service Routing Keys field (cannot be same keys in Routing Keys)", func() {
 		did := GenerateDID(Base58_16bytes)
 		keypair := GenerateKeyPair()
-		keyId := did + "#key-1"
+		keyID := did + "#key-1"
 
 		newRoutingKeys := []string{"did:example:HPXoCUSjrSvWC53SLWQjsm#somekey", "did:example:HPXoCUSjrSvWC53SLWQjsm#somekey"}
 
 		msg := &types.MsgCreateDidDocPayload{
 			Id:             did,
-			Authentication: []string{keyId},
+			Authentication: []string{keyID},
 			VerificationMethod: []*types.VerificationMethod{
 				{
-					Id:                   keyId,
-					Type:                 types.Ed25519VerificationKey2020{}.Type(),
-					Controller:           did,
-					VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+					Id:                     keyID,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   string(keypair.Public),
 				},
 			},
 			VersionId: uuid.NewString(),
 			Service: []*types.Service{
 				{
 					Id:              did + "#service-1",
-					Type:            "type-1",
+					ServiceType:     "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
 					Accept:          []string{"accept-1"},
 					RoutingKeys:     newRoutingKeys,
@@ -528,7 +526,7 @@ var _ = Describe("Create DID tests", func() {
 
 		signatures := []SignInput{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodID: keyID,
 				Key:                  keypair.Private,
 			},
 		}

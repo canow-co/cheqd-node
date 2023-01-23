@@ -107,10 +107,10 @@ func DuplicateSignatures(signatures []*types.SignInfo, didToDuplicate string, ne
 	for _, signature := range signatures {
 		result = append(result, signature)
 
-		did, path, query, fragment := utils.MustSplitDIDUrl(signature.VerificationMethodId)
+		did, path, query, fragment := utils.MustSplitDIDUrl(signature.VerificationMethodID)
 		if did == didToDuplicate {
 			duplicate := types.SignInfo{
-				VerificationMethodId: utils.JoinDIDUrl(newDid, path, query, fragment),
+				VerificationMethodID: utils.JoinDIDUrl(newDid, path, query, fragment),
 				Signature:            signature.Signature,
 			}
 

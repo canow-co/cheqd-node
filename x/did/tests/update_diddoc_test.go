@@ -628,18 +628,18 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   string(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
+				Authentication: []string{alice.KeyID},
 				VersionId:      uuid.NewString(),
 				Service: []*types.Service{
 					{
 						Id:              alice.Did + "#service-1",
-						Type:            "type-1",
+						ServiceType:     "type-1",
 						ServiceEndpoint: []string{"endpoint-1"},
 						Accept:          newAccepts,
 						RoutingKeys:     newRoutingKeys,
@@ -687,18 +687,18 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   string(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
+				Authentication: []string{alice.KeyID},
 				VersionId:      uuid.NewString(),
 				Service: []*types.Service{
 					{
 						Id:              alice.Did + "#service-1",
-						Type:            "type-1",
+						ServiceType:     "type-1",
 						ServiceEndpoint: []string{"endpoint-1"},
 						Accept:          newAccepts,
 						RoutingKeys:     newRoutingKeys,
@@ -713,13 +713,13 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   string(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
+				Authentication: []string{alice.KeyID},
 				VersionId:      uuid.NewString(),
 			}
 		})

@@ -48,7 +48,7 @@ func SignWithSignInputs(signBytes []byte, signInputs []SignInput) []*types.SignI
 		signatureBytes := ed25519.Sign(signInput.PrivKey, signBytes)
 
 		signInfo := types.SignInfo{
-			VerificationMethodId: signInput.VerificationMethodID,
+			VerificationMethodID: signInput.VerificationMethodID,
 			Signature:            signatureBytes,
 		}
 
