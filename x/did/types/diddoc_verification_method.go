@@ -80,13 +80,20 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 			return sdkerrors.Wrapf(err, "failed to unmarshal verification material for %s", vm.Id)
 		}
 
-		var keyBytes bls12381g2.PublicKey
-
-		if bls12381G2Key2020.PublicKeyMultibase != "" {
-			keyBytes, err = extractKeyBytesFromBls12381G2PublicKeyMultibase(bls12381G2Key2020.PublicKeyMultibase)
-		} else {
-			keyBytes, err = extractKeyBytesFromBls12381G2PublicKeyJwk(bls12381G2Key2020.PublicKeyJwk)
+		_, multicodec, err := multibase.Decode(bls12381G2Key2020.PublicKeyMultibase)
+		if err != nil {
+			return err
 		}
+
+		code, codePrefixLength := binary.Uvarint(multicodec)
+		if codePrefixLength <= 0 {
+			return errors.New("Invalid multicodec value")
+		}
+		if code != bls12381g2.Bls12381G2PubCode {
+			return errors.New("Not a Bls12381G2 public key")
+		}
+
+		keyBytes, err := multicodec[codePrefixLength:], nil
 
 		if err != nil {
 			return err
@@ -222,40 +229,4 @@ func IsUniqueVerificationMethodListByIdRule() *CustomErrorRule {
 
 		return nil
 	})
-}
-
-func extractKeyBytesFromBls12381G2PublicKeyMultibase(publicKeyMultibase string) (bls12381g2.PublicKey, error) {
-	_, multicodec, err := multibase.Decode(publicKeyMultibase)
-	if err != nil {
-		return nil, err
-	}
-
-	code, codePrefixLength := binary.Uvarint(multicodec)
-	if codePrefixLength <= 0 {
-		return nil, errors.New("Invalid multicodec value")
-	}
-	if code != bls12381g2.Bls12381G2PubCode {
-		return nil, errors.New("Not a Bls12381G2 public key")
-	}
-
-	return multicodec[codePrefixLength:], nil
-}
-
-func extractKeyBytesFromBls12381G2PublicKeyJwk(publicKeyJwk json.RawMessage) (bls12381g2.PublicKey, error) {
-	key, err := jwk.ParseKey(publicKeyJwk)
-	if err != nil {
-		return nil, fmt.Errorf("can't parse jwk: %s", err.Error())
-	}
-
-	if key.KeyType() != jwa.OKP {
-		return nil, fmt.Errorf("Bls12381G2Key2020 key type must be %s rather than %s", jwa.OKP, key.KeyType())
-	}
-
-	okpPubKey := key.(jwk.OKPPublicKey)
-
-	if okpPubKey.Crv() != bls12381g2.Bls12381G2 {
-		return nil, fmt.Errorf("Bls12381G2Key2020 curve must be %s rather than %s", bls12381g2.Bls12381G2, okpPubKey.Crv())
-	}
-
-	return okpPubKey.X(), nil
 }

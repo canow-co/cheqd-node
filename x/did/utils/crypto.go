@@ -75,7 +75,7 @@ func ValidateEd25519PubKey(keyBytes []byte) error {
 	return nil
 }
 
-func ValidateMultibaseEncodedBls12381G2PubKey(key string) error {
+func ValidateMultibaseMulticodecBls12381G2PubKey(key string) error {
 	_, multicodec, err := multibase.Decode(key)
 	if err != nil {
 		return err
@@ -92,29 +92,6 @@ func ValidateMultibaseEncodedBls12381G2PubKey(key string) error {
 	keyBytes := multicodec[codePrefixLength:]
 
 	return ValidateBls12381G2PubKey(keyBytes)
-}
-
-func ValidateBls12381G2PubKeyJwk(rawJwk []byte) error {
-	key, err := jwk.ParseKey(rawJwk)
-	if err != nil {
-		return fmt.Errorf("can't parse jwk: %s", err.Error())
-	}
-
-	if key.KeyType() != jwa.OKP {
-		return fmt.Errorf("Bls12381G2Key2020 key type must be %s rather than %s", jwa.OKP, key.KeyType())
-	}
-
-	okpPubKey, ok := key.(jwk.OKPPublicKey)
-	if !ok {
-		return errors.New("jwk with kty=\"OKP\" is not actually OKP public key")
-	}
-
-	if okpPubKey.Crv() != bls12381g2.Bls12381G2 {
-		return fmt.Errorf("Bls12381G2Key2020 curve must be %s rather than %s", bls12381g2.Bls12381G2, okpPubKey.Crv())
-	}
-
-	bls12381G2PubKey := bls12381g2.PublicKey(okpPubKey.X())
-	return ValidateBls12381G2PubKey(bls12381G2PubKey)
 }
 
 func ValidateBls12381G2PubKey(keyBytes []byte) error {
