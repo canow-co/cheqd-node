@@ -33,19 +33,10 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		}),
 
 	Entry(
-		"Valid Bls12381G2Key2020 verification material with publicKeyMultibase set",
+		"Valid Bls12381G2Key2020 verification material",
 		VerificationMaterialTestCase{
 			vm: Bls12381G2Key2020{
 				PublicKeyMultibase: ValidBls12381G2PublicKeyMultibase,
-			},
-			isValid: true,
-		}),
-
-	Entry(
-		"Valid Bls12381G2Key2020 verification material with publicKeyJwk set",
-		VerificationMaterialTestCase{
-			vm: Bls12381G2Key2020{
-				PublicKeyJwk: ValidBls12381G2PublicKeyJwk,
 			},
 			isValid: true,
 		}),
@@ -97,42 +88,13 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		}),
 
 	Entry(
-		"Invalid Bls12381G2Key2020 verification material with neither publicKeyMultibase nor publicKeyJwk set",
-		VerificationMaterialTestCase{
-			vm:       Bls12381G2Key2020{},
-			isValid:  false,
-			errorMsg: "One of publicKeyMultibase or publicKeyJwk must be set for Bls12381G2Key2020",
-		}),
-
-	Entry(
-		"Invalid Bls12381G2Key2020 verification material with both publicKeyMultibase and publicKeyJwk set",
-		VerificationMaterialTestCase{
-			vm: Bls12381G2Key2020{
-				PublicKeyMultibase: ValidBls12381G2PublicKeyMultibase,
-				PublicKeyJwk:       ValidBls12381G2PublicKeyJwk,
-			},
-			isValid:  false,
-			errorMsg: "Only one of publicKeyMultibase and publicKeyJwk must be set for Bls12381G2Key2020",
-		}),
-
-	Entry(
-		"Invalid Bls12381G2Key2020 verification material with only publicKeyMultibase set",
+		"Invalid Bls12381G2Key2020 verification material",
 		VerificationMaterialTestCase{
 			vm: Bls12381G2Key2020{
 				PublicKeyMultibase: InvalidBls12381G2PublicKeyMultibase,
 			},
 			isValid:  false,
 			errorMsg: "Not a Bls12381G2 public key",
-		}),
-
-	Entry(
-		"Invalid Bls12381G2Key2020 verification material with only publicKeyJwk set",
-		VerificationMaterialTestCase{
-			vm: Bls12381G2Key2020{
-				PublicKeyJwk: ValidEd25519PublicKeyJwk, // Ed25519 instead of Bls12381G2
-			},
-			isValid:  false,
-			errorMsg: "Bls12381G2Key2020 curve must be Bls12381G2 rather than Ed25519",
 		}),
 
 	Entry(

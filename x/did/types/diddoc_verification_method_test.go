@@ -129,24 +129,13 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 			isValid: true,
 		}),
 	Entry(
-		"Valid Bls12381G2Key2020 verification method with multibase material",
+		"Valid Bls12381G2Key2020 verification method",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
 				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
 				Type:                 "Bls12381G2Key2020",
 				Controller:           "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial: ValidBls12381G2MultibaseVerificationMaterial,
-			},
-			isValid: true,
-		}),
-	Entry(
-		"Valid Bls12381G2Key2020 verification method with JWK material",
-		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidBls12381G2JwkVerificationMaterial,
 			},
 			isValid: true,
 		}),
@@ -207,7 +196,7 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 			errorMsg: "verification_material: (publicKeyMultibase: ed25519: bad public key length: 18.).",
 		}),
 	Entry(
-		"Invalid Bls12381G2Key2020 verification method with multibase material",
+		"Invalid Bls12381G2Key2020 verification method",
 		VerificationMethodTestCase{
 			vm: VerificationMethod{
 				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
@@ -216,19 +205,7 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 				VerificationMaterial: InvalidBls12381G2MultibaseVerificationMaterial,
 			},
 			isValid:  false,
-			errorMsg: "verification_material: Not a Bls12381G2 public key.",
-		}),
-	Entry(
-		"Invalid Bls12381G2Key2020 verification method with JWK material",
-		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEd25519JwkVerificationMaterial, // Ed25519 instead of Bls12381G2
-			},
-			isValid:  false,
-			errorMsg: "verification_material: Bls12381G2Key2020 curve must be Bls12381G2 rather than Ed25519",
+			errorMsg: "verification_material: (publicKeyMultibase: Not a Bls12381G2 public key.).",
 		}),
 	Entry(
 		"Invalid JsonWebKey2020 verification method",
@@ -340,19 +317,7 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 		pubKeyBase64 := base64.RawURLEncoding.EncodeToString(pubKeyBytes)
 		pubKeyJwk := "{\"kty\": \"OKP\", \"crv\": \"Bls12381G2\", \"x\": \"" + pubKeyBase64 + "\"}"
 
-		It("is valid for Bls12381G2Key2020", func() {
-			vm := VerificationMethod{
-				Id:                   "",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyJwk\": " + pubKeyJwk + "}",
-			}
-
-			err = VerifySignature(vm, msgBytes, signature)
-			Expect(err).To(BeNil())
-		})
-
-		It("is valid for JsonWebKey2020", func() {
+		It("is valid", func() {
 			vm := VerificationMethod{
 				Id:                   "",
 				Type:                 "JsonWebKey2020",

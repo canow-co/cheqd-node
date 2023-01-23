@@ -137,22 +137,14 @@ func IsMultibaseEncodedEd25519PubKey() *CustomErrorRule {
 	})
 }
 
-func IsBls12381G2Key2020() *CustomErrorRule {
+func IsMultibaseMulticodecBls12381G2PubKey() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.(Bls12381G2Key2020)
+		casted, ok := value.(string)
 		if !ok {
-			panic("IsBls12381G2Key2020 must be only applied on Bls12381G2Key2020 instances")
+			panic("IsMultibaseMulticodecBls12381G2PubKey must be only applied on string properties")
 		}
 
-		if casted.PublicKeyMultibase != "" && casted.PublicKeyJwk != nil {
-			return errors.New("Only one of publicKeyMultibase and publicKeyJwk must be set for Bls12381G2Key2020")
-		} else if casted.PublicKeyMultibase != "" {
-			return utils.ValidateMultibaseEncodedBls12381G2PubKey(casted.PublicKeyMultibase)
-		} else if casted.PublicKeyJwk != nil {
-			return utils.ValidateBls12381G2PubKeyJwk(casted.PublicKeyJwk)
-		} else {
-			return errors.New("One of publicKeyMultibase or publicKeyJwk must be set for Bls12381G2Key2020")
-		}
+		return utils.ValidateMultibaseMulticodecBls12381G2PubKey(casted)
 	})
 }
 
