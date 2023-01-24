@@ -113,7 +113,7 @@ func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
 		validation.Field(&didDoc.Id, validation.Required, IsDID(allowedNamespaces)),
 		validation.Field(&didDoc.Controller, IsUniqueStrList(), validation.Each(IsDID(allowedNamespaces))),
 		validation.Field(&didDoc.VerificationMethod,
-			IsUniqueVerificationMethodListByIdRule(), validation.Each(ValidVerificationMethodRule(didDoc.Id, allowedNamespaces)),
+			IsUniqueVerificationMethodListByIDRule(), validation.Each(ValidVerificationMethodRule(didDoc.Id, allowedNamespaces)),
 		),
 
 		validation.Field(&didDoc.Authentication,
@@ -137,7 +137,7 @@ func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
 			IsUniqueVerificationRelationshipListByIdRule(),
 		),
 
-		validation.Field(&didDoc.Service, IsUniqueServiceListByIdRule(), validation.Each(ValidServiceRule(didDoc.Id, allowedNamespaces))),
+		validation.Field(&didDoc.Service, IsUniqueServiceListByIDRule(), validation.Each(ValidServiceRule(didDoc.Id, allowedNamespaces))),
 		validation.Field(&didDoc.AlsoKnownAs, IsUniqueStrList(), validation.Each(IsURI())),
 	)
 	if err != nil {

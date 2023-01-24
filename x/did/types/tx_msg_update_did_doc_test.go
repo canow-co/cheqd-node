@@ -33,10 +33,10 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
-								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
-								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+								Id:                     "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								VerificationMethodType: "Ed25519VerificationKey2020",
+								Controller:             "did:cheqd:testnet:zABCDEFG123456789abcd",
+								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
 						Authentication: []*VerificationRelationship{
@@ -59,10 +59,10 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
-								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
-								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+								Id:                     "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								VerificationMethodType: "Ed25519VerificationKey2020",
+								Controller:             "did:cheqd:testnet:zABCDEFG123456789abcd",
+								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
 						Authentication: []*VerificationRelationship{
@@ -88,10 +88,10 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
-								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
-								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+								Id:                     "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								VerificationMethodType: "Ed25519VerificationKey2020",
+								Controller:             "did:cheqd:testnet:zABCDEFG123456789abcd",
+								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
 						Authentication: []*VerificationRelationship{

@@ -5,16 +5,21 @@ package types
 
 import (
 	fmt "fmt"
+	_ "github.com/cosmos/gogoproto/gogoproto"
+	_ "github.com/cosmos/gogoproto/types"
 	proto "github.com/gogo/protobuf/proto"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+	time "time"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -22,18 +27,39 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// DidDoc defines a DID Document, as defined in the DID Core specification.
+// Documentation: https://www.w3.org/TR/did-core/
 type DidDoc struct {
-	Context              []string                    `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
-	Id                   string                      `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	Controller           []string                    `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
-	VerificationMethod   []*VerificationMethod       `protobuf:"bytes,4,rep,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
-	Authentication       []*VerificationRelationship `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
-	AssertionMethod      []*VerificationRelationship `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
+	// context is a list of URIs used to identify the context of the DID document.
+	// Default: https://www.w3.org/ns/did/v1
+	Context []string `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
+	// id is the DID of the DID document.
+	// Format: did:cheqd:<namespace>:<unique-identifier>
+	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	// controller is a list of DIDs that are allowed to control the DID document.
+	Controller []string `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
+	// verificationMethod is a list of verification methods that can be used to
+	// verify a digital signature or cryptographic proof.
+	VerificationMethod []*VerificationMethod `protobuf:"bytes,4,rep,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
+	// authentication is a list of verification methods that can be used to
+	// authenticate as the DID subject.
+	Authentication []*VerificationRelationship `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
+	// assertionMethod is a list of verification methods that can be used to
+	// assert statements as the DID subject.
+	AssertionMethod []*VerificationRelationship `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
+	// capabilityInvocation is a list of verification methods that can be used to
+	// invoke capabilities as the DID subject.
 	CapabilityInvocation []*VerificationRelationship `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
+	// capabilityDelegation is a list of verification methods that can be used to
+	// delegate capabilities as the DID subject.
 	CapabilityDelegation []*VerificationRelationship `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
-	KeyAgreement         []*VerificationRelationship `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
-	Service              []*Service                  `protobuf:"bytes,10,rep,name=service,proto3" json:"service,omitempty"`
-	AlsoKnownAs          []string                    `protobuf:"bytes,11,rep,name=also_known_as,json=alsoKnownAs,proto3" json:"also_known_as,omitempty"`
+	// keyAgreement is a list of verification methods that can be used to perform
+	// key agreement as the DID subject.
+	KeyAgreement []*VerificationRelationship `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
+	// service is a list of services that can be used to interact with the DID subject.
+	Service []*Service `protobuf:"bytes,10,rep,name=service,proto3" json:"service,omitempty"`
+	// alsoKnownAs is a list of DIDs that are known to refer to the same DID subject.
+	AlsoKnownAs []string `protobuf:"bytes,11,rep,name=also_known_as,json=alsoKnownAs,proto3" json:"also_known_as,omitempty"`
 }
 
 func (m *DidDoc) Reset()         { *m = DidDoc{} }
@@ -146,10 +172,20 @@ func (m *DidDoc) GetAlsoKnownAs() []string {
 	return nil
 }
 
+// VerificationMethod defines a verification method, as defined in the DID Core specification.
+// Documentation: https://www.w3.org/TR/did-core/#verification-methods
 type VerificationMethod struct {
-	Id                   string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Type                 string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
-	Controller           string `protobuf:"bytes,3,opt,name=controller,proto3" json:"controller,omitempty"`
+	// id is the unique identifier of the verification method.
+	// Format: did:cheqd:<namespace>:<unique-identifier>#<key-id>
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// type is the type of the verification method.
+	// Example: Ed25519VerificationKey2020
+	VerificationMethodType string `protobuf:"bytes,2,opt,name=verification_method_type,json=verificationMethodType,proto3" json:"type,omitempty"`
+	// controller is the DID of the controller of the verification method.
+	// Format: did:cheqd:<namespace>:<unique-identifier>
+	Controller string `protobuf:"bytes,3,opt,name=controller,proto3" json:"controller,omitempty"`
+	// verification_material is the public key of the verification method.
+	// Commonly used verification material types: publicJwk, publicKeyBase58, publicKeyMultibase
 	VerificationMaterial string `protobuf:"bytes,4,opt,name=verification_material,json=verificationMaterial,proto3" json:"verification_material,omitempty"`
 }
 
@@ -193,9 +229,9 @@ func (m *VerificationMethod) GetId() string {
 	return ""
 }
 
-func (m *VerificationMethod) GetType() string {
+func (m *VerificationMethod) GetVerificationMethodType() string {
 	if m != nil {
-		return m.Type
+		return m.VerificationMethodType
 	}
 	return ""
 }
@@ -266,9 +302,17 @@ func (m *VerificationRelationship) GetVerificationMethod() *VerificationMethod {
 	return nil
 }
 
+// Service defines a service, as defined in the DID Core specification.
+// Documentation: https://www.w3.org/TR/did-core/#services
 type Service struct {
-	Id              string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Type            string   `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
+	// id is the unique identifier of the service.
+	// Format: did:cheqd:<namespace>:<unique-identifier>#<service-id>
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// type is the type of the service.
+	// Example: LinkedResource
+	ServiceType string `protobuf:"bytes,2,opt,name=service_type,json=serviceType,proto3" json:"type,omitempty"`
+	// serviceEndpoint is the endpoint of the service.
+	// Example: https://example.com/endpoint
 	ServiceEndpoint []string `protobuf:"bytes,3,rep,name=service_endpoint,json=serviceEndpoint,proto3" json:"service_endpoint,omitempty"`
 	Accept          []string `protobuf:"bytes,4,rep,name=accept,proto3" json:"accept,omitempty"`
 	RoutingKeys     []string `protobuf:"bytes,5,rep,name=routing_keys,json=routingKeys,proto3" json:"routing_keys,omitempty"`
@@ -314,9 +358,9 @@ func (m *Service) GetId() string {
 	return ""
 }
 
-func (m *Service) GetType() string {
+func (m *Service) GetServiceType() string {
 	if m != nil {
-		return m.Type
+		return m.ServiceType
 	}
 	return ""
 }
@@ -342,9 +386,13 @@ func (m *Service) GetRoutingKeys() []string {
 	return nil
 }
 
+// DidDocWithMetadata defines a DID Document with metadata, as defined in the DID Core specification.
+// Contains the DID Document, as well as DID Document metadata.
 type DidDocWithMetadata struct {
-	DidDoc   *DidDoc   `protobuf:"bytes,1,opt,name=did_doc,json=didDoc,proto3" json:"did_doc,omitempty"`
-	Metadata *Metadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	// didDocument is the DID Document.
+	DidDoc *DidDoc `protobuf:"bytes,1,opt,name=did_doc,json=didDoc,proto3" json:"didDocument"`
+	// didDocumentMetadata is the DID Document metadata.
+	Metadata *Metadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"didDocumentMetadata"`
 }
 
 func (m *DidDocWithMetadata) Reset()         { *m = DidDocWithMetadata{} }
@@ -394,12 +442,31 @@ func (m *DidDocWithMetadata) GetMetadata() *Metadata {
 	return nil
 }
 
+// Metadata defines DID Document metadata, as defined in the DID Core specification.
+// Documentation: https://www.w3.org/TR/did-core/#did-document-metadata-properties
 type Metadata struct {
-	Created           string `protobuf:"bytes,1,opt,name=created,proto3" json:"created,omitempty"`
-	Updated           string `protobuf:"bytes,2,opt,name=updated,proto3" json:"updated,omitempty"`
-	Deactivated       bool   `protobuf:"varint,3,opt,name=deactivated,proto3" json:"deactivated,omitempty"`
-	VersionId         string `protobuf:"bytes,4,opt,name=version_id,json=versionId,proto3" json:"version_id,omitempty"`
-	NextVersionId     string `protobuf:"bytes,5,opt,name=next_version_id,json=nextVersionId,proto3" json:"next_version_id,omitempty"`
+	// created is the timestamp of the creation of the DID Document.
+	// Format: RFC3339
+	// Example: 2021-03-10T15:16:17Z
+	Created time.Time `protobuf:"bytes,1,opt,name=created,proto3,stdtime" json:"created"`
+	// updated is the timestamp of the last update of the DID Document.
+	// Format: RFC3339
+	// Example: 2021-03-10T15:16:17Z
+	Updated *time.Time `protobuf:"bytes,2,opt,name=updated,proto3,stdtime" json:"updated,omitempty"`
+	// deactivated is a flag that indicates whether the DID Document is deactivated.
+	// Default: false
+	Deactivated bool `protobuf:"varint,3,opt,name=deactivated,proto3" json:"deactivated,omitempty"`
+	// version_id is the version identifier of the DID Document.
+	// Format: UUID
+	// Example: 123e4567-e89b-12d3-a456-426655440000
+	VersionId string `protobuf:"bytes,4,opt,name=version_id,json=versionId,proto3" json:"version_id,omitempty"`
+	// next_version_id is the version identifier of the next version of the DID Document.
+	// Format: UUID
+	// Example: 123e4567-e89b-12d3-a456-426655440000
+	NextVersionId string `protobuf:"bytes,5,opt,name=next_version_id,json=nextVersionId,proto3" json:"next_version_id,omitempty"`
+	// previous_version_id is the version identifier of the previous version of the DID Document.
+	// Format: UUID
+	// Example: 123e4567-e89b-12d3-a456-426655440000
 	PreviousVersionId string `protobuf:"bytes,6,opt,name=previous_version_id,json=previousVersionId,proto3" json:"previous_version_id,omitempty"`
 }
 
@@ -436,18 +503,18 @@ func (m *Metadata) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Metadata proto.InternalMessageInfo
 
-func (m *Metadata) GetCreated() string {
+func (m *Metadata) GetCreated() time.Time {
 	if m != nil {
 		return m.Created
 	}
-	return ""
+	return time.Time{}
 }
 
-func (m *Metadata) GetUpdated() string {
+func (m *Metadata) GetUpdated() *time.Time {
 	if m != nil {
 		return m.Updated
 	}
-	return ""
+	return nil
 }
 
 func (m *Metadata) GetDeactivated() bool {
@@ -725,10 +792,10 @@ func (m *VerificationMethod) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.Type) > 0 {
-		i -= len(m.Type)
-		copy(dAtA[i:], m.Type)
-		i = encodeVarintDiddoc(dAtA, i, uint64(len(m.Type)))
+	if len(m.VerificationMethodType) > 0 {
+		i -= len(m.VerificationMethodType)
+		copy(dAtA[i:], m.VerificationMethodType)
+		i = encodeVarintDiddoc(dAtA, i, uint64(len(m.VerificationMethodType)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -831,10 +898,10 @@ func (m *Service) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x1a
 		}
 	}
-	if len(m.Type) > 0 {
-		i -= len(m.Type)
-		copy(dAtA[i:], m.Type)
-		i = encodeVarintDiddoc(dAtA, i, uint64(len(m.Type)))
+	if len(m.ServiceType) > 0 {
+		i -= len(m.ServiceType)
+		copy(dAtA[i:], m.ServiceType)
+		i = encodeVarintDiddoc(dAtA, i, uint64(len(m.ServiceType)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -946,20 +1013,24 @@ func (m *Metadata) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x18
 	}
-	if len(m.Updated) > 0 {
-		i -= len(m.Updated)
-		copy(dAtA[i:], m.Updated)
-		i = encodeVarintDiddoc(dAtA, i, uint64(len(m.Updated)))
+	if m.Updated != nil {
+		n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.Updated, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.Updated):])
+		if err3 != nil {
+			return 0, err3
+		}
+		i -= n3
+		i = encodeVarintDiddoc(dAtA, i, uint64(n3))
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Created) > 0 {
-		i -= len(m.Created)
-		copy(dAtA[i:], m.Created)
-		i = encodeVarintDiddoc(dAtA, i, uint64(len(m.Created)))
-		i--
-		dAtA[i] = 0xa
+	n4, err4 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Created, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.Created):])
+	if err4 != nil {
+		return 0, err4
 	}
+	i -= n4
+	i = encodeVarintDiddoc(dAtA, i, uint64(n4))
+	i--
+	dAtA[i] = 0xa
 	return len(dAtA) - i, nil
 }
 
@@ -1057,7 +1128,7 @@ func (m *VerificationMethod) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovDiddoc(uint64(l))
 	}
-	l = len(m.Type)
+	l = len(m.VerificationMethodType)
 	if l > 0 {
 		n += 1 + l + sovDiddoc(uint64(l))
 	}
@@ -1099,7 +1170,7 @@ func (m *Service) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovDiddoc(uint64(l))
 	}
-	l = len(m.Type)
+	l = len(m.ServiceType)
 	if l > 0 {
 		n += 1 + l + sovDiddoc(uint64(l))
 	}
@@ -1147,12 +1218,10 @@ func (m *Metadata) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Created)
-	if l > 0 {
-		n += 1 + l + sovDiddoc(uint64(l))
-	}
-	l = len(m.Updated)
-	if l > 0 {
+	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.Created)
+	n += 1 + l + sovDiddoc(uint64(l))
+	if m.Updated != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.Updated)
 		n += 1 + l + sovDiddoc(uint64(l))
 	}
 	if m.Deactivated {
@@ -1658,7 +1727,7 @@ func (m *VerificationMethod) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field VerificationMethodType", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1686,7 +1755,7 @@ func (m *VerificationMethod) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Type = string(dAtA[iNdEx:postIndex])
+			m.VerificationMethodType = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
@@ -1954,7 +2023,7 @@ func (m *Service) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ServiceType", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -1982,7 +2051,7 @@ func (m *Service) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Type = string(dAtA[iNdEx:postIndex])
+			m.ServiceType = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
@@ -2256,7 +2325,7 @@ func (m *Metadata) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Created", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowDiddoc
@@ -2266,29 +2335,30 @@ func (m *Metadata) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthDiddoc
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthDiddoc
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Created = string(dAtA[iNdEx:postIndex])
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.Created, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Updated", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowDiddoc
@@ -2298,23 +2368,27 @@ func (m *Metadata) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthDiddoc
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthDiddoc
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Updated = string(dAtA[iNdEx:postIndex])
+			if m.Updated == nil {
+				m.Updated = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.Updated, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		case 3:
 			if wireType != 0 {
