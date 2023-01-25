@@ -47,7 +47,7 @@ func (s *TestSetup) BuildDidDocWithCustomDID(did string) DidDocInfo {
 		},
 		Authentication: []*types.VerificationRelationship{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodId: keyID,
 			},
 		},
 		VersionId: uuid.NewString(),

@@ -41,12 +41,12 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: bob.KeyId,
+						VerificationMethodId: bob.KeyID,
 					},
 				},
 				AssertionMethod: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: bob.KeyId,
+						VerificationMethodId: bob.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -244,12 +244,12 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				AssertionMethod: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				}, // Adding new verification method
 				VersionId: uuid.NewString(),
@@ -350,7 +350,7 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -405,7 +405,7 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: newKeyId,
+						VerificationMethodId: newKeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -480,7 +480,7 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -549,7 +549,7 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -570,7 +570,7 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -620,7 +620,7 @@ var _ = Describe("DIDDoc update", func() {
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -668,22 +668,22 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   string(alice.KeyPair.Public),
 					},
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
 				Service: []*types.Service{
 					{
 						Id:              alice.Did + "#service-1",
-						Type:            "type-1",
+						ServiceType:     "type-1",
 						ServiceEndpoint: []string{"endpoint-1"},
 						Accept:          newAccepts,
 						RoutingKeys:     newRoutingKeys,
@@ -731,22 +731,22 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   string(alice.KeyPair.Public),
 					},
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
 				Service: []*types.Service{
 					{
 						Id:              alice.Did + "#service-1",
-						Type:            "type-1",
+						ServiceType:     "type-1",
 						ServiceEndpoint: []string{"endpoint-1"},
 						Accept:          newAccepts,
 						RoutingKeys:     newRoutingKeys,
@@ -761,15 +761,15 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   string(alice.KeyPair.Public),
 					},
 				},
 				Authentication: []*types.VerificationRelationship{
 					{
-						VerificationMethodId: alice.KeyId,
+						VerificationMethodId: alice.KeyID,
 					},
 				},
 				VersionId: uuid.NewString(),
