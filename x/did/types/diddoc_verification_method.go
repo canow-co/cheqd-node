@@ -5,7 +5,6 @@ import (
 	"crypto/ed25519"
 	"crypto/rsa"
 	"encoding/binary"
-	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -78,7 +77,7 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 		verificationError = utils.VerifyED25519Signature(keyBytes, message, signature)
 
 	case Bls12381G2Key2020Type:
-		
+
 		_, multicodec, err := multibase.Decode(vm.VerificationMaterial)
 		if err != nil {
 			return err
@@ -195,7 +194,7 @@ func (vm VerificationMethod) Validate(baseDid string, allowedNamespaces []string
 			validation.When(vm.VerificationMethodType == Ed25519VerificationKey2020Type, validation.Required, IsMultibaseEd25519VerificationKey2020()),
 		),
 		validation.Field(&vm.VerificationMaterial,
-			validation.When(vm.VerificationMethodType == Bls12381G2Key2020Type, validation.Required, ValidBls12381G2Key2020Rule()),
+			validation.When(vm.VerificationMethodType == Bls12381G2Key2020Type, validation.Required, IsMultibaseBls12381G2Key2020Rule()),
 		),
 		validation.Field(&vm.VerificationMaterial,
 			validation.When(vm.VerificationMethodType == Ed25519VerificationKey2018Type, validation.Required, IsBase58Ed25519VerificationKey2018()),

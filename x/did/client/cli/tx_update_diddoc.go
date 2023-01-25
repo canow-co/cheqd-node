@@ -112,6 +112,29 @@ Example payload file:
 				return err
 			}
 
+			authentication, err := GetMixedVerificationMethodList(specPayload.Authentication)
+			if err != nil {
+				return err
+			}
+			AssertionMethod, err := GetMixedVerificationMethodList(specPayload.AssertionMethod)
+			if err != nil {
+				return err
+			}
+			capabilityInvocation, err := GetMixedVerificationMethodList(specPayload.CapabilityInvocation)
+			if err != nil {
+				return err
+			}
+			capabilityDelegation, err := GetMixedVerificationMethodList(specPayload.AuthentiCapabilityDelegationcation)
+			if err != nil {
+				return err
+			}
+			authentication, err := GetMixedVerificationMethodList(specPayload.Authentication)
+			if err != nil {
+				return err
+			}
+			
+
+
 			// Construct MsgUpdateDidDocPayload
 			payload := types.MsgUpdateDidDocPayload{
 				Context:              specPayload.Context,
