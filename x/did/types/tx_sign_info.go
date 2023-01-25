@@ -93,7 +93,7 @@ func IsUniqueSignInfoListByIDRule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]*SignInfo)
 		if !ok {
-			panic("IsUniqueVerificationMethodListByIdRule must be only applied on VM lists")
+			panic("IsUniqueVerificationMethodListByIDRule must be only applied on VM lists")
 		}
 
 		ids := GetSignInfoIds(casted)
@@ -109,7 +109,7 @@ func IsUniqueSignInfoListRule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]*SignInfo)
 		if !ok {
-			panic("IsUniqueVerificationMethodListByIdRule must be only applied on VM lists")
+			panic("IsUniqueVerificationMethodListByIDRule must be only applied on VM lists")
 		}
 
 		if !IsUniqueSignInfoList(casted) {

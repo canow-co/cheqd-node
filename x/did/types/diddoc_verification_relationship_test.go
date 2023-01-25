@@ -34,16 +34,16 @@ var _ = DescribeTable("Verification Relationship validation tests", func(testCas
 			},
 			sharedVerificationMethods: []*VerificationMethod{
 				{
-					Id:                   "did:canow:zABCDEFG123456789abcd#rty",
-					Type:                 "JsonWebKey2020",
-					Controller:           "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial: ValidJwkVerificationMaterial,
+					Id:                     "did:canow:zABCDEFG123456789abcd#rty",
+					VerificationMethodType: "JsonWebKey2020",
+					Controller:             "did:canow:zABCDEFG987654321abcd",
+					VerificationMaterial:   ValidJwkVerificationMaterial,
 				},
 				{
-					Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-					Type:                 "Ed25519VerificationKey2020",
-					Controller:           "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+					Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+					VerificationMethodType: "Ed25519VerificationKey2020",
+					Controller:             "did:canow:zABCDEFG987654321abcd",
+					VerificationMaterial:   ValidEd25519MultibaseVerificationMaterial,
 				},
 			},
 			isValid: true,
@@ -54,10 +54,10 @@ var _ = DescribeTable("Verification Relationship validation tests", func(testCas
 		VerificationRelationshipTestCase{
 			vr: VerificationRelationship{
 				VerificationMethod: &VerificationMethod{
-					Id:                   "did:canow:zABCDEFG123456789abcd#rty",
-					Type:                 "JsonWebKey2020",
-					Controller:           "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial: ValidJwkVerificationMaterial,
+					Id:                     "did:canow:zABCDEFG123456789abcd#rty",
+					VerificationMethodType: "JsonWebKey2020",
+					Controller:             "did:canow:zABCDEFG987654321abcd",
+					VerificationMaterial:   ValidJwkVerificationMaterial,
 				},
 			},
 			isValid: true,
@@ -77,18 +77,18 @@ var _ = DescribeTable("Verification Relationship validation tests", func(testCas
 			vr: VerificationRelationship{
 				VerificationMethodId: "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethod: &VerificationMethod{
-					Id:                   "did:canow:zABCDEFG123456789abcd#rty",
-					Type:                 "JsonWebKey2020",
-					Controller:           "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial: ValidJwkVerificationMaterial,
+					Id:                     "did:canow:zABCDEFG123456789abcd#rty",
+					VerificationMethodType: "JsonWebKey2020",
+					Controller:             "did:canow:zABCDEFG987654321abcd",
+					VerificationMaterial:   ValidJwkVerificationMaterial,
 				},
 			},
 			sharedVerificationMethods: []*VerificationMethod{
 				{
-					Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-					Type:                 "Ed25519VerificationKey2020",
-					Controller:           "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+					Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+					VerificationMethodType: "Ed25519VerificationKey2020",
+					Controller:             "did:canow:zABCDEFG987654321abcd",
+					VerificationMaterial:   ValidEd25519MultibaseVerificationMaterial,
 				},
 			},
 			isValid:  false,
@@ -103,10 +103,10 @@ var _ = DescribeTable("Verification Relationship validation tests", func(testCas
 			},
 			sharedVerificationMethods: []*VerificationMethod{
 				{
-					Id:                   "did:canow:zABCDEFG123456789abcd#rty",
-					Type:                 "JsonWebKey2020",
-					Controller:           "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial: ValidJwkVerificationMaterial,
+					Id:                     "did:canow:zABCDEFG123456789abcd#rty",
+					VerificationMethodType: "JsonWebKey2020",
+					Controller:             "did:canow:zABCDEFG987654321abcd",
+					VerificationMaterial:   ValidJwkVerificationMaterial,
 				},
 			},
 			isValid:  false,
@@ -118,10 +118,10 @@ var _ = DescribeTable("Verification Relationship validation tests", func(testCas
 		VerificationRelationshipTestCase{
 			vr: VerificationRelationship{
 				VerificationMethod: &VerificationMethod{
-					Id:                   "did:canow:zABCDEFG123456789abcd#rty",
-					Type:                 "JsonWebKey2020",
-					Controller:           "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial: InvalidJwkVerificationMaterial,
+					Id:                     "did:canow:zABCDEFG123456789abcd#rty",
+					VerificationMethodType: "JsonWebKey2020",
+					Controller:             "did:canow:zABCDEFG987654321abcd",
+					VerificationMaterial:   InvalidJwkVerificationMaterial,
 				},
 			},
 			isValid:  false,

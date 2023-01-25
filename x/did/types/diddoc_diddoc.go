@@ -152,7 +152,7 @@ func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
 	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.CapabilityDelegation)...)
 	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.KeyAgreement)...)
 
-	return validation.Validate(allVerificationMethods, IsUniqueVerificationMethodListByIdRule())
+	return validation.Validate(allVerificationMethods, IsUniqueVerificationMethodListByIDRule())
 }
 
 func FilterEmbeddedVerificationMethods(vrs []*VerificationRelationship) []*VerificationMethod {

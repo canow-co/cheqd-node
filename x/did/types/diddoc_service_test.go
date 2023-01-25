@@ -61,7 +61,7 @@ var _ = Describe("Service tests", func() {
 			TestCaseServiceStruct{
 				service: &Service{
 					Id:              "did:canow:zABCDEFG123456789abcd#service1",
-					Type:            "DIDCommMessaging",
+					ServiceType:     "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint"},
 				},
 				baseDid:  "did:canow:zABCDEFG987654321abcd",

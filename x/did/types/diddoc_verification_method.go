@@ -5,6 +5,7 @@ import (
 	"crypto/ed25519"
 	"crypto/rsa"
 	"encoding/binary"
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -21,13 +22,14 @@ const (
 	JSONWebKey2020Type             = "JsonWebKey2020"
 	Ed25519VerificationKey2020Type = "Ed25519VerificationKey2020"
 	Ed25519VerificationKey2018Type = "Ed25519VerificationKey2018"
+	Bls12381G2Key2020Type		   = "Bls12381G2Key2020"
 )
 
 var SupportedMethodTypes = []string{
 	JSONWebKey2020Type,
 	Ed25519VerificationKey2020Type,
 	Ed25519VerificationKey2018Type,
-	Bls12381G2Key2020{}.Type(),
+	Bls12381G2Key2020Type,
 }
 
 func NewVerificationMethod(id string, vmType string, controller string, verificationMaterial string) *VerificationMethod {
@@ -75,14 +77,9 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 		keyBytes := utils.GetEd25519VerificationKey2020(multibaseBytes)
 		verificationError = utils.VerifyED25519Signature(keyBytes, message, signature)
 
-	case Bls12381G2Key2020{}.Type():
-		var bls12381G2Key2020 Bls12381G2Key2020
-		err := json.Unmarshal([]byte(vm.VerificationMaterial), &bls12381G2Key2020)
-		if err != nil {
-			return sdkerrors.Wrapf(err, "failed to unmarshal verification material for %s", vm.Id)
-		}
-
-		_, multicodec, err := multibase.Decode(bls12381G2Key2020.PublicKeyMultibase)
+	case Bls12381G2Key2020Type:
+		
+		_, multicodec, err := multibase.Decode(vm.VerificationMaterial)
 		if err != nil {
 			return err
 		}
@@ -198,7 +195,7 @@ func (vm VerificationMethod) Validate(baseDid string, allowedNamespaces []string
 			validation.When(vm.VerificationMethodType == Ed25519VerificationKey2020Type, validation.Required, IsMultibaseEd25519VerificationKey2020()),
 		),
 		validation.Field(&vm.VerificationMaterial,
-			validation.When(vm.Type == Bls12381G2Key2020{}.Type(), validation.Required, ValidBls12381G2Key2020Rule()),
+			validation.When(vm.VerificationMethodType == Bls12381G2Key2020Type, validation.Required, ValidBls12381G2Key2020Rule()),
 		),
 		validation.Field(&vm.VerificationMaterial,
 			validation.When(vm.VerificationMethodType == Ed25519VerificationKey2018Type, validation.Required, IsBase58Ed25519VerificationKey2018()),
@@ -224,7 +221,7 @@ func IsUniqueVerificationMethodListByIDRule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]*VerificationMethod)
 		if !ok {
-			panic("IsUniqueVerificationMethodListByIdRule must be only applied on VM lists")
+			panic("IsUniqueVerificationMethodListByIDRule must be only applied on VM lists")
 		}
 
 		ids := GetVerificationMethodIds(casted)

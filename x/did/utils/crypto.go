@@ -5,7 +5,6 @@ import (
 	"crypto/ecdsa"
 	"crypto/ed25519"
 	"crypto/rsa"
-	"encoding/binary"
 	"errors"
 	"fmt"
 
@@ -15,7 +14,6 @@ import (
 	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
 	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwk"
-	"github.com/multiformats/go-multibase"
 )
 
 func ValidateJWK(rawJwk []byte) error {
@@ -75,24 +73,7 @@ func ValidateEd25519PubKey(keyBytes []byte) error {
 	return nil
 }
 
-func ValidateMultibaseMulticodecBls12381G2PubKey(key string) error {
-	_, multicodec, err := multibase.Decode(key)
-	if err != nil {
-		return err
-	}
 
-	code, codePrefixLength := binary.Uvarint(multicodec)
-	if codePrefixLength <= 0 {
-		return errors.New("Invalid multicodec value")
-	}
-	if code != bls12381g2.Bls12381G2PubCode {
-		return errors.New("Not a Bls12381G2 public key")
-	}
-
-	keyBytes := multicodec[codePrefixLength:]
-
-	return ValidateBls12381G2PubKey(keyBytes)
-}
 
 func ValidateBls12381G2PubKey(keyBytes []byte) error {
 	_, err := bbs12381g2pub.UnmarshalPublicKey(keyBytes)
