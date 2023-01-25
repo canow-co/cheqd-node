@@ -14,7 +14,7 @@ import (
 
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/canow-co/cheqd-node/x/did/utils/bls12381g2"
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/multiformats/go-multibase"
@@ -44,9 +44,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Verification method with base58 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#uio",
+				Id:                     "did:canow:zABCDEFG123456789abcd#uio",
 				VerificationMethodType: "Ed25519VerificationKey2018",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidEd25519VerificationKey2018VerificationMaterial,
 			},
 			isValid: true,
@@ -56,9 +56,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Verification method with multibase verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 			},
 			isValid: true,
@@ -68,9 +68,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Verification method with JWK verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#rty",
+				Id:                     "did:canow:zABCDEFG123456789abcd#rty",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			isValid:  true,
@@ -81,9 +81,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Id has expected DID as a base",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#rty",
+				Id:                     "did:canow:zABCDEFG123456789abcd#rty",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			baseDid: "did:canow:zABCDEFG123456789abcd",
@@ -94,9 +94,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Id does not have expected DID as a base",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#rty",
+				Id:                     "did:canow:zABCDEFG123456789abcd#rty",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			baseDid:  "did:canow:zABCDEFG987654321abcd",
@@ -108,9 +108,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Namespace is allowed",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:mainnet:zABCDEFG123456789abcd#rty",
+				Id:                     "did:canow:mainnet:zABCDEFG123456789abcd#rty",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			allowedNamespaces: []string{"mainnet", ""},
@@ -122,9 +122,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Namespace is not allowed",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:mainnet:zABCDEFG123456789abcd#rty",
+				Id:                     "did:canow:mainnet:zABCDEFG123456789abcd#rty",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			allowedNamespaces: []string{"testnet"},
@@ -136,9 +136,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Valid Ed25519VerificationKey2018 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#uio",
+				Id:                     "did:canow:zABCDEFG123456789abcd#uio",
 				VerificationMethodType: "Ed25519VerificationKey2018",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidEd25519VerificationKey2018VerificationMaterial,
 			},
 			isValid: true,
@@ -215,9 +215,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Invalid Ed25519VerificationKey2018 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2018",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2018VerificationMaterialBadLength,
 			},
 			isValid:  false,
@@ -228,9 +228,9 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Invalid Ed25519VerificationKey2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadlength,
 			},
 			isValid:  false,
@@ -479,9 +479,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Valid Ed25519VerificationKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 			},
 			isValid:  true,
@@ -492,9 +492,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Valid JsonWebKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			isValid:  true,
@@ -505,9 +505,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Valid Ed25519VerificationKey2018 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2018",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   ValidEd25519VerificationKey2018VerificationMaterial,
 			},
 			isValid:  true,
@@ -518,9 +518,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Invalid Ed25519VerificationKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadlength,
 			},
 			isValid:  false,
@@ -531,9 +531,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Invalid Ed25519VerificationKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadPrefix,
 			},
 			isValid:  false,
@@ -544,9 +544,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Invalid JsonWebKey2020 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "JsonWebKey2020",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidJWK2020VerificationMaterial,
 			},
 			isValid:  false,
@@ -557,9 +557,9 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 		"Invalid Ed25519VerificationKey2018 verification material",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                     "did:cheqd:zABCDEFG123456789abcd#qwe",
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2018",
-				Controller:             "did:cheqd:zABCDEFG987654321abcd",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
 				VerificationMaterial:   InvalidEd25519VerificationKey2018VerificationMaterialBadLength,
 			},
 			isValid:  false,

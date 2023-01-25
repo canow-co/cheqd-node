@@ -34,11 +34,11 @@ type QueryDidDocRequest struct {
 	// DID unique identifier of the DID Document to fetch.
 	// UUID-style DIDs as well as Indy-style DID are supported.
 	//
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	//
 	// Examples:
-	// - did:cheqd:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
-	// - did:cheqd:testnet:wGHEXrZvJxR8vw5P3UWH1j
+	// - did:canow:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
+	// - did:canow:testnet:wGHEXrZvJxR8vw5P3UWH1j
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
@@ -135,11 +135,11 @@ type QueryDidDocVersionRequest struct {
 	// DID unique identifier of the DID Document to fetch.
 	// UUID-style DIDs as well as Indy-style DID are supported.
 	//
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	//
 	// Examples:
-	// - did:cheqd:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
-	// - did:cheqd:testnet:wGHEXrZvJxR8vw5P3UWH1j
+	// - did:canow:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
+	// - did:canow:testnet:wGHEXrZvJxR8vw5P3UWH1j
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Unique version identifier of the DID Document to fetch.
 	// Returns the specified version of the DID Document.
@@ -250,11 +250,11 @@ type QueryAllDidDocVersionsMetadataRequest struct {
 	// DID unique identifier of the DID Document to fetch version metadata.
 	// UUID-style DIDs as well as Indy-style DID are supported.
 	//
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	//
 	// Examples:
-	// - did:cheqd:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
-	// - did:cheqd:testnet:wGHEXrZvJxR8vw5P3UWH1j
+	// - did:canow:mainnet:c82f2b02-bdab-4dd7-b833-3e143745d612
+	// - did:canow:testnet:wGHEXrZvJxR8vw5P3UWH1j
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// pagination defines an optional pagination for the request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`

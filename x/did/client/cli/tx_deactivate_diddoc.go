@@ -2,7 +2,7 @@ package cli
 
 import (
 	"github.com/canow-co/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -27,11 +27,11 @@ NOTES:
 Example payload file:
 {
     "payload": {
-        "id": "did:cheqd:<namespace>:<unique-identifier>"
+        "id": "did:canow:<namespace>:<unique-identifier>"
     },
     "signInputs": [
         {
-            "verificationMethodId": "did:cheqd:<namespace>:<unique-identifier>#<key-id>",
+            "verificationMethodId": "did:canow:<namespace>:<unique-identifier>#<key-id>",
             "privKey": "<private-key-bytes-encoded-to-base64>"
         }
     ]

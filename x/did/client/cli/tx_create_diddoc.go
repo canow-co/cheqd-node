@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/canow-co/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -31,12 +31,12 @@ Example payload file:
 {
     "payload": {
         "context": [ "https://www.w3.org/ns/did/v1" ],
-        "id": "did:cheqd:<namespace>:<unique-identifier>",
+        "id": "did:canow:<namespace>:<unique-identifier>",
         "controller": [
-            "did:cheqd:<namespace>:<unique-identifier>"
+            "did:canow:<namespace>:<unique-identifier>"
         ],
         "authentication": [
-            "did:cheqd:<namespace>:<unique-identifier>#<key-id>"
+            "did:canow:<namespace>:<unique-identifier>#<key-id>"
         ],
         "assertionMethod": [],
         "capabilityInvocation": [],
@@ -45,15 +45,15 @@ Example payload file:
         "alsoKnownAs": [],
         "verificationMethod": [
             {
-                "id": "did:cheqd:<namespace>:<unique-identifier>#<key-id>",
+                "id": "did:canow:<namespace>:<unique-identifier>#<key-id>",
                 "type": "<verification-method-type>",
-                "controller": "did:cheqd:<namespace>:<unique-identifier>",
+                "controller": "did:canow:<namespace>:<unique-identifier>",
                 "publicKeyMultibase": "<public-key>"
             }
         ],
         "service": [
 			{
-                "id": "did:cheqd:<namespace>:<unique-identifier>#<service-id>",
+                "id": "did:canow:<namespace>:<unique-identifier>#<service-id>",
                 "type": "<service-type>",
                 "serviceEndpoint": [
                     "<service-endpoint>"
@@ -63,7 +63,7 @@ Example payload file:
     },
 	"signInputs": [
         {
-            "verificationMethodId": "did:cheqd:<namespace>:<unique-identifier>#<key-id>",
+            "verificationMethodId": "did:canow:<namespace>:<unique-identifier>#<key-id>",
             "privKey": "<private-key-bytes-encoded-to-base64>"
         }
     ]

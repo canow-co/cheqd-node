@@ -37,7 +37,7 @@ Example payload file:
         "resourceType": "<resource-type>",
         "alsoKnownAs": [
             {
-                "uri": "did:cheqd:<namespace>:<unique-identifier>/resource/<uuid>",
+                "uri": "did:canow:<namespace>:<unique-identifier>/resource/<uuid>",
                 "description": "did-url"
             },
             {
@@ -48,7 +48,7 @@ Example payload file:
     },
     "signInputs": [
         {
-            "verificationMethodId": "did:cheqd:<namespace>:<unique-identifier>#<key-id>",
+            "verificationMethodId": "did:canow:<namespace>:<unique-identifier>#<key-id>",
             "privKey": "<private-key-bytes-encoded-to-base64>"
         }
     ]

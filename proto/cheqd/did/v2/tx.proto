@@ -64,7 +64,7 @@ message MsgCreateDidDocPayload {
   repeated string context = 1;
 
   // id is the DID of the DID document.
-  // Format: did:cheqd:<namespace>:<unique-identifier>
+  // Format: did:canow:<namespace>:<unique-identifier>
   string id = 2;
 
   // controller is a list of DIDs that are allowed to control the DID document.
@@ -132,7 +132,7 @@ message MsgUpdateDidDocPayload {
   repeated string context = 1;
 
   // id is the DID of the DID document.
-  // Format: did:cheqd:<namespace>:<unique-identifier>
+  // Format: did:canow:<namespace>:<unique-identifier>
   string id = 2;
 
   // controller is a list of DIDs that are allowed to control the DID document.

@@ -33,9 +33,9 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                     "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
 								VerificationMethodType: "Ed25519VerificationKey2020",
-								Controller:             "did:cheqd:testnet:zABCDEFG123456789abcd",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
 								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
@@ -59,9 +59,9 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                     "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
 								VerificationMethodType: "Ed25519VerificationKey2020",
-								Controller:             "did:cheqd:testnet:zABCDEFG123456789abcd",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
 								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
@@ -88,9 +88,9 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                     "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
 								VerificationMethodType: "Ed25519VerificationKey2020",
-								Controller:             "did:cheqd:testnet:zABCDEFG123456789abcd",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
 								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},

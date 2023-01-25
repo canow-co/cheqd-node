@@ -10,7 +10,7 @@ import (
 	didcli "github.com/canow-co/cheqd-node/x/did/client/cli"
 	didtypesv2 "github.com/canow-co/cheqd-node/x/did/types"
 	resourcetypesv2 "github.com/canow-co/cheqd-node/x/resource/types"
-	clihelpers "github.com/cheqd/cheqd-node/tests/integration/helpers"
+	clihelpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

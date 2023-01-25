@@ -11,7 +11,7 @@ import (
 	"github.com/canow-co/cheqd-node/tests/integration/network"
 	"github.com/canow-co/cheqd-node/tests/integration/testdata"
 	didcli "github.com/canow-co/cheqd-node/x/did/client/cli"
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/google/uuid"
 	. "github.com/onsi/ginkgo/v2"

@@ -15,7 +15,7 @@ message DidDoc {
   repeated string context = 1;
 
   // id is the DID of the DID document.
-  // Format: did:cheqd:<namespace>:<unique-identifier>
+  // Format: did:canow:<namespace>:<unique-identifier>
   string id = 2;
 
   // controller is a list of DIDs that are allowed to control the DID document.
@@ -56,7 +56,7 @@ message DidDoc {
 // Documentation: https://www.w3.org/TR/did-core/#verification-methods
 message VerificationMethod {
   // id is the unique identifier of the verification method.
-  // Format: did:cheqd:<namespace>:<unique-identifier>#<key-id>
+  // Format: did:canow:<namespace>:<unique-identifier>#<key-id>
   string id = 1;
 
   // type is the type of the verification method.
@@ -64,7 +64,7 @@ message VerificationMethod {
   string verification_method_type = 2 [(gogoproto.jsontag) = "type,omitempty"];
 
   // controller is the DID of the controller of the verification method.
-  // Format: did:cheqd:<namespace>:<unique-identifier>
+  // Format: did:canow:<namespace>:<unique-identifier>
   string controller = 3;
 
   // verification_material is the public key of the verification method.
@@ -81,7 +81,7 @@ message VerificationRelationship {
 // Documentation: https://www.w3.org/TR/did-core/#services
 message Service {
   // id is the unique identifier of the service.
-  // Format: did:cheqd:<namespace>:<unique-identifier>#<service-id>
+  // Format: did:canow:<namespace>:<unique-identifier>#<service-id>
   string id = 1;
 
   // type is the type of the service.

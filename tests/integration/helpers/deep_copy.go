@@ -5,7 +5,7 @@ import (
 
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
-	didcli "github.com/cheqd/cheqd-node/x/did/client/cli"
+	didcli "github.com/canow-co/cheqd-node/x/did/client/cli"
 )
 
 // IDeepCopy is an interface for deep copy in the decorator pattern.

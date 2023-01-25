@@ -7860,7 +7860,7 @@ type MsgCreateDidDocPayload struct {
 	// Default: https://www.w3.org/ns/did/v1
 	Context []string `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
 	// id is the DID of the DID document.
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	// controller is a list of DIDs that are allowed to control the DID document.
 	Controller []string `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
@@ -8056,7 +8056,7 @@ type MsgUpdateDidDocPayload struct {
 	// Default: https://www.w3.org/ns/did/v1
 	Context []string `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
 	// id is the DID of the DID document.
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	// controller is a list of DIDs that are allowed to control the DID document.
 	Controller []string `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
