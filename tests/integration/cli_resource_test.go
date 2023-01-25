@@ -67,7 +67,6 @@ var _ = Describe("cheqd cli - positive resource", func() {
 					VerificationMethodId: keyId,
 				},
 			},
-
 		}
 
 		signInputs := []didcli.SignInput{
@@ -196,7 +195,6 @@ var _ = Describe("cheqd cli - positive resource", func() {
 					VerificationMethodId: secondKeyId,
 				},
 			},
-
 		}
 
 		secondSignInputs := []didcli.SignInput{
@@ -275,7 +273,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 	It("can create resource using signature by method referenced from Authentication verification relationship of DID document", func() {
 		// Create a new DID Doc
 		collectionId := uuid.NewString()
-		did := "did:canow:" + network.DID_NAMESPACE + ":" + collectionId
+		did := "did:canow:" + network.DidNamespace + ":" + collectionId
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -288,10 +286,10 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			Id: did,
 			VerificationMethod: []*types.VerificationMethod{
 				{
-					Id:                   keyId,
-					Type:                 "Ed25519VerificationKey2020",
-					Controller:           did,
-					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+					Id:                     keyId,
+					VerificationMethodType: "Ed25519VerificationKey2020",
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKeyMultibase58),
 				},
 			},
 			Authentication: []*types.VerificationRelationship{
@@ -304,16 +302,16 @@ var _ = Describe("cheqd cli - positive resource", func() {
 
 		signInputs := []clitypes.SignInput{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
-		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can create resource"))
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can create resource"))
 		// Create a new Resource
 		resourceId := uuid.NewString()
 		resourceName := "TestResource"
@@ -329,11 +327,11 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			ResourceVersion: resourceVersion,
 			ResourceType:    resourceType,
 			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		}, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
-		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query resource"))
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can query resource"))
 		// Query the Resource
 		res2, err := cli.QueryResource(collectionId, resourceId)
 		Expect(err).To(BeNil())
@@ -349,7 +347,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 	It("can create resource using signature by method embedded in Authentication verification relationship of DID document", func() {
 		// Create a new DID Doc
 		collectionId := uuid.NewString()
-		did := "did:canow:" + network.DID_NAMESPACE + ":" + collectionId
+		did := "did:canow:" + network.DidNamespace + ":" + collectionId
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -363,10 +361,10 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			Authentication: []*types.VerificationRelationship{
 				{
 					VerificationMethod: &types.VerificationMethod{
-						Id:                   keyId,
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           did,
-						VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+						Id:                     keyId,
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             did,
+						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKeyMultibase58),
 					},
 				},
 			},
@@ -375,16 +373,16 @@ var _ = Describe("cheqd cli - positive resource", func() {
 
 		signInputs := []clitypes.SignInput{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
-		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can create resource"))
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can create resource"))
 		// Create a new Resource
 		resourceId := uuid.NewString()
 		resourceName := "TestResource"
@@ -400,11 +398,11 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			ResourceVersion: resourceVersion,
 			ResourceType:    resourceType,
 			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		}, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
-		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query resource"))
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can query resource"))
 		// Query the Resource
 		res2, err := cli.QueryResource(collectionId, resourceId)
 		Expect(err).To(BeNil())
@@ -420,7 +418,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 	It("can create resource using signature by method from VerificationMethod list of DID document and not referenced from its Authentication verification relationship", func() {
 		// Create a new DID Doc
 		collectionId := uuid.NewString()
-		did := "did:canow:" + network.DID_NAMESPACE + ":" + collectionId
+		did := "did:canow:" + network.DidNamespace + ":" + collectionId
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -433,10 +431,10 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			Id: did,
 			VerificationMethod: []*types.VerificationMethod{
 				{
-					Id:                   keyId,
-					Type:                 "Ed25519VerificationKey2020",
-					Controller:           did,
-					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+					Id:                     keyId,
+					VerificationMethodType: "Ed25519VerificationKey2020",
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKeyMultibase58),
 				},
 			},
 			VersionId: uuid.NewString(),
@@ -444,16 +442,16 @@ var _ = Describe("cheqd cli - positive resource", func() {
 
 		signInputs := []clitypes.SignInput{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
-		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can create resource"))
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can create resource"))
 		// Create a new Resource
 		resourceId := uuid.NewString()
 		resourceName := "TestResource"
@@ -469,11 +467,11 @@ var _ = Describe("cheqd cli - positive resource", func() {
 			ResourceVersion: resourceVersion,
 			ResourceType:    resourceType,
 			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		}, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
-		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.GREEN, "can query resource"))
+		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can query resource"))
 		// Query the Resource
 		res2, err := cli.QueryResource(collectionId, resourceId)
 		Expect(err).To(BeNil())

@@ -151,7 +151,7 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 				VerificationMethodType: "Ed25519VerificationKey2020",
 				Controller:             "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial:   ValidEd25519MultibaseVerificationMaterial,
+				VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 			},
 			isValid: true,
 		}),
@@ -247,7 +247,7 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 				VerificationMaterial:   InvalidBls12381G2MultibaseVerificationMaterial,
 			},
 			isValid:  false,
-			errorMsg: "verification_material: (publicKeyMultibase: Not a Bls12381G2 public key.).",
+			errorMsg: "verification_material: not a Bls12381G2 public key.",
 		}),
 	Entry(
 		"Invalid JsonWebKey2020 verification method",
@@ -362,7 +362,7 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 				Id:                     "",
 				VerificationMethodType: "Bls12381G2Key2020",
 				Controller:             "",
-				VerificationMaterial:   "{\"publicKeyMultibase\": \"" + pubKeyMultibase + "\"}",
+				VerificationMaterial:   pubKeyMultibase,
 			}
 
 			err = didtypes.VerifySignature(vm, msgBytes, signature)
@@ -379,7 +379,7 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 				Id:                     "",
 				VerificationMethodType: "JsonWebKey2020",
 				Controller:             "",
-				VerificationMaterial:   "{\"publicKeyJwk\": " + pubKeyJwk + "}",
+				VerificationMaterial:   pubKeyJwk,
 			}
 
 			err = didtypes.VerifySignature(vm, msgBytes, signature)
@@ -550,7 +550,7 @@ var _ = DescribeTable("Verification Method material validation tests", func(test
 				VerificationMaterial:   InvalidJWK2020VerificationMaterial,
 			},
 			isValid:  false,
-			errorMsg: "can't parse jwk: failed to parse key",
+			errorMsg: "verification_material: can't parse jwk: invalid key type from JSON (SomeOtherKeyType)",
 		},
 	),
 	Entry(

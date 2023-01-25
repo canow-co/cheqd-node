@@ -52,12 +52,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-
+			Authentication: []any{keyId},
 		}
 
 		signInputs = []didcli.SignInput{
@@ -147,12 +142,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 				},
 			},
 			Authentication: payload.Authentication,
-			AssertionMethod: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: payload.VerificationMethod[0].Id,
-				},
-			}, // <-- changed
-			VersionId: uuid.NewString(), // <-- changed
+			AssertionMethod: []any{payload.VerificationMethod[0]["id"]}, // <-- changed
 		}
 
 		By("querying the fee payer account balance before the transaction")
@@ -345,12 +335,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 				},
 			},
 			Authentication: payload.Authentication,
-			AssertionMethod: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: payload.VerificationMethod[0].Id,
-				},
-			}, // <-- changed
-			VersionId: uuid.NewString(), // <-- changed
+			AssertionMethod: []any{payload.VerificationMethod[0]["id"]}, // <-- changed
 		}
 
 		By("creating a feegrant")

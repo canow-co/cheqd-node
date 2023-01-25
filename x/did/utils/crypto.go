@@ -16,8 +16,8 @@ import (
 	"github.com/lestrrat-go/jwx/jwk"
 )
 
-func ValidateJWK(rawJwk []byte) error {
-	key, err := jwk.ParseKey(rawJwk)
+func ValidateJWK(jwkString string) error {
+	key, err := jwk.ParseKey([]byte(jwkString))
 	if err != nil {
 		return fmt.Errorf("can't parse jwk: %s", err.Error())
 	}

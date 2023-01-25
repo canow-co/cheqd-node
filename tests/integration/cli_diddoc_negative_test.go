@@ -5,6 +5,7 @@ package integration
 import (
 	"crypto/ed25519"
 	"fmt"
+	"github.com/multiformats/go-multibase"
 
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
 	helpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
@@ -52,12 +53,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-
+			Authentication: []any{keyId},
 		}
 
 		signInputs := []didcli.SignInput{
@@ -90,12 +86,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 					"publicKeyMultibase": publicKeyMultibase2,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId2,
-				},
-			},
-
+			Authentication: []any{keyId2},
 		}
 
 		signInputs2 := []didcli.SignInput{
@@ -192,12 +183,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-
+			Authentication: []any{keyId},
 		}
 
 		signInputs := []didcli.SignInput{
@@ -222,17 +208,8 @@ var _ = Describe("cheqd cli - negative did", func() {
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-			AssertionMethod: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-
+			Authentication:  []any{keyId},
+			AssertionMethod: []any{keyId},
 		}
 
 		res, err = cli.UpdateDidDoc(tmpDir, updatedPayload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.UpdateDid.String()))
@@ -260,12 +237,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 					"publicKeyMultibase": publicKeyMultibase2,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId2,
-				},
-			},
-
+			Authentication: []any{keyId2},
 		}
 
 		signInputs2 := []didcli.SignInput{
@@ -320,19 +292,11 @@ var _ = Describe("cheqd cli - negative did", func() {
 			"controller":         did2,
 			"publicKeyMultibase": publicKeyMultibase2,
 		})
-		followingUpdatedPayload.Authentication = append(followingUpdatedPayload.Authentication, &types.VerificationRelationship{
+		followingUpdatedPayload.Authentication = append(followingUpdatedPayload.Authentication, &didtypes.VerificationRelationship{
 			VerificationMethodId: keyId2AsExtraController,
 		})
-		followingUpdatedPayload.CapabilityDelegation = []*types.VerificationRelationship{
-			{
-				VerificationMethodId: keyId,
-			},
-		}
-		followingUpdatedPayload.CapabilityInvocation = []*types.VerificationRelationship{
-			{
-				VerificationMethodId: keyId,
-			},
-		}
+		followingUpdatedPayload.CapabilityDelegation = []any{keyId}
+		followingUpdatedPayload.CapabilityInvocation = []any{keyId}
 
 		signInputsAugmented := append(signInputs, signInputs2...)
 
@@ -451,7 +415,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 	It("cannot create diddoc using signature by method embedded in verification relationship other than Authentication", func() {
 		// Define a valid new DID Doc
-		did := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		did := "did:canow:" + network.DidNamespace + ":" + uuid.NewString()
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -459,38 +423,34 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
-
-		payload := types.MsgCreateDidDocPayload{
-			Id: did,
-			CapabilityInvocation: []*types.VerificationRelationship{
-				{
-					VerificationMethod: &types.VerificationMethod{
-						Id:                   keyId,
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           did,
-						VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
-					},
+		payload := didcli.DIDDocument{
+			ID:         did,
+			CapabilityInvocation: []any{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			VersionId: uuid.NewString(),
 		}
 
-		signInputs := []cli_types.SignInput{
+		signInputs := []didcli.SignInput{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}
 
-		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot create diddoc using signature by method embedded in verification relationship other than Authentication"))
+		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.Purple, "cannot create diddoc using signature by method embedded in verification relationship other than Authentication"))
 		// Fail to create a new DID Doc using signature by method embedded in verification relationship other than Authentication
-		_, err = cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		_, err = cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).ToNot(BeNil())
 	})
 
 	It("cannot create diddoc with invalid Service.RoutingKeys", func() {
 		// We cannot create DID Doc with invalid Service.RoutingKeys
-		did := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		did := "did:canow:" + network.DidNamespace + ":" + uuid.NewString()
 		keyId := did + "#key1"
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
@@ -499,26 +459,26 @@ var _ = Describe("cheqd cli - negative did", func() {
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
 
-		payload := types.MsgCreateDidDocPayload{
+		payload := didtypes.MsgCreateDidDocPayload{
 			Id: did,
-			VerificationMethod: []*types.VerificationMethod{
+			VerificationMethod: []*didtypes.VerificationMethod{
 				{
-					Id:                   keyId,
-					Type:                 "Ed25519VerificationKey2020",
-					Controller:           did,
-					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+					Id:                     keyId,
+					VerificationMethodType: "Ed25519VerificationKey2020",
+					Controller:             did,
+					VerificationMaterial:   pubKeyMultibase58,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
+			Authentication: []*didtypes.VerificationRelationship{
 				{
 					VerificationMethodId: keyId,
 				},
 			},
 			VersionId: uuid.NewString(),
-			Service: []*types.Service{
+			Service: []*didtypes.Service{
 				{
 					Id:              did + "#service-1",
-					Type:            "type-1",
+					ServiceType:     "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
 					Accept:          []string{"accept-1"},
 					RoutingKeys:     []string{"invalid key"},
@@ -526,16 +486,16 @@ var _ = Describe("cheqd cli - negative did", func() {
 			},
 		}
 
-		signInputs := []cli_types.SignInput{
+		signInputs := []didcli.SignInput{
 			{
-				VerificationMethodId: keyId,
+				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}
 
-		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.PURPLE, "cannot create diddoc with invalid Service.RoutingKeys"))
+		AddReportEntry("Integration", fmt.Sprintf("%sNegative: %s", cli.Purple, "cannot create diddoc with invalid Service.RoutingKeys"))
 		// Fail to create a new DID Doc with invalid Service.RoutingKeys
-		_, err = cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, cli.CLI_GAS_PARAMS)
+		_, err = cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).ToNot(BeNil())
 	})
 

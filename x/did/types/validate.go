@@ -183,7 +183,7 @@ func IsMultibaseMulticodecBls12381G2PubKey() *CustomErrorRule {
 
 func IsJWK() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.([]byte)
+		casted, ok := value.(string)
 		if !ok {
 			panic("IsJWK must be only applied on byte array properties")
 		}

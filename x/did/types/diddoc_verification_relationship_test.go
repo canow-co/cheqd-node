@@ -43,7 +43,7 @@ var _ = DescribeTable("Verification Relationship validation tests", func(testCas
 					Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 					VerificationMethodType: "Ed25519VerificationKey2020",
 					Controller:             "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial:   ValidEd25519MultibaseVerificationMaterial,
+					VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 				},
 			},
 			isValid: true,
@@ -68,7 +68,7 @@ var _ = DescribeTable("Verification Relationship validation tests", func(testCas
 		VerificationRelationshipTestCase{
 			vr:       VerificationRelationship{},
 			isValid:  false,
-			errorMsg: "One of VerificationMethodId or VerificationMethod must be set in VerificationRelationship",
+			errorMsg: "one of VerificationMethodId or VerificationMethod must be set in VerificationRelationship",
 		}),
 
 	Entry(
@@ -88,11 +88,11 @@ var _ = DescribeTable("Verification Relationship validation tests", func(testCas
 					Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
 					VerificationMethodType: "Ed25519VerificationKey2020",
 					Controller:             "did:canow:zABCDEFG987654321abcd",
-					VerificationMaterial:   ValidEd25519MultibaseVerificationMaterial,
+					VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 				},
 			},
 			isValid:  false,
-			errorMsg: "Only one of VerificationMethodId and VerificationMethod must be set in VerificationRelationship",
+			errorMsg: "only one of VerificationMethodId and VerificationMethod must be set in VerificationRelationship",
 		}),
 
 	Entry(

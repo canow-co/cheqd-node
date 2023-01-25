@@ -117,10 +117,8 @@ var (
 )
 
 var (
-	ValidEd25519MultibaseVerificationMaterial      = ValidEd25519PublicKeyMultibase
-	ValidBls12381G2MultibaseVerificationMaterial   = ValidBls12381G2PublicKeyMultibase
-	InvalidEd25519MultibaseVerificationMaterial    = InvalidEd25519PublicKeyMultibase
-	InvalidBls12381G2MultibaseVerificationMaterial = InvalidBls12381G2PublicKeyMultibase
+	ValidBls12381G2MultibaseVerificationMaterial        = ValidBls12381G2PublicKeyMultibase
+	InvalidBls12381G2MultibaseVerificationMaterial      = InvalidBls12381G2PublicKeyMultibase
 )
 
 var (
