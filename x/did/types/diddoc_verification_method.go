@@ -21,7 +21,7 @@ const (
 	JSONWebKey2020Type             = "JsonWebKey2020"
 	Ed25519VerificationKey2020Type = "Ed25519VerificationKey2020"
 	Ed25519VerificationKey2018Type = "Ed25519VerificationKey2018"
-	Bls12381G2Key2020Type		   = "Bls12381G2Key2020"
+	Bls12381G2Key2020Type          = "Bls12381G2Key2020"
 )
 
 var SupportedMethodTypes = []string{

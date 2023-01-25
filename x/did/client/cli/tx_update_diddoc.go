@@ -116,7 +116,7 @@ Example payload file:
 			if err != nil {
 				return err
 			}
-			AssertionMethod, err := GetMixedVerificationMethodList(specPayload.AssertionMethod)
+			assertionMethod, err := GetMixedVerificationMethodList(specPayload.AssertionMethod)
 			if err != nil {
 				return err
 			}
@@ -124,16 +124,14 @@ Example payload file:
 			if err != nil {
 				return err
 			}
-			capabilityDelegation, err := GetMixedVerificationMethodList(specPayload.AuthentiCapabilityDelegationcation)
+			capabilityDelegation, err := GetMixedVerificationMethodList(specPayload.CapabilityDelegation)
 			if err != nil {
 				return err
 			}
-			authentication, err := GetMixedVerificationMethodList(specPayload.Authentication)
+			keyAgreement, err := GetMixedVerificationMethodList(specPayload.KeyAgreement)
 			if err != nil {
 				return err
 			}
-			
-
 
 			// Construct MsgUpdateDidDocPayload
 			payload := types.MsgUpdateDidDocPayload{
@@ -141,11 +139,11 @@ Example payload file:
 				Id:                   specPayload.ID,
 				Controller:           specPayload.Controller,
 				VerificationMethod:   verificationMethod,
-				Authentication:       specPayload.Authentication,
-				AssertionMethod:      specPayload.AssertionMethod,
-				CapabilityInvocation: specPayload.CapabilityInvocation,
-				CapabilityDelegation: specPayload.CapabilityDelegation,
-				KeyAgreement:         specPayload.KeyAgreement,
+				Authentication:       authentication,
+				AssertionMethod:      assertionMethod,
+				CapabilityInvocation: capabilityInvocation,
+				CapabilityDelegation: capabilityDelegation,
+				KeyAgreement:         keyAgreement,
 				Service:              service,
 				AlsoKnownAs:          specPayload.AlsoKnownAs,
 				VersionId:            versionID, // Set version id, from flag or random

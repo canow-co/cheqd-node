@@ -73,8 +73,6 @@ func ValidateEd25519PubKey(keyBytes []byte) error {
 	return nil
 }
 
-
-
 func ValidateBls12381G2PubKey(keyBytes []byte) error {
 	_, err := bbs12381g2pub.UnmarshalPublicKey(keyBytes)
 	if err != nil {

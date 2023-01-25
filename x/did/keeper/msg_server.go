@@ -58,7 +58,7 @@ func FindVerificationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string
 		return types.VerificationMethod{}, found, err
 	}
 
-	vm, found := types.FindVerificationMethod(didDoc.DidDoc.VerificationMethod, didUrl)
+	vm, found := types.FindVerificationMethod(didDoc.DidDoc.VerificationMethod, didURL)
 	if !found {
 		return types.VerificationMethod{}, false, nil
 	}

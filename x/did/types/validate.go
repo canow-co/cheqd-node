@@ -137,7 +137,6 @@ func IsMultibaseBls12381G2Key2020Rule() *CustomErrorRule {
 		return utils.ValidateMultibaseMulticodecBls12381G2PubKey(casted)
 	})
 }
-	
 
 func IsBase58Ed25519VerificationKey2018() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {

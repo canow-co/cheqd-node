@@ -148,10 +148,10 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Valid Ed25519VerificationKey2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				VerificationMethodType:                 "Ed25519VerificationKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519MultibaseVerificationMaterial,
 			},
 			isValid: true,
 		}),
@@ -159,10 +159,10 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Valid Bls12381G2Key2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				VerificationMethodType:                 "Bls12381G2Key2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidBls12381G2MultibaseVerificationMaterial,
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Bls12381G2Key2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidBls12381G2MultibaseVerificationMaterial,
 			},
 			isValid: true,
 		}),
@@ -170,10 +170,10 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Valid EC JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				VerificationMethodType:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEcJwkVerificationMaterial,
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEcJwkVerificationMaterial,
 			},
 			isValid: true,
 		}),
@@ -181,10 +181,10 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Valid RSA JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				VerificationMethodType:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidRsaJwkVerificationMaterial,
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidRsaJwkVerificationMaterial,
 			},
 			isValid: true,
 		},
@@ -193,10 +193,10 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Valid Ed25519 JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				VerificationMethodType:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEd25519JwkVerificationMaterial,
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519JwkVerificationMaterial,
 			},
 			isValid: true,
 		}),
@@ -204,10 +204,10 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Valid Bls12381G2 JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				VerificationMethodType:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidBls12381G2JwkVerificationMaterial,
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidBls12381G2JwkVerificationMaterial,
 			},
 			isValid: true,
 		}),
@@ -241,10 +241,10 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Invalid Bls12381G2Key2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				VerificationMethodType:                 "Bls12381G2Key2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: InvalidBls12381G2MultibaseVerificationMaterial,
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Bls12381G2Key2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidBls12381G2MultibaseVerificationMaterial,
 			},
 			isValid:  false,
 			errorMsg: "verification_material: (publicKeyMultibase: Not a Bls12381G2 public key.).",
@@ -253,10 +253,10 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		"Invalid JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
 			vm: didtypes.VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				VerificationMethodType:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: InvalidJwkVerificationMaterial,
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidJwkVerificationMaterial,
 			},
 			isValid:  false,
 			errorMsg: "verification_material: can't parse jwk: invalid key type from JSON (SomeOtherKeyType)",
@@ -359,10 +359,10 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 			Expect(err).To(BeNil())
 
 			vm := didtypes.VerificationMethod{
-				Id:                   "",
-				VerificationMethodType:                 "Bls12381G2Key2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyMultibase\": \"" + pubKeyMultibase + "\"}",
+				Id:                     "",
+				VerificationMethodType: "Bls12381G2Key2020",
+				Controller:             "",
+				VerificationMaterial:   "{\"publicKeyMultibase\": \"" + pubKeyMultibase + "\"}",
 			}
 
 			err = didtypes.VerifySignature(vm, msgBytes, signature)
@@ -376,10 +376,10 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 
 		It("is valid", func() {
 			vm := didtypes.VerificationMethod{
-				Id:                   "",
-				VerificationMethodType:                 "JsonWebKey2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyJwk\": " + pubKeyJwk + "}",
+				Id:                     "",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "",
+				VerificationMaterial:   "{\"publicKeyJwk\": " + pubKeyJwk + "}",
 			}
 
 			err = didtypes.VerifySignature(vm, msgBytes, signature)

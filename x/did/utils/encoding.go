@@ -72,10 +72,10 @@ func ValidateMultibaseMulticodecBls12381G2PubKey(key string) error {
 
 	code, codePrefixLength := binary.Uvarint(multicodec)
 	if codePrefixLength <= 0 {
-		return errors.New("Invalid multicodec value")
+		return errors.New("invalid multicodec value")
 	}
 	if code != bls12381g2.Bls12381G2PubCode {
-		return errors.New("Not a Bls12381G2 public key")
+		return errors.New("not a Bls12381G2 public key")
 	}
 
 	keyBytes := multicodec[codePrefixLength:]
@@ -102,7 +102,6 @@ func ValidateMultibaseEd25519VerificationKey2020(data string) error {
 	pubKey := GetEd25519VerificationKey2020(keyBytes)
 	return ValidateEd25519PubKey(pubKey)
 }
-
 
 func ValidateBase58Ed25519VerificationKey2018(data string) error {
 	pubKey, err := base58.Decode(data)

@@ -109,17 +109,38 @@ Example payload file:
 				return err
 			}
 
+			authentication, err := GetMixedVerificationMethodList(specPayload.Authentication)
+			if err != nil {
+				return err
+			}
+			assertionMethod, err := GetMixedVerificationMethodList(specPayload.AssertionMethod)
+			if err != nil {
+				return err
+			}
+			capabilityInvocation, err := GetMixedVerificationMethodList(specPayload.CapabilityInvocation)
+			if err != nil {
+				return err
+			}
+			capabilityDelegation, err := GetMixedVerificationMethodList(specPayload.CapabilityDelegation)
+			if err != nil {
+				return err
+			}
+			keyAgreement, err := GetMixedVerificationMethodList(specPayload.KeyAgreement)
+			if err != nil {
+				return err
+			}
+
 			// Construct MsgCreateDidDocPayload
 			payload := types.MsgCreateDidDocPayload{
 				Context:              specPayload.Context,
 				Id:                   specPayload.ID,
 				Controller:           specPayload.Controller,
 				VerificationMethod:   verificationMethod,
-				Authentication:       specPayload.Authentication,
-				AssertionMethod:      specPayload.AssertionMethod,
-				CapabilityInvocation: specPayload.CapabilityInvocation,
-				CapabilityDelegation: specPayload.CapabilityDelegation,
-				KeyAgreement:         specPayload.KeyAgreement,
+				Authentication:       authentication,
+				AssertionMethod:      assertionMethod,
+				CapabilityInvocation: capabilityInvocation,
+				CapabilityDelegation: capabilityDelegation,
+				KeyAgreement:         keyAgreement,
 				Service:              service,
 				AlsoKnownAs:          specPayload.AlsoKnownAs,
 				VersionId:            versionID,
