@@ -39,12 +39,12 @@ func (vr VerificationRelationship) Validate(
 			return errors.New("only one of VerificationMethodId and VerificationMethod must be set in VerificationRelationship")
 		}
 		return validation.Validate(vr.VerificationMethodId, IsValidVerificationMethodReference(sharedVerificationMethods))
-	} 
-	
+	}
+
 	if vr.VerificationMethod != nil {
 		return validation.Validate(*vr.VerificationMethod, ValidVerificationMethodRule(baseDid, allowedNamespaces))
 	}
-		return errors.New("one of VerificationMethodId or VerificationMethod must be set in VerificationRelationship")
+	return errors.New("one of VerificationMethodId or VerificationMethod must be set in VerificationRelationship")
 }
 
 func ValidVerificationRelationshipRule(

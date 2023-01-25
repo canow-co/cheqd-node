@@ -12,9 +12,9 @@ import (
 	"encoding/binary"
 	"encoding/json"
 
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/canow-co/cheqd-node/x/did/utils/bls12381g2"
-	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/multiformats/go-multibase"
