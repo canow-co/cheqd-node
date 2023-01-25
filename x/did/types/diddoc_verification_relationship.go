@@ -7,15 +7,15 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )
 
-func NewVerificationRelationship(verificationMethodId string, verificationMethod *VerificationMethod) *VerificationRelationship {
+func NewVerificationRelationship(verificationMethodID string, verificationMethod *VerificationMethod) *VerificationRelationship {
 	return &VerificationRelationship{
-		VerificationMethodId: verificationMethodId,
+		VerificationMethodId: verificationMethodID,
 		VerificationMethod:   verificationMethod,
 	}
 }
 
 // ReplaceDids replaces ids in all fields
-func (vr *VerificationRelationship) ReplaceDids(old, new string) {
+func (vr *VerificationRelationship) ReplaceDids(old string, new string) {
 	if vr.VerificationMethod != nil {
 		vr.VerificationMethod.ReplaceDids(old, new)
 	} else {
@@ -29,20 +29,22 @@ func (vr *VerificationRelationship) ReplaceDids(old, new string) {
 
 // Validation
 
-func (vm VerificationRelationship) Validate(
+func (vr VerificationRelationship) Validate(
 	baseDid string,
 	allowedNamespaces []string,
 	sharedVerificationMethods []*VerificationMethod,
 ) error {
-	if vm.VerificationMethodId != "" && vm.VerificationMethod != nil {
-		return errors.New("Only one of VerificationMethodId and VerificationMethod must be set in VerificationRelationship")
-	} else if vm.VerificationMethodId != "" {
-		return validation.Validate(vm.VerificationMethodId, IsValidVerificationMethodReference(sharedVerificationMethods))
-	} else if vm.VerificationMethod != nil {
-		return validation.Validate(*vm.VerificationMethod, ValidVerificationMethodRule(baseDid, allowedNamespaces))
-	} else {
-		return errors.New("One of VerificationMethodId or VerificationMethod must be set in VerificationRelationship")
+	if vr.VerificationMethodId != "" {
+		if vr.VerificationMethod != nil {
+			return errors.New("only one of VerificationMethodId and VerificationMethod must be set in VerificationRelationship")
+		}
+		return validation.Validate(vr.VerificationMethodId, IsValidVerificationMethodReference(sharedVerificationMethods))
 	}
+
+	if vr.VerificationMethod != nil {
+		return validation.Validate(*vr.VerificationMethod, ValidVerificationMethodRule(baseDid, allowedNamespaces))
+	}
+	return errors.New("one of VerificationMethodId or VerificationMethod must be set in VerificationRelationship")
 }
 
 func ValidVerificationRelationshipRule(
@@ -60,11 +62,11 @@ func ValidVerificationRelationshipRule(
 	})
 }
 
-func IsUniqueVerificationRelationshipListByIdRule() *CustomErrorRule {
+func IsUniqueVerificationRelationshipListByIDRule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]*VerificationRelationship)
 		if !ok {
-			panic("IsUniqueVerificationRelationshipListByIdRule must be only applied on VM lists")
+			panic("IsUniqueVerificationRelationshipListByIDRule must be only applied on VM lists")
 		}
 
 		ids := getVerificationRelationshipIds(casted)

@@ -79,15 +79,15 @@ func MustFindVerificationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[st
 	return res, nil
 }
 
-func FindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didUrl string) (res types.VerificationMethod, found bool, err error) {
-	did, _, _, _ := utils.MustSplitDIDUrl(didUrl)
+func FindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didURL string) (res types.VerificationMethod, found bool, err error) {
+	did, _, _, _ := utils.MustSplitDIDUrl(didURL)
 
 	didDoc, found, err := FindDidDoc(k, ctx, inMemoryDIDs, did)
 	if err != nil || !found {
 		return types.VerificationMethod{}, found, err
 	}
 
-	vm, found := types.FindVerificationMethod(getEffectiveAuthenticationMethods(didDoc.DidDoc), didUrl)
+	vm, found := types.FindVerificationMethod(getEffectiveAuthenticationMethods(didDoc.DidDoc), didURL)
 	if !found {
 		return types.VerificationMethod{}, false, nil
 	}
@@ -95,14 +95,14 @@ func FindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[stri
 	return *vm, true, nil
 }
 
-func MustFindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didUrl string) (res types.VerificationMethod, err error) {
-	res, found, err := FindAuthenticationMethod(k, ctx, inMemoryDIDs, didUrl)
+func MustFindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didURL string) (res types.VerificationMethod, err error) {
+	res, found, err := FindAuthenticationMethod(k, ctx, inMemoryDIDs, didURL)
 	if err != nil {
 		return types.VerificationMethod{}, err
 	}
 
 	if !found {
-		return types.VerificationMethod{}, types.ErrAuthenticationMethodNotFound.Wrap(didUrl)
+		return types.VerificationMethod{}, types.ErrAuthenticationMethodNotFound.Wrap(didURL)
 	}
 
 	return res, nil

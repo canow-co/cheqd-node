@@ -85,10 +85,10 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 
 		code, codePrefixLength := binary.Uvarint(multicodec)
 		if codePrefixLength <= 0 {
-			return errors.New("Invalid multicodec value")
+			return errors.New("invalid multicodec value")
 		}
 		if code != bls12381g2.Bls12381G2PubCode {
-			return errors.New("Not a Bls12381G2 public key")
+			return errors.New("not a Bls12381G2 public key")
 		}
 
 		keyBytes, err := multicodec[codePrefixLength:], nil
