@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	. "github.com/canow-co/cheqd-node/x/did/tests/setup"
-	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	"github.com/google/uuid"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -672,7 +671,7 @@ var _ = Describe("DIDDoc update", func() {
 						Id:                     alice.KeyID,
 						VerificationMethodType: types.Ed25519VerificationKey2020Type,
 						Controller:             alice.Did,
-						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
 				Authentication: []*types.VerificationRelationship{
@@ -735,7 +734,7 @@ var _ = Describe("DIDDoc update", func() {
 						Id:                     alice.KeyID,
 						VerificationMethodType: types.Ed25519VerificationKey2020Type,
 						Controller:             alice.Did,
-						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
 				Authentication: []*types.VerificationRelationship{
@@ -765,7 +764,7 @@ var _ = Describe("DIDDoc update", func() {
 						Id:                     alice.KeyID,
 						VerificationMethodType: types.Ed25519VerificationKey2020Type,
 						Controller:             alice.Did,
-						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
 				Authentication: []*types.VerificationRelationship{
