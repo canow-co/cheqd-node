@@ -5,6 +5,7 @@ package integration
 import (
 	"crypto/ed25519"
 	"fmt"
+
 	"github.com/multiformats/go-multibase"
 
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
@@ -424,7 +425,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
 		payload := didcli.DIDDocument{
-			ID:         did,
+			ID: did,
 			CapabilityInvocation: []any{
 				map[string]any{
 					"id":                 keyId,
@@ -458,27 +459,21 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
-
-		payload := didtypes.MsgCreateDidDocPayload{
-			Id: did,
-			VerificationMethod: []*didtypes.VerificationMethod{
-				{
-					Id:                     keyId,
-					VerificationMethodType: "Ed25519VerificationKey2020",
-					Controller:             did,
-					VerificationMaterial:   pubKeyMultibase58,
+		payload := didcli.DIDDocument{
+			ID: did,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			Authentication: []*didtypes.VerificationRelationship{
+			Authentication: []any{keyId},
+			Service: []didcli.Service{
 				{
-					VerificationMethodId: keyId,
-				},
-			},
-			VersionId: uuid.NewString(),
-			Service: []*didtypes.Service{
-				{
-					Id:              did + "#service-1",
-					ServiceType:     "type-1",
+					ID:              did + "#service-1",
+					Type:            "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
 					Accept:          []string{"accept-1"},
 					RoutingKeys:     []string{"invalid key"},

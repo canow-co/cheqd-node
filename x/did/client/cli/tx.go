@@ -40,6 +40,8 @@ type Service struct {
 	ID              string   `json:"id"`
 	Type            string   `json:"type"`
 	ServiceEndpoint []string `json:"serviceEndpoint"`
+	Accept          []string `json:"accept,omitempty"`
+	RoutingKeys     []string `json:"routingKeys,omitempty"`
 }
 
 type PayloadWithSignInputs struct {
@@ -178,6 +180,8 @@ func GetFromSpecCompliantPayload(specPayload DIDDocument) ([]*types.Verification
 			Id:              s.ID,
 			ServiceType:     s.Type,
 			ServiceEndpoint: s.ServiceEndpoint,
+			Accept:          s.Accept,
+			RoutingKeys:     s.RoutingKeys,
 		})
 	}
 

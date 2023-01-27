@@ -21,7 +21,7 @@ var _ = Describe("cheqd cli - positive transfert token", func() {
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can transfer token"))
 		// Transfer token using sender account name
 		var amount int64 = 100
-		res, err := cli.TransferToken(testdata.BASE_ACCOUNT_1_ADDR, testdata.BASE_ACCOUNT_2_ADDR, fmt.Sprintf("%d%s", amount, testdata.DEMON), helpers.GenerateFees(feeParams.CreateDid.String()))
+		res, err := cli.TransferToken(testdata.BASE_ACCOUNT_1_ADDR, testdata.BASE_ACCOUNT_2_ADDR, fmt.Sprintf("%d%s", amount, testdata.DEMON), cli.CliGasParams)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -35,7 +35,7 @@ var _ = Describe("cheqd cli - positive transfert token", func() {
 
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can transfer token"))
 		// Transfer token using sender account address
-		res, err = cli.TransferToken(testdata.BASE_ACCOUNT_1_ADDR, testdata.BASE_ACCOUNT_2_ADDR, fmt.Sprintf("%d%s", amount, testdata.DEMON), helpers.GenerateFees(feeParams.CreateDid.String()))
+		res, err = cli.TransferToken(testdata.BASE_ACCOUNT_1_ADDR, testdata.BASE_ACCOUNT_2_ADDR, fmt.Sprintf("%d%s", amount, testdata.DEMON), cli.CliGasParams)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 

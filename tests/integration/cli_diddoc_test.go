@@ -5,6 +5,7 @@ package integration
 import (
 	"crypto/ed25519"
 	"fmt"
+
 	"github.com/multiformats/go-multibase"
 
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
@@ -388,20 +389,16 @@ var _ = Describe("cheqd cli - positive did", func() {
 
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
-
-		payload := types.MsgCreateDidDocPayload{
-			Id: did,
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethod: &types.VerificationMethod{
-						Id:                     keyId,
-						VerificationMethodType: "Ed25519VerificationKey2020",
-						Controller:             did,
-						VerificationMaterial:   pubKeyMultibase58,
-					},
+		payload := didcli.DIDDocument{
+			ID: did,
+			Authentication: []any{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			VersionId: uuid.NewString(),
 		}
 
 		signInputs := []didcli.SignInput{
@@ -423,19 +420,16 @@ var _ = Describe("cheqd cli - positive did", func() {
 		newPubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, newPubKey)
 		Expect(err).To(BeNil())
 
-		payload2 := types.MsgUpdateDidDocPayload{
-			Id: did,
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethod: &types.VerificationMethod{
-						Id:                     keyId,
-						VerificationMethodType: "Ed25519VerificationKey2020",
-						Controller:             did,
-						VerificationMaterial:   newPubKeyMultibase58,
-					},
+		payload2 := didcli.DIDDocument{
+			ID: did,
+			Authentication: []any{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			VersionId: uuid.NewString(),
 		}
 
 		signInputs2 := []didcli.SignInput{
@@ -481,17 +475,16 @@ var _ = Describe("cheqd cli - positive did", func() {
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
 
-		payload := types.MsgCreateDidDocPayload{
-			Id: did,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                     keyId,
-					VerificationMethodType: "Ed25519VerificationKey2020",
-					Controller:             did,
-					VerificationMaterial:   pubKeyMultibase58,
+		payload := didcli.DIDDocument{
+			ID: did,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			VersionId: uuid.NewString(),
 		}
 
 		signInputs := []didcli.SignInput{
@@ -513,17 +506,16 @@ var _ = Describe("cheqd cli - positive did", func() {
 		newPubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, newPubKey)
 		Expect(err).To(BeNil())
 
-		payload2 := types.MsgUpdateDidDocPayload{
-			Id: did,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                     keyId,
-					VerificationMethodType: "Ed25519VerificationKey2020",
-					Controller:             did,
-					VerificationMaterial:   newPubKeyMultibase58,
+		payload2 := didcli.DIDDocument{
+			ID: did,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			VersionId: uuid.NewString(),
 		}
 
 		signInputs2 := []didcli.SignInput{
@@ -601,26 +593,21 @@ var _ = Describe("cheqd cli - positive did", func() {
 
 		routingKeys := []string{"did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"}
 
-		payload := types.MsgCreateDidDocPayload{
-			Id: did,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                     keyId,
-					VerificationMethodType: "Ed25519VerificationKey2020",
-					Controller:             did,
-					VerificationMaterial:   pubKeyMultibase58,
+		payload := didcli.DIDDocument{
+			ID: did,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
+			Authentication: []any{keyId},
+			Service: []didcli.Service{
 				{
-					VerificationMethodId: keyId,
-				},
-			},
-			VersionId: uuid.NewString(),
-			Service: []*types.Service{
-				{
-					Id:              did + "#service-1",
-					ServiceType:     "type-1",
+					ID:              did + "#service-1",
+					Type:            "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
 					Accept:          []string{"accept-1"},
 					RoutingKeys:     routingKeys,
@@ -656,32 +643,28 @@ var _ = Describe("cheqd cli - positive did", func() {
 		Expect(didDoc.VerificationMethod[0].VerificationMaterial).To(BeEquivalentTo(pubKeyMultibase58))
 		Expect(didDoc.Service).To(HaveLen(1))
 		Expect(didDoc.Service[0].Id).To(BeEquivalentTo(did + "#service-1"))
-		Expect(didDoc.Service[0].Type).To(BeEquivalentTo("type-1"))
+		Expect(didDoc.Service[0].ServiceType).To(BeEquivalentTo("type-1"))
 		Expect(didDoc.Service[0].ServiceEndpoint[0]).To(BeEquivalentTo("endpoint-1"))
 		Expect(didDoc.Service[0].Accept).To(BeEquivalentTo([]string{"accept-1"}))
 		Expect(didDoc.Service[0].RoutingKeys).To(BeEquivalentTo(routingKeys))
 
 		AddReportEntry("Integration", fmt.Sprintf("%sPositive: %s", cli.Green, "can update diddoc"))
 		// Update the DID Doc
-		payload2 := types.MsgUpdateDidDocPayload{
-			Id: did,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                     keyId,
-					VerificationMethodType: "Ed25519VerificationKey2020",
-					Controller:             did,
-					VerificationMaterial:   pubKeyMultibase58,
+
+		payload2 := didcli.DIDDocument{
+			ID: did,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-			VersionId: uuid.NewString(),
+			Authentication: []any{keyId},
 		}
 
-		res2, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+		res2, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res2.Code).To(BeEquivalentTo(0))
 
@@ -697,7 +680,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 		Expect(didDoc.Authentication[0].VerificationMethod).To(BeNil())
 		Expect(didDoc.VerificationMethod).To(HaveLen(1))
 		Expect(didDoc.VerificationMethod[0].Id).To(BeEquivalentTo(keyId))
-		Expect(didDoc.VerificationMethod[0].Type).To(BeEquivalentTo("Ed25519VerificationKey2020"))
+		Expect(didDoc.VerificationMethod[0].VerificationMethodType).To(BeEquivalentTo("Ed25519VerificationKey2020"))
 		Expect(didDoc.VerificationMethod[0].Controller).To(BeEquivalentTo(did))
 		Expect(didDoc.VerificationMethod[0].VerificationMaterial).To(BeEquivalentTo(pubKeyMultibase58))
 		Expect(didDoc.Service).To(HaveLen(0))

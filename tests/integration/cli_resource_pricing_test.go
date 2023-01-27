@@ -60,12 +60,7 @@ var _ = Describe("cheqd cli - positive resource pricing", func() {
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []*didtypes.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-
+			Authentication: []any{keyId},
 		}
 
 		signInputs = []didcli.SignInput{

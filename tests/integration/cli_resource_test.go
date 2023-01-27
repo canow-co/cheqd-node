@@ -15,6 +15,7 @@ import (
 	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	"github.com/google/uuid"
+	"github.com/multiformats/go-multibase"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -55,18 +56,14 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		payload := didcli.DIDDocument{
 			ID: did,
 			VerificationMethod: []didcli.VerificationMethod{
-				map[string]interface{}{
+				map[string]any{
 					"id":                 keyId,
 					"type":               "Ed25519VerificationKey2020",
 					"controller":         did,
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
+			Authentication: []any{keyId},
 		}
 
 		signInputs := []didcli.SignInput{
@@ -190,11 +187,7 @@ var _ = Describe("cheqd cli - positive resource", func() {
 					"publicKeyMultibase": secondPublicKeyMultibase,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: secondKeyId,
-				},
-			},
+			Authentication: []any{secondKeyId},
 		}
 
 		secondSignInputs := []didcli.SignInput{
@@ -281,33 +274,27 @@ var _ = Describe("cheqd cli - positive resource", func() {
 
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
-
-		payload := types.MsgCreateDidDocPayload{
-			Id: did,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                     keyId,
-					VerificationMethodType: "Ed25519VerificationKey2020",
-					Controller:             did,
-					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKeyMultibase58),
+		payload := didcli.DIDDocument{
+			ID:         did,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-			VersionId: uuid.NewString(),
+			Authentication: []any{keyId},
 		}
 
-		signInputs := []clitypes.SignInput{
+		signInputs := []didcli.SignInput{
 			{
 				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(didFeeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -320,14 +307,13 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		resourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
 		Expect(err).To(BeNil())
 
-		res, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
+		res, err = cli.CreateResource(tmpDir, resourcetypes.MsgCreateResourcePayload{
 			CollectionId:    collectionId,
-			ResourceId:      resourceId,
-			ResourceName:    resourceName,
-			ResourceVersion: resourceVersion,
-			ResourceType:    resourceType,
-			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+			Id:           resourceId,
+			Name:         resourceName,
+			Version:      resourceVersion,
+			ResourceType: resourceType,
+		}, signInputs, resourceFile, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(resourceFeeParams.Json.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -356,29 +342,25 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
 
-		payload := types.MsgCreateDidDocPayload{
-			Id: did,
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethod: &types.VerificationMethod{
-						Id:                     keyId,
-						VerificationMethodType: "Ed25519VerificationKey2020",
-						Controller:             did,
-						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKeyMultibase58),
-					},
+		payload := didcli.DIDDocument{
+			ID:         did,
+			Authentication: []any{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			VersionId: uuid.NewString(),
 		}
-
-		signInputs := []clitypes.SignInput{
+		signInputs := []didcli.SignInput{
 			{
 				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(didFeeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -391,14 +373,13 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		resourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
 		Expect(err).To(BeNil())
 
-		res, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
-			CollectionId:    collectionId,
-			ResourceId:      resourceId,
-			ResourceName:    resourceName,
-			ResourceVersion: resourceVersion,
-			ResourceType:    resourceType,
-			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+		res, err = cli.CreateResource(tmpDir, resourcetypes.MsgCreateResourcePayload{
+			CollectionId: collectionId,
+			Id:           resourceId,
+			Name:         resourceName,
+			Version:      resourceVersion,
+			ResourceType: resourceType,
+		}, signInputs, resourceFile, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(resourceFeeParams.Json.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -427,27 +408,27 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
 		Expect(err).To(BeNil())
 
-		payload := types.MsgCreateDidDocPayload{
-			Id: did,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                     keyId,
-					VerificationMethodType: "Ed25519VerificationKey2020",
-					Controller:             did,
-					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKeyMultibase58),
+
+		payload := didcli.DIDDocument{
+			ID: did,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": pubKeyMultibase58,
 				},
 			},
-			VersionId: uuid.NewString(),
-		}
 
-		signInputs := []clitypes.SignInput{
+		}
+		signInputs := []didcli.SignInput{
 			{
 				VerificationMethodID: keyId,
 				PrivKey:              privKey,
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(didFeeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -460,14 +441,13 @@ var _ = Describe("cheqd cli - positive resource", func() {
 		resourceFile, err := testdata.CreateTestJson(GinkgoT().TempDir())
 		Expect(err).To(BeNil())
 
-		res, err = cli.CreateResource(tmpDir, resourcecli.CreateResourceOptions{
-			CollectionId:    collectionId,
-			ResourceId:      resourceId,
-			ResourceName:    resourceName,
-			ResourceVersion: resourceVersion,
-			ResourceType:    resourceType,
-			ResourceFile:    resourceFile,
-		}, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+		res, err = cli.CreateResource(tmpDir, resourcetypes.MsgCreateResourcePayload{
+			CollectionId: collectionId,
+			Id:           resourceId,
+			Name:         resourceName,
+			Version:      resourceVersion,
+			ResourceType: resourceType,
+		}, signInputs, resourceFile, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(resourceFeeParams.Json.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 

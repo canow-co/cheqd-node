@@ -65,11 +65,7 @@ var _ = Describe("cheqd cli - negative resource", func() {
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
+			Authentication: []any{keyId},
 
 		}
 
