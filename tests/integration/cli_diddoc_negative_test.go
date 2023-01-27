@@ -422,7 +422,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
 		Expect(err).To(BeNil())
 
-		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
+		pubKeyMultibase58 := testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKey)
 		Expect(err).To(BeNil())
 		payload := didcli.DIDDocument{
 			ID: did,
@@ -456,8 +456,8 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
 		Expect(err).To(BeNil())
-
-		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
+		
+		pubKeyMultibase58 := testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKey)
 		Expect(err).To(BeNil())
 		payload := didcli.DIDDocument{
 			ID: did,
