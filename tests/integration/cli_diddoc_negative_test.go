@@ -6,8 +6,6 @@ import (
 	"crypto/ed25519"
 	"fmt"
 
-	"github.com/multiformats/go-multibase"
-
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
 	helpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
 	"github.com/canow-co/cheqd-node/tests/integration/network"
@@ -456,7 +454,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 
 		pubKey, privKey, err := ed25519.GenerateKey(nil)
 		Expect(err).To(BeNil())
-		
+
 		pubKeyMultibase58 := testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKey)
 		Expect(err).To(BeNil())
 		payload := didcli.DIDDocument{

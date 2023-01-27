@@ -6,8 +6,6 @@ import (
 	"crypto/ed25519"
 	"fmt"
 
-	"github.com/multiformats/go-multibase"
-
 	"github.com/canow-co/cheqd-node/tests/integration/cli"
 	"github.com/canow-co/cheqd-node/tests/integration/helpers"
 	"github.com/canow-co/cheqd-node/tests/integration/network"
