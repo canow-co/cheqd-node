@@ -115,7 +115,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 		didDoc := resp.Value.DidDoc
 		Expect(didDoc.Id).To(BeEquivalentTo(did))
 		Expect(didDoc.Authentication).To(HaveLen(1))
-		Expect(didDoc.Authentication[0]).To(BeEquivalentTo(keyID))
+		Expect(didDoc.Authentication[0]).To(BeEquivalentTo(types.VerificationRelationship{VerificationMethodId: keyID,}))
 		Expect(didDoc.VerificationMethod).To(HaveLen(1))
 		Expect(didDoc.VerificationMethod[0].Id).To(BeEquivalentTo(keyID))
 		Expect(didDoc.VerificationMethod[0].VerificationMethodType).To(BeEquivalentTo("Ed25519VerificationKey2020"))
