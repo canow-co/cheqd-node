@@ -561,8 +561,8 @@ var _ = Describe("cheqd cli - positive did", func() {
 				PrivKey:              newPrivKey,
 			},
 		}
-
-		res3, err := cli.DeactivateDidDoc(tmpDir, payload3, signInputs3, "versionID", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.DeactivateDid.String()))
+		versionID := uuid.NewString()
+		res3, err := cli.DeactivateDidDoc(tmpDir, payload3, signInputs3, versionID, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.DeactivateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res3.Code).To(BeEquivalentTo(0))
 

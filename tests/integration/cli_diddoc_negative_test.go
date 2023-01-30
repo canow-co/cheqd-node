@@ -291,9 +291,7 @@ var _ = Describe("cheqd cli - negative did", func() {
 			"controller":         did2,
 			"publicKeyMultibase": publicKeyMultibase2,
 		})
-		followingUpdatedPayload.Authentication = append(followingUpdatedPayload.Authentication, &didtypes.VerificationRelationship{
-			VerificationMethodId: keyId2AsExtraController,
-		})
+		followingUpdatedPayload.Authentication = append(followingUpdatedPayload.Authentication, keyId2AsExtraController)
 		followingUpdatedPayload.CapabilityDelegation = []any{keyId}
 		followingUpdatedPayload.CapabilityInvocation = []any{keyId}
 
