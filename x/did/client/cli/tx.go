@@ -192,7 +192,7 @@ func GetMixedVerificationMethodList(verificationRelationship []any) ([]*types.Ve
 	verificationRelationshipList := make([]*types.VerificationRelationship, 0, len(verificationRelationship))
 	for i, vr := range verificationRelationship {
 		var normalizedRelationship *types.VerificationRelationship
-		
+
 		if vm, ok := vr.(map[string]any); ok {
 			normalizedVM, err := getVerificationMethodFromSpecComplant(i, vm)
 			if err != nil {
