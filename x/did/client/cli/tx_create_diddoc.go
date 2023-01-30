@@ -36,7 +36,13 @@ Example payload file:
             "did:canow:<namespace>:<unique-identifier>"
         ],
         "authentication": [
-            "did:canow:<namespace>:<unique-identifier>#<key-id>"
+            "did:canow:<namespace>:<unique-identifier>#<key-id>",
+			{
+                "id": "did:canow:<namespace>:<unique-identifier>#<key-id>",
+                "type": "<verification-method-type>",
+                "controller": "did:canow:<namespace>:<unique-identifier>",
+                "publicKeyMultibase": "<public-key>"
+            }
         ],
         "assertionMethod": [],
         "capabilityInvocation": [],

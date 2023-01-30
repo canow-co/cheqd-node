@@ -513,7 +513,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 					"id":                 keyId,
 					"type":               "Ed25519VerificationKey2020",
 					"controller":         did,
-					"publicKeyMultibase": pubKeyMultibase58,
+					"publicKeyMultibase": newPubKeyMultibase58,
 				},
 			},
 		}
