@@ -115,7 +115,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 		didDoc := resp.Value.DidDoc
 		Expect(didDoc.Id).To(BeEquivalentTo(did))
 		Expect(didDoc.Authentication).To(HaveLen(1))
-		Expect(didDoc.Authentication[0]).To(BeEquivalentTo(types.VerificationRelationship{VerificationMethodId: keyID,}))
+		Expect(didDoc.Authentication[0].VerificationMethodId).To(BeEquivalentTo(keyID))
 		Expect(didDoc.VerificationMethod).To(HaveLen(1))
 		Expect(didDoc.VerificationMethod[0].Id).To(BeEquivalentTo(keyID))
 		Expect(didDoc.VerificationMethod[0].VerificationMethodType).To(BeEquivalentTo("Ed25519VerificationKey2020"))
@@ -243,7 +243,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 		didDoc := resp.Value.DidDoc
 		Expect(didDoc.Id).To(BeEquivalentTo(did))
 		Expect(didDoc.Authentication).To(HaveLen(1))
-		Expect(didDoc.Authentication[0]).To(BeEquivalentTo(keyID))
+		Expect(didDoc.Authentication[0].VerificationMethodId).To(BeEquivalentTo(keyID))
 		Expect(didDoc.VerificationMethod).To(HaveLen(1))
 		Expect(didDoc.VerificationMethod[0].Id).To(BeEquivalentTo(keyID))
 		Expect(didDoc.VerificationMethod[0].VerificationMethodType).To(BeEquivalentTo("JsonWebKey2020"))
@@ -371,7 +371,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 		Expect(didDoc.Authentication[0].VerificationMethod).To(BeNil())
 		Expect(didDoc.VerificationMethod).To(HaveLen(1))
 		Expect(didDoc.VerificationMethod[0].Id).To(BeEquivalentTo(keyID))
-		Expect(didDoc.VerificationMethod[0].VerificationMethodType).To(BeEquivalentTo("Ed25519VerificationKey2020"))
+		Expect(didDoc.VerificationMethod[0].VerificationMethodType).To(BeEquivalentTo("Ed25519VerificationKey2018"))
 		Expect(didDoc.VerificationMethod[0].Controller).To(BeEquivalentTo(did))
 		Expect(didDoc.VerificationMethod[0].VerificationMaterial).To(BeEquivalentTo(newPublicKeyBase58))
 	})
@@ -406,7 +406,9 @@ var _ = Describe("cheqd cli - positive did", func() {
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+		versionID := uuid.NewString()
+
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, versionID, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -540,7 +542,7 @@ var _ = Describe("cheqd cli - positive did", func() {
 		Expect(didDoc.Id).To(BeEquivalentTo(did))
 		Expect(didDoc.VerificationMethod).To(HaveLen(1))
 		Expect(didDoc.VerificationMethod[0].Id).To(BeEquivalentTo(keyId))
-		Expect(didDoc.VerificationMethod[0].VerificationMethodType).To(BeEquivalentTo("Ed25519VerificationKey2018"))
+		Expect(didDoc.VerificationMethod[0].VerificationMethodType).To(BeEquivalentTo("Ed25519VerificationKey2020"))
 		Expect(didDoc.VerificationMethod[0].Controller).To(BeEquivalentTo(did))
 		Expect(didDoc.VerificationMethod[0].VerificationMaterial).To(BeEquivalentTo(newPubKeyMultibase58))
 
@@ -620,7 +622,9 @@ var _ = Describe("cheqd cli - positive did", func() {
 			},
 		}
 
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
+		versionID := uuid.NewString()
+
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, versionID, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 

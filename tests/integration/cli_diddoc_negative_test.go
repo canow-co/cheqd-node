@@ -398,11 +398,14 @@ var _ = Describe("cheqd cli - negative did", func() {
 		nonExistingDid := "did:canow:" + network.DidNamespace + ":" + uuid.NewString()
 		nonExistingDidPayload := deepCopierUpdateDid.DeepCopy(followingUpdatedPayload)
 		nonExistingDidPayload.ID = nonExistingDid
-		_, err = cli.UpdateDidDoc(tmpDir, nonExistingDidPayload, signInputsAugmented, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.UpdateDid.String()))
+		versionID := uuid.NewString()
+		_, err = cli.UpdateDidDoc(tmpDir, nonExistingDidPayload, signInputsAugmented, versionID, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.UpdateDid.String()))
 		Expect(err).ToNot(BeNil())
 
 		// Finally, update the DID Doc
-		res, err = cli.UpdateDidDoc(tmpDir, followingUpdatedPayload, signInputsAugmented, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.UpdateDid.String()))
+
+		versionID = uuid.NewString()
+		res, err = cli.UpdateDidDoc(tmpDir, followingUpdatedPayload, signInputsAugmented, versionID, testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.UpdateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
