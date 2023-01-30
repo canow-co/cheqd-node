@@ -384,10 +384,10 @@ var _ = Describe("cheqd cli - negative did", func() {
 		invalidVmTypePayload.VerificationMethod = []didcli.VerificationMethod{
 			followingUpdatedPayload.VerificationMethod[0],
 			map[string]any{
-				"Id":                     followingUpdatedPayload.VerificationMethod[1]["id"],
-				"VerificationMethodType": "NonSupportedVmType",
-				"Controller":             followingUpdatedPayload.VerificationMethod[1]["controller"],
-				"VerificationMaterial":   "pretty-long-public-key-multibase",
+				"id":                 followingUpdatedPayload.VerificationMethod[1]["id"],
+				"type":               "NonSupportedVmType",
+				"controller":         followingUpdatedPayload.VerificationMethod[1]["controller"],
+				"publicKeyMultibase": "pretty-long-public-key-multibase",
 			},
 		}
 		_, err = cli.UpdateDidDoc(tmpDir, invalidVmTypePayload, signInputsAugmented, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFees(feeParams.UpdateDid.String()))
