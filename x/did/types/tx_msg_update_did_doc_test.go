@@ -33,14 +33,18 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
-								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
-								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
+								VerificationMethodType: "Ed25519VerificationKey2020",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
+								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#aaa"},
-						VersionId:      "version1",
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
+						VersionId: "version1",
 					},
 					Signatures: nil,
 				},
@@ -55,19 +59,26 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
-								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
-								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
+								VerificationMethodType: "Ed25519VerificationKey2020",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
+								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#key1"},
-						VersionId:      "version1",
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
+						VersionId: "version1",
 					},
 					Signatures: nil,
 				},
 				isValid:  false,
-				errorMsg: "payload: (authentication: there should be no duplicates.).: basic validation failed",
+				errorMsg: "payload: (authentication: there are verification relationships with same IDs.).: basic validation failed",
 			}),
 		Entry(
 			"VersionId is empty",
@@ -77,13 +88,17 @@ var _ = Describe("Message for DID updating", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
-								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
-								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
+								VerificationMethodType: "Ed25519VerificationKey2020",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
+								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#aaa"},
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
 					},
 					Signatures: nil,
 				},

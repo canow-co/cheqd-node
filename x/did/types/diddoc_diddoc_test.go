@@ -34,10 +34,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -52,10 +52,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: InvalidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -70,10 +70,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -88,10 +88,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJWK2020VerificationMaterial,
 					},
 				},
 			},
@@ -105,10 +105,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   InvalidTestDID,
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     InvalidTestDID,
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJWK2020VerificationMaterial,
 					},
 				},
 			},
@@ -122,10 +122,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           InvalidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             InvalidTestDID,
+						VerificationMaterial:   ValidJWK2020VerificationMaterial,
 					},
 				},
 			},
@@ -140,10 +140,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Controller: []string{ValidTestDID, ValidTestDID2},
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -159,10 +159,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Controller: []string{ValidTestDID, InvalidTestDID},
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -177,10 +177,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Controller: []string{ValidTestDID},
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -196,10 +196,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Controller: []string{ValidTestDID, ValidTestDID},
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -207,26 +207,361 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 			errorMsg: "controller: there should be no duplicates.",
 		}),
 	Entry(
-		"Verification method is duplicated",
+		"Verification Method list has double method definition",
 		DIDDocTestCase{
 			didDoc: &DidDoc{
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
 			isValid:  false,
 			errorMsg: "verification_method: there are verification method duplicates.",
+		}),
+
+	Entry("Verification Relationship lists contain embedded methods and references",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+				AssertionMethod: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment2", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+				CapabilityInvocation: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment3", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+				CapabilityDelegation: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment4", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+				KeyAgreement: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment5", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+			},
+			isValid:  true,
+			errorMsg: "",
+		}),
+	Entry("Verification Relationship embedded method has wrong ID",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     InvalidTestDID,
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: (0: (id: unable to split did into method, namespace and id.).).",
+		}),
+	Entry(
+		"Verification Relationship embedded method has wrong controller",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             InvalidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: (0: (controller: unable to split did into method, namespace and id.).).",
+		}),
+	Entry(
+		"Verification Relationship list has double method definition",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: there are verification relationships with same IDs",
+		}),
+	Entry(
+		"Verification Method and Relationship lists have double method definition",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "there are verification method duplicates",
+		}),
+	Entry(
+		"Different Verification Relationships lists have double method definition",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+				},
+				AssertionMethod: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "there are verification method duplicates",
+		}),
+	Entry("Verification Relationship list has duplicated references",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment0", ValidTestDID),
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: there are verification relationships with same IDs.",
+		}),
+	Entry(
+		"Verification Relationship reference points to not existing method",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment2", ValidTestDID),
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: (0: can't resolve verification method reference: did:canow:testnet:zABCDEFG123456789abcd#fragment2.).",
+		}),
+	Entry(
+		"Verification Relationship reference points to embedded method from another Verification Relationship list",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+				},
+				AssertionMethod: []*VerificationRelationship{
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment1", ValidTestDID),
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "assertion_method: (0: can't resolve verification method reference: did:canow:testnet:zABCDEFG123456789abcd#fragment1.).",
+		}),
+	Entry(
+		"Verification Relationship reference points to embedded method from same Verification Relationship list",
+		DIDDocTestCase{
+			didDoc: &DidDoc{
+				Id: ValidTestDID,
+				VerificationMethod: []*VerificationMethod{
+					{
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
+					},
+				},
+				Authentication: []*VerificationRelationship{
+					{
+						VerificationMethod: &VerificationMethod{
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
+						},
+					},
+					{
+						VerificationMethodId: fmt.Sprintf("%s#fragment1", ValidTestDID),
+					},
+				},
+			},
+			isValid:  false,
+			errorMsg: "authentication: (1: can't resolve verification method reference: did:canow:testnet:zABCDEFG123456789abcd#fragment1.).",
 		}),
 )

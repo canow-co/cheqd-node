@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	SplitDIDRegexp, _     = regexp.Compile(`^did:([^:]+?)(:([^:]+?))?:([^:]+)$`)
-	DidNamespaceRegexp, _ = regexp.Compile(`^[a-zA-Z0-9]*$`)
+	SplitDIDRegexp     = regexp.MustCompile(`^did:([^:]+?)(:([^:]+?))?:([^:]+)$`)
+	DidNamespaceRegexp = regexp.MustCompile(`^[a-zA-Z0-9]*$`)
 )
 
 // TrySplitDID Validates generic format of DID. It doesn't validate method, name and id content.
@@ -48,8 +48,8 @@ func JoinDID(method, namespace, id string) string {
 	return res + ":" + id
 }
 
-func ReplaceDidInDidUrl(didUrl string, oldDid string, newDid string) string {
-	did, path, query, fragment := MustSplitDIDUrl(didUrl)
+func ReplaceDidInDidURL(didURL string, oldDid string, newDid string) string {
+	did, path, query, fragment := MustSplitDIDUrl(didURL)
 	if did == oldDid {
 		did = newDid
 	}
@@ -57,19 +57,9 @@ func ReplaceDidInDidUrl(didUrl string, oldDid string, newDid string) string {
 	return JoinDIDUrl(did, path, query, fragment)
 }
 
-func ReplaceDidInDidUrlList(didUrlList []string, oldDid string, newDid string) []string {
-	res := make([]string, len(didUrlList))
-
-	for i := range didUrlList {
-		res[i] = ReplaceDidInDidUrl(didUrlList[i], oldDid, newDid)
-	}
-
-	return res
-}
-
 // ValidateDID checks method and allowed namespaces only when the corresponding parameters are specified.
 func ValidateDID(did string, method string, allowedNamespaces []string) error {
-	sMethod, sNamespace, sUniqueId, err := TrySplitDID(did)
+	sMethod, sNamespace, sUniqueID, err := TrySplitDID(did)
 	if err != nil {
 		return err
 	}
@@ -85,11 +75,11 @@ func ValidateDID(did string, method string, allowedNamespaces []string) error {
 	}
 
 	if len(allowedNamespaces) > 0 && !Contains(allowedNamespaces, sNamespace) {
-		return fmt.Errorf("did namespace must be one of: %s", strings.Join(allowedNamespaces[:], ", "))
+		return fmt.Errorf("did namespace must be one of: %s", strings.Join(allowedNamespaces, ", "))
 	}
 
 	// check unique-id
-	err = ValidateID(sUniqueId)
+	err = ValidateID(sUniqueID)
 	if err != nil {
 		return err
 	}
@@ -106,7 +96,7 @@ func IsValidDID(did string, method string, allowedNamespaces []string) bool {
 
 func NormalizeDID(did string) string {
 	method, namespace, id := MustSplitDID(did)
-	id = NormalizeId(id)
+	id = NormalizeID(id)
 	return JoinDID(method, namespace, id)
 }
 

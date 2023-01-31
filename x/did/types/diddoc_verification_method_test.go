@@ -12,7 +12,8 @@ import (
 	"encoding/binary"
 	"encoding/json"
 
-	. "github.com/canow-co/cheqd-node/x/did/types"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/canow-co/cheqd-node/x/did/utils/bls12381g2"
 	"github.com/hyperledger/aries-framework-go/pkg/crypto/primitive/bbs12381g2pub"
 	"github.com/lestrrat-go/jwx/jwk"
@@ -22,7 +23,7 @@ import (
 )
 
 type VerificationMethodTestCase struct {
-	vm                VerificationMethod
+	vm                didtypes.VerificationMethod
 	baseDid           string
 	allowedNamespaces []string
 	isValid           bool
@@ -39,205 +40,223 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 		Expect(err.Error()).To(ContainSubstring(testCase.errorMsg))
 	}
 },
-
+	Entry(
+		"Verification method with base58 verification material",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#uio",
+				VerificationMethodType: "Ed25519VerificationKey2018",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519VerificationKey2018VerificationMaterial,
+			},
+			isValid: true,
+		},
+	),
 	Entry(
 		"Verification method with multibase verification material",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Ed25519VerificationKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 			},
 			isValid: true,
-		}),
-
+		},
+	),
 	Entry(
 		"Verification method with JWK verification material",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#rty",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidJwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#rty",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
-			isValid: true,
-		}),
-
+			isValid:  true,
+			errorMsg: "",
+		},
+	),
 	Entry(
 		"Id has expected DID as a base",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#rty",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidJwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#rty",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			baseDid: "did:canow:zABCDEFG123456789abcd",
 			isValid: true,
-		}),
-
+		},
+	),
 	Entry(
 		"Id does not have expected DID as a base",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#rty",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidJwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#rty",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			baseDid:  "did:canow:zABCDEFG987654321abcd",
 			isValid:  false,
 			errorMsg: "id: must have prefix: did:canow:zABCDEFG987654321abcd.",
-		}),
-
+		},
+	),
 	Entry(
 		"Namespace is allowed",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:mainnet:zABCDEFG123456789abcd#rty",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidJwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:mainnet:zABCDEFG123456789abcd#rty",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			allowedNamespaces: []string{"mainnet", ""},
 			isValid:           true,
-		}),
+		},
+	),
 
 	Entry(
 		"Namespace is not allowed",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:mainnet:zABCDEFG123456789abcd#rty",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidJwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:mainnet:zABCDEFG123456789abcd#rty",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidJWK2020VerificationMaterial,
 			},
 			allowedNamespaces: []string{"testnet"},
 			isValid:           false,
 			errorMsg:          "controller: did namespace must be one of: testnet; id: did namespace must be one of: testnet.",
-		}),
+		},
+	),
+	Entry(
+		"Valid Ed25519VerificationKey2018 verification method",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#uio",
+				VerificationMethodType: "Ed25519VerificationKey2018",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519VerificationKey2018VerificationMaterial,
+			},
+			isValid: true,
+		},
+	),
 	Entry(
 		"Valid Ed25519VerificationKey2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Ed25519VerificationKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 			},
 			isValid: true,
 		}),
 	Entry(
-		"Valid Bls12381G2Key2020 verification method with multibase material",
+		"Valid Bls12381G2Key2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidBls12381G2MultibaseVerificationMaterial,
-			},
-			isValid: true,
-		}),
-	Entry(
-		"Valid Bls12381G2Key2020 verification method with JWK material",
-		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidBls12381G2JwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Bls12381G2Key2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidBls12381G2MultibaseVerificationMaterial,
 			},
 			isValid: true,
 		}),
 	Entry(
 		"Valid EC JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEcJwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEcJwkVerificationMaterial,
 			},
 			isValid: true,
 		}),
 	Entry(
 		"Valid RSA JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidRsaJwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidRsaJwkVerificationMaterial,
 			},
 			isValid: true,
-		}),
+		},
+	),
 	Entry(
 		"Valid Ed25519 JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEd25519JwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519JwkVerificationMaterial,
 			},
 			isValid: true,
 		}),
 	Entry(
 		"Valid Bls12381G2 JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidBls12381G2JwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidBls12381G2JwkVerificationMaterial,
 			},
 			isValid: true,
 		}),
 	Entry(
+		"Invalid Ed25519VerificationKey2018 verification method",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2018",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidEd25519VerificationKey2018VerificationMaterialBadLength,
+			},
+			isValid:  false,
+			errorMsg: "verification_material: ed25519: bad public key length: 31",
+		},
+	),
+	Entry(
 		"Invalid Ed25519VerificationKey2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Ed25519VerificationKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: InvalidEd25519MultibaseVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadlength,
 			},
 			isValid:  false,
-			errorMsg: "verification_material: (publicKeyMultibase: ed25519: bad public key length: 18.).",
-		}),
+			errorMsg: "verification_material: ed25519: bad public key length: 27",
+		},
+	),
 	Entry(
-		"Invalid Bls12381G2Key2020 verification method with multibase material",
+		"Invalid Bls12381G2Key2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: InvalidBls12381G2MultibaseVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Bls12381G2Key2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidBls12381G2MultibaseVerificationMaterial,
 			},
 			isValid:  false,
-			errorMsg: "verification_material: Not a Bls12381G2 public key.",
-		}),
-	Entry(
-		"Invalid Bls12381G2Key2020 verification method with JWK material",
-		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: ValidEd25519JwkVerificationMaterial, // Ed25519 instead of Bls12381G2
-			},
-			isValid:  false,
-			errorMsg: "verification_material: Bls12381G2Key2020 curve must be Bls12381G2 rather than Ed25519",
+			errorMsg: "verification_material: not a Bls12381G2 public key.",
 		}),
 	Entry(
 		"Invalid JsonWebKey2020 verification method",
 		VerificationMethodTestCase{
-			vm: VerificationMethod{
-				Id:                   "did:canow:zABCDEFG123456789abcd#qwe",
-				Type:                 "JsonWebKey2020",
-				Controller:           "did:canow:zABCDEFG987654321abcd",
-				VerificationMaterial: InvalidJwkVerificationMaterial,
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidJwkVerificationMaterial,
 			},
 			isValid:  false,
 			errorMsg: "verification_material: can't parse jwk: invalid key type from JSON (SomeOtherKeyType)",
@@ -247,11 +266,11 @@ var _ = DescribeTable("Verification Method validation tests", func(testCase Veri
 var _ = Describe("Validation ed25519 Signature in verification method", func() {
 	var pubKey ed25519.PublicKey
 	var privKey ed25519.PrivateKey
+	var signature []byte
 	var err error
 	message := "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
 		"tempor incididunt ut labore et dolore magna aliqua."
 	msgBytes := []byte(message)
-	var signature []byte
 
 	pubKey, privKey, err = ed25519.GenerateKey(rand.Reader)
 	Expect(err).To(BeNil())
@@ -260,37 +279,52 @@ var _ = Describe("Validation ed25519 Signature in verification method", func() {
 
 	Context("with multibase material", func() {
 		It("is valid", func() {
-			pubKeyStr, err := multibase.Encode(multibase.Base58BTC, pubKey)
-			Expect(err).To(BeNil())
+			pubKeyStr := testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(pubKey)
 
-			vm := VerificationMethod{
-				Id:                   "",
-				Type:                 "Ed25519VerificationKey2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyMultibase\": \"" + pubKeyStr + "\"}",
+			vm := didtypes.VerificationMethod{
+				Id:                     "",
+				VerificationMethodType: "Ed25519VerificationKey2020",
+				Controller:             "",
+				VerificationMaterial:   pubKeyStr,
 			}
 
-			err = VerifySignature(vm, msgBytes, signature)
+			err = didtypes.VerifySignature(vm, msgBytes, signature)
 			Expect(err).To(BeNil())
 		})
 	})
 
 	Context("with JWK material", func() {
 		It("is valid", func() {
-			jwk_, err := jwk.New(pubKey)
+			jwkKey, err := jwk.New(pubKey)
 			Expect(err).To(BeNil())
 
-			json_, err := json.MarshalIndent(jwk_, "", "  ")
+			jsonPayload, err := json.MarshalIndent(jwkKey, "", "  ")
 			Expect(err).To(BeNil())
 
-			vm2 := VerificationMethod{
-				Id:                   "",
-				Type:                 "JsonWebKey2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyJwk\": " + string(json_) + "}",
+			vm2 := didtypes.VerificationMethod{
+				Id:                     "",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "",
+				VerificationMaterial:   string(jsonPayload),
 			}
 
-			err = VerifySignature(vm2, msgBytes, signature)
+			err = didtypes.VerifySignature(vm2, msgBytes, signature)
+			Expect(err).To(BeNil())
+		})
+	})
+
+	Context("when ed25519 key 2018 representation is placed", func() {
+		It("is valid", func() {
+			pubKeyStr := testsetup.GenerateEd25519VerificationKey2018VerificationMaterial(pubKey)
+
+			vm := didtypes.VerificationMethod{
+				Id:                     "",
+				VerificationMethodType: "Ed25519VerificationKey2018",
+				Controller:             "",
+				VerificationMaterial:   pubKeyStr,
+			}
+
+			err = didtypes.VerifySignature(vm, msgBytes, signature)
 			Expect(err).To(BeNil())
 		})
 	})
@@ -324,14 +358,14 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 			pubKeyMultibase, err := multibase.Encode(multibase.Base58BTC, multicodec)
 			Expect(err).To(BeNil())
 
-			vm := VerificationMethod{
-				Id:                   "",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyMultibase\": \"" + pubKeyMultibase + "\"}",
+			vm := didtypes.VerificationMethod{
+				Id:                     "",
+				VerificationMethodType: "Bls12381G2Key2020",
+				Controller:             "",
+				VerificationMaterial:   pubKeyMultibase,
 			}
 
-			err = VerifySignature(vm, msgBytes, signature)
+			err = didtypes.VerifySignature(vm, msgBytes, signature)
 			Expect(err).To(BeNil())
 		})
 	})
@@ -340,27 +374,15 @@ var _ = Describe("Validation Bls12381G2 Signature in verification method", func(
 		pubKeyBase64 := base64.RawURLEncoding.EncodeToString(pubKeyBytes)
 		pubKeyJwk := "{\"kty\": \"OKP\", \"crv\": \"Bls12381G2\", \"x\": \"" + pubKeyBase64 + "\"}"
 
-		It("is valid for Bls12381G2Key2020", func() {
-			vm := VerificationMethod{
-				Id:                   "",
-				Type:                 "Bls12381G2Key2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyJwk\": " + pubKeyJwk + "}",
+		It("is valid", func() {
+			vm := didtypes.VerificationMethod{
+				Id:                     "",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "",
+				VerificationMaterial:   pubKeyJwk,
 			}
 
-			err = VerifySignature(vm, msgBytes, signature)
-			Expect(err).To(BeNil())
-		})
-
-		It("is valid for JsonWebKey2020", func() {
-			vm := VerificationMethod{
-				Id:                   "",
-				Type:                 "JsonWebKey2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyJwk\": " + pubKeyJwk + "}",
-			}
-
-			err = VerifySignature(vm, msgBytes, signature)
+			err = didtypes.VerifySignature(vm, msgBytes, signature)
 			Expect(err).To(BeNil())
 		})
 	})
@@ -386,20 +408,20 @@ var _ = Describe("Validation ECDSA Signature in verification method", func() {
 			signature, err := ecdsa.SignASN1(rand.Reader, privKey, msgDigest)
 			Expect(err).To(BeNil())
 
-			jwk_, err := jwk.New(pubKey)
+			jwkKey, err := jwk.New(pubKey)
 			Expect(err).To(BeNil())
 
-			json_, err := json.MarshalIndent(jwk_, "", "  ")
+			jsonPayload, err := json.MarshalIndent(jwkKey, "", "  ")
 			Expect(err).To(BeNil())
 
-			vm := VerificationMethod{
-				Id:                   "",
-				Type:                 "JsonWebKey2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyJwk\": " + string(json_) + "}",
+			vm := didtypes.VerificationMethod{
+				Id:                     "",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "",
+				VerificationMaterial:   string(jsonPayload),
 			}
 
-			err = VerifySignature(vm, msgBytes, signature)
+			err = didtypes.VerifySignature(vm, msgBytes, signature)
 			Expect(err).To(BeNil())
 		})
 	})
@@ -424,21 +446,124 @@ var _ = Describe("Validation RSA Signature in verification method", func() {
 			signature, err := rsa.SignPSS(rand.Reader, privKey, crypto.SHA256, msgDigest, nil)
 			Expect(err).To(BeNil())
 
-			jwk_, err := jwk.New(pubKey)
+			jwkKey, err := jwk.New(pubKey)
 			Expect(err).To(BeNil())
 
-			json_, err := json.Marshal(jwk_)
+			jsonPayload, err := json.Marshal(jwkKey)
 			Expect(err).To(BeNil())
 
-			vm2 := VerificationMethod{
-				Id:                   "",
-				Type:                 "JsonWebKey2020",
-				Controller:           "",
-				VerificationMaterial: "{\"publicKeyJwk\": " + string(json_) + "}",
+			vm2 := didtypes.VerificationMethod{
+				Id:                     "",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "",
+				VerificationMaterial:   string(jsonPayload),
 			}
 
-			err = VerifySignature(vm2, msgBytes, signature)
+			err = didtypes.VerifySignature(vm2, msgBytes, signature)
 			Expect(err).To(BeNil())
 		})
 	})
 })
+
+var _ = DescribeTable("Verification Method material validation tests", func(testCase VerificationMethodTestCase) {
+	err := testCase.vm.Validate(testCase.baseDid, testCase.allowedNamespaces)
+
+	if testCase.isValid {
+		Expect(err).To(BeNil())
+	} else {
+		Expect(err).To(HaveOccurred())
+		Expect(err.Error()).To(ContainSubstring(testCase.errorMsg))
+	}
+},
+	Entry(
+		"Valid Ed25519VerificationKey2020 verification material",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
+			},
+			isValid:  true,
+			errorMsg: "",
+		},
+	),
+	Entry(
+		"Valid JsonWebKey2020 verification material",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidJWK2020VerificationMaterial,
+			},
+			isValid:  true,
+			errorMsg: "",
+		},
+	),
+	Entry(
+		"Valid Ed25519VerificationKey2018 verification material",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2018",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   ValidEd25519VerificationKey2018VerificationMaterial,
+			},
+			isValid:  true,
+			errorMsg: "",
+		},
+	),
+	Entry(
+		"Invalid Ed25519VerificationKey2020 verification material",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadlength,
+			},
+			isValid:  false,
+			errorMsg: "",
+		},
+	),
+	Entry(
+		"Invalid Ed25519VerificationKey2020 verification material",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidEd25519VerificationKey2020VerificationMaterialBadPrefix,
+			},
+			isValid:  false,
+			errorMsg: "verification_material: invalid two-byte prefix for Ed25519VerificationKey2020. expected: 0xed01 actual: 0x0200",
+		},
+	),
+	Entry(
+		"Invalid JsonWebKey2020 verification material",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "JsonWebKey2020",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidJWK2020VerificationMaterial,
+			},
+			isValid:  false,
+			errorMsg: "verification_material: can't parse jwk: invalid key type from JSON (SomeOtherKeyType)",
+		},
+	),
+	Entry(
+		"Invalid Ed25519VerificationKey2018 verification material",
+		VerificationMethodTestCase{
+			vm: didtypes.VerificationMethod{
+				Id:                     "did:canow:zABCDEFG123456789abcd#qwe",
+				VerificationMethodType: "Ed25519VerificationKey2018",
+				Controller:             "did:canow:zABCDEFG987654321abcd",
+				VerificationMaterial:   InvalidEd25519VerificationKey2018VerificationMaterialBadLength,
+			},
+			isValid:  false,
+			errorMsg: "ed25519: bad public key length: 31",
+		},
+	),
+)

@@ -50,38 +50,71 @@ func MustFindDidDoc(k *Keeper, ctx *sdk.Context, inMemoryDIDDocs map[string]type
 	return res, nil
 }
 
-func FindVerificationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didUrl string) (res types.VerificationMethod, found bool, err error) {
-	did, _, _, _ := utils.MustSplitDIDUrl(didUrl)
+func FindVerificationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didURL string) (res types.VerificationMethod, found bool, err error) {
+	did, _, _, _ := utils.MustSplitDIDUrl(didURL)
 
 	didDoc, found, err := FindDidDoc(k, ctx, inMemoryDIDs, did)
 	if err != nil || !found {
 		return types.VerificationMethod{}, found, err
 	}
 
-	for _, vm := range didDoc.DidDoc.VerificationMethod {
-		if vm.Id == didUrl {
-			return *vm, true, nil
-		}
+	vm, found := types.FindVerificationMethod(didDoc.DidDoc.VerificationMethod, didURL)
+	if !found {
+		return types.VerificationMethod{}, false, nil
 	}
 
-	return types.VerificationMethod{}, false, nil
+	return *vm, true, nil
 }
 
-func MustFindVerificationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didUrl string) (res types.VerificationMethod, err error) {
-	res, found, err := FindVerificationMethod(k, ctx, inMemoryDIDs, didUrl)
+func MustFindVerificationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didURL string) (res types.VerificationMethod, err error) {
+	res, found, err := FindVerificationMethod(k, ctx, inMemoryDIDs, didURL)
 	if err != nil {
 		return types.VerificationMethod{}, err
 	}
 
 	if !found {
-		return types.VerificationMethod{}, types.ErrVerificationMethodNotFound.Wrap(didUrl)
+		return types.VerificationMethod{}, types.ErrVerificationMethodNotFound.Wrap(didURL)
 	}
 
 	return res, nil
 }
 
+func FindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didURL string) (res types.VerificationMethod, found bool, err error) {
+	did, _, _, _ := utils.MustSplitDIDUrl(didURL)
+
+	didDoc, found, err := FindDidDoc(k, ctx, inMemoryDIDs, did)
+	if err != nil || !found {
+		return types.VerificationMethod{}, found, err
+	}
+
+	vm, found := types.FindVerificationMethod(getEffectiveAuthenticationMethods(didDoc.DidDoc), didURL)
+	if !found {
+		return types.VerificationMethod{}, false, nil
+	}
+
+	return *vm, true, nil
+}
+
+func MustFindAuthenticationMethod(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, didURL string) (res types.VerificationMethod, err error) {
+	res, found, err := FindAuthenticationMethod(k, ctx, inMemoryDIDs, didURL)
+	if err != nil {
+		return types.VerificationMethod{}, err
+	}
+
+	if !found {
+		return types.VerificationMethod{}, types.ErrAuthenticationMethodNotFound.Wrap(didURL)
+	}
+
+	return res, nil
+}
+
+// Verifies validity of a given signature for a given message.
+//
+// This function assumes that the verification method specified for the signature within `SignInfo`
+// is from `authentication` list of the signer's DID document or from its `verificationMethod` list,
+// but is not an embedded verification method from any verification relationship list other than `authentication`.
 func VerifySignature(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, message []byte, signature types.SignInfo) error {
-	verificationMethod, err := MustFindVerificationMethod(k, ctx, inMemoryDIDs, signature.VerificationMethodId)
+	verificationMethod, err := MustFindAuthenticationMethod(k, ctx, inMemoryDIDs, signature.VerificationMethodId)
 	if err != nil {
 		return err
 	}
@@ -114,13 +147,13 @@ func VerifyAllSignersHaveAllValidSignatures(k *Keeper, ctx *sdk.Context, inMemor
 }
 
 // VerifyAllSignersHaveAtLeastOneValidSignature verifies that all signers have at least one valid signature.
-// Omit DIDtoBeUpdated and updatedDID if not updating a DID. Otherwise those values will be used to better format error messages.
+// Omit didToBeUpdated and updatedDID if not updating a DID. Otherwise those values will be used to better format error messages.
 func VerifyAllSignersHaveAtLeastOneValidSignature(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata,
-	message []byte, signers []string, signatures []*types.SignInfo, DIDToBeUpdated string, updatedDID string,
+	message []byte, signers []string, signatures []*types.SignInfo, didToBeUpdated string, updatedDID string,
 ) error {
 	for _, signer := range signers {
 		signaturesBySigner := types.FindSignInfosBySigner(signatures, signer)
-		signerForErrorMessage := GetSignerIdForErrorMessage(signer, DIDToBeUpdated, updatedDID)
+		signerForErrorMessage := GetSignerIDForErrorMessage(signer, didToBeUpdated, updatedDID)
 
 		if len(signaturesBySigner) == 0 {
 			return types.ErrSignatureNotFound.Wrapf("there should be at least one signature by %s", signerForErrorMessage)
@@ -141,4 +174,11 @@ func VerifyAllSignersHaveAtLeastOneValidSignature(k *Keeper, ctx *sdk.Context, i
 	}
 
 	return nil
+}
+
+func getEffectiveAuthenticationMethods(didDoc *types.DidDoc) []*types.VerificationMethod {
+	// In the current implementation, when searching for a given authentication method,
+	// we fall back into `verificationMethod` list in case the method is not found in `authentication` list.
+	embeddedAuthenticationMethods := types.FilterEmbeddedVerificationMethods(didDoc.Authentication)
+	return append(embeddedAuthenticationMethods, didDoc.VerificationMethod...)
 }

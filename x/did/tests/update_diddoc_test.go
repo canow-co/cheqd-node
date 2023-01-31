@@ -33,15 +33,23 @@ var _ = Describe("DIDDoc update", func() {
 				Controller: []string{alice.Did},
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   bob.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           bob.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(bob.KeyPair.Public),
+						Id:                     bob.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             bob.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(bob.KeyPair.Public),
 					},
 				},
-				Authentication:  []string{bob.KeyId},
-				AssertionMethod: []string{bob.KeyId},
-				VersionId:       uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: bob.KeyID,
+					},
+				},
+				AssertionMethod: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: bob.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 			}
 		})
 
@@ -69,10 +77,10 @@ var _ = Describe("DIDDoc update", func() {
 			Expect(msg.ToDidDoc()).To(Equal(*created.Value.DidDoc))
 
 			// query the first version
-			v1, err := setup.QueryDidDocVersion(bob.Did, bob.VersionId)
+			v1, err := setup.QueryDidDocVersion(bob.Did, bob.VersionID)
 			Expect(err).To(BeNil())
 			Expect(*v1.Value.DidDoc).To(Equal(bob.Msg.ToDidDoc()))
-			Expect(v1.Value.Metadata.VersionId).To(Equal(bob.VersionId))
+			Expect(v1.Value.Metadata.VersionId).To(Equal(bob.VersionID))
 			Expect(v1.Value.Metadata.NextVersionId).To(Equal(msg.VersionId))
 
 			// query the second version
@@ -80,7 +88,7 @@ var _ = Describe("DIDDoc update", func() {
 			Expect(err).To(BeNil())
 			Expect(*v2.Value.DidDoc).To(Equal(msg.ToDidDoc()))
 			Expect(v2.Value.Metadata.VersionId).To(Equal(msg.VersionId))
-			Expect(v2.Value.Metadata.PreviousVersionId).To(Equal(bob.VersionId))
+			Expect(v2.Value.Metadata.PreviousVersionId).To(Equal(bob.VersionID))
 
 			// query all versions
 			versions, err := setup.QueryAllDidDocVersionsMetadata(bob.Did)
@@ -112,10 +120,10 @@ var _ = Describe("DIDDoc update", func() {
 				Controller: []string{bob.Did},
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -170,10 +178,10 @@ var _ = Describe("DIDDoc update", func() {
 				Controller: []string{alice.Did, bob.Did},
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -228,15 +236,23 @@ var _ = Describe("DIDDoc update", func() {
 				Controller: []string{bob.Did},
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
-				Authentication:  []string{alice.KeyId},
-				AssertionMethod: []string{alice.KeyId}, // Adding new verification method
-				VersionId:       uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				AssertionMethod: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				}, // Adding new verification method
+				VersionId: uuid.NewString(),
 			}
 		})
 
@@ -267,10 +283,10 @@ var _ = Describe("DIDDoc update", func() {
 				Id: did.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   did.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           did.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(newKeyPair.Public),
+						Id:                     did.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             did.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(newKeyPair.Public),
 					},
 				},
 				VersionId: uuid.NewString(),
@@ -281,7 +297,7 @@ var _ = Describe("DIDDoc update", func() {
 			signatures := []SignInput{
 				did.SignInput, // Old signature
 				{
-					VerificationMethodId: did.KeyId, // New signature
+					VerificationMethodID: did.KeyID, // New signature
 					Key:                  newKeyPair.Private,
 				},
 			}
@@ -304,7 +320,7 @@ var _ = Describe("DIDDoc update", func() {
 
 		It("Doesn't work without old signature", func() {
 			signatures := []SignInput{{
-				VerificationMethodId: did.KeyId,
+				VerificationMethodID: did.KeyID,
 				Key:                  newKeyPair.Private,
 			}}
 
@@ -326,14 +342,18 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           bob.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             bob.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 			}
 		})
 
@@ -366,25 +386,29 @@ var _ = Describe("DIDDoc update", func() {
 
 	Describe("Verification method: ID update", func() {
 		var alice CreatedDidDocInfo
-		var newKeyId string
+		var newKeyID string
 		var msg *types.MsgUpdateDidDocPayload
 
 		BeforeEach(func() {
 			alice = setup.CreateSimpleDid()
-			newKeyId = alice.Did + "#key-2"
+			newKeyID = alice.Did + "#key-2"
 
 			msg = &types.MsgUpdateDidDocPayload{
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   newKeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     newKeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: newKeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 			}
 		})
 
@@ -398,7 +422,7 @@ var _ = Describe("DIDDoc update", func() {
 		It("Doesn't work without old verification method signature", func() {
 			signatures := []SignInput{
 				{
-					VerificationMethodId: newKeyId,
+					VerificationMethodID: newKeyID,
 					Key:                  alice.KeyPair.Private,
 				},
 			}
@@ -410,7 +434,7 @@ var _ = Describe("DIDDoc update", func() {
 		It("Works with new and old verification method signature", func() {
 			signatures := []SignInput{
 				{
-					VerificationMethodId: newKeyId,
+					VerificationMethodID: newKeyID,
 					Key:                  alice.KeyPair.Private,
 				},
 				alice.SignInput,
@@ -428,34 +452,38 @@ var _ = Describe("DIDDoc update", func() {
 
 	Describe("Verification method: adding a new one", func() {
 		var alice CreatedDidDocInfo
-		var newKeyId string
+		var newKeyID string
 		var newKey KeyPair
 		var msg *types.MsgUpdateDidDocPayload
 
 		BeforeEach(func() {
 			alice = setup.CreateSimpleDid()
 
-			newKeyId = alice.Did + "#key-2"
+			newKeyID = alice.Did + "#key-2"
 			newKey = GenerateKeyPair()
 
 			msg = &types.MsgUpdateDidDocPayload{
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 					{
-						Id:                   newKeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(newKey.Public),
+						Id:                     newKeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(newKey.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 			}
 		})
 
@@ -476,7 +504,7 @@ var _ = Describe("DIDDoc update", func() {
 		It("Doesn't work with only new verification method signature", func() {
 			signatures := []SignInput{
 				{
-					VerificationMethodId: newKeyId,
+					VerificationMethodID: newKeyID,
 					Key:                  newKey.Private,
 				},
 			}
@@ -488,7 +516,7 @@ var _ = Describe("DIDDoc update", func() {
 
 	Describe("Verification method: removing existing", func() {
 		var alice CreatedDidDocInfo
-		var secondKeyId string
+		var secondKeyID string
 		var secondKey KeyPair
 		var secondSignInput SignInput
 		var msg *types.MsgUpdateDidDocPayload
@@ -496,10 +524,10 @@ var _ = Describe("DIDDoc update", func() {
 		BeforeEach(func() {
 			alice = setup.CreateSimpleDid()
 
-			secondKeyId = alice.Did + "#key-2"
+			secondKeyID = alice.Did + "#key-2"
 			secondKey = GenerateKeyPair()
 			secondSignInput = SignInput{
-				VerificationMethodId: secondKeyId,
+				VerificationMethodID: secondKeyID,
 				Key:                  secondKey.Private,
 			}
 
@@ -507,20 +535,24 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 					{
-						Id:                   secondKeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(secondKey.Public),
+						Id:                     secondKeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(secondKey.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 			}
 
 			_, err := setup.UpdateDidDoc(addSecondKeyMsg, []SignInput{alice.SignInput})
@@ -530,14 +562,18 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 			}
 		})
 
@@ -576,14 +612,18 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.DidDocInfo.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.DidDocInfo.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.DidDocInfo.KeyPair.Public),
+						Id:                     alice.DidDocInfo.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.DidDocInfo.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.DidDocInfo.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 			}
 		})
 
@@ -628,18 +668,22 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 				Service: []*types.Service{
 					{
 						Id:              alice.Did + "#service-1",
-						Type:            "type-1",
+						ServiceType:     "type-1",
 						ServiceEndpoint: []string{"endpoint-1"},
 						Accept:          newAccepts,
 						RoutingKeys:     newRoutingKeys,
@@ -687,18 +731,22 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 				Service: []*types.Service{
 					{
 						Id:              alice.Did + "#service-1",
-						Type:            "type-1",
+						ServiceType:     "type-1",
 						ServiceEndpoint: []string{"endpoint-1"},
 						Accept:          newAccepts,
 						RoutingKeys:     newRoutingKeys,
@@ -713,14 +761,18 @@ var _ = Describe("DIDDoc update", func() {
 				Id: alice.Did,
 				VerificationMethod: []*types.VerificationMethod{
 					{
-						Id:                   alice.KeyId,
-						Type:                 types.Ed25519VerificationKey2020{}.Type(),
-						Controller:           alice.Did,
-						VerificationMaterial: BuildEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
+						Id:                     alice.KeyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             alice.Did,
+						VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(alice.KeyPair.Public),
 					},
 				},
-				Authentication: []string{alice.KeyId},
-				VersionId:      uuid.NewString(),
+				Authentication: []*types.VerificationRelationship{
+					{
+						VerificationMethodId: alice.KeyID,
+					},
+				},
+				VersionId: uuid.NewString(),
 			}
 		})
 

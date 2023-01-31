@@ -89,20 +89,20 @@ func (k MsgServer) UpdateDidDoc(goCtx context.Context, msg *types.MsgUpdateDidDo
 	}, nil
 }
 
-func GetSignerIdForErrorMessage(signerId string, existingVersionId string, updatedVersionId string) interface{} {
-	if signerId == existingVersionId { // oldDid->id
-		return existingVersionId + " (old version)"
+func GetSignerIDForErrorMessage(signerID string, existingVersionID string, updatedVersionID string) interface{} {
+	if signerID == existingVersionID { // oldDid->id
+		return existingVersionID + " (old version)"
 	}
 
-	if signerId == updatedVersionId { // oldDid->id + UpdatedPrefix
-		return existingVersionId + " (new version)"
+	if signerID == updatedVersionID { // oldDid->id + UpdatedPrefix
+		return existingVersionID + " (new version)"
 	}
 
-	return signerId
+	return signerID
 }
 
 func DuplicateSignatures(signatures []*types.SignInfo, didToDuplicate string, newDid string) []*types.SignInfo {
-	var result []*types.SignInfo
+	result := make([]*types.SignInfo, 0, len(signatures))
 
 	for _, signature := range signatures {
 		result = append(result, signature)
@@ -125,10 +125,13 @@ func GetSignerDIDsForDIDUpdate(existingDidDoc types.DidDoc, updatedDidDoc types.
 	signers := existingDidDoc.GetControllersOrSubject()
 	signers = append(signers, updatedDidDoc.GetControllersOrSubject()...)
 
-	existingVMMap := types.VerificationMethodListToMapByFragment(existingDidDoc.VerificationMethod)
-	updatedVMMap := types.VerificationMethodListToMapByFragment(updatedDidDoc.VerificationMethod)
+	existingVMs := getEffectiveAuthenticationMethods(&existingDidDoc)
+	updatedVMs := getEffectiveAuthenticationMethods(&updatedDidDoc)
 
-	for _, updatedVM := range updatedDidDoc.VerificationMethod {
+	existingVMMap := types.VerificationMethodListToMapByFragment(existingVMs)
+	updatedVMMap := types.VerificationMethodListToMapByFragment(updatedVMs)
+
+	for _, updatedVM := range updatedVMs {
 		_, _, _, fragment := utils.MustSplitDIDUrl(updatedVM.Id)
 		existingVM, found := existingVMMap[fragment]
 
@@ -153,7 +156,7 @@ func GetSignerDIDsForDIDUpdate(existingDidDoc types.DidDoc, updatedDidDoc types.
 		// VM not changed
 	}
 
-	for _, existingVM := range existingDidDoc.VerificationMethod {
+	for _, existingVM := range existingVMs {
 		_, _, _, fragment := utils.MustSplitDIDUrl(existingVM.Id)
 		_, found := updatedVMMap[fragment]
 

@@ -25,7 +25,6 @@ var _ = Describe("Message for DID creation", func() {
 			Expect(err.Error()).To(ContainSubstring(testCase.errorMsg))
 		}
 	},
-
 		Entry(
 			"All fields are set properly",
 			TestCaseMsgCreateDID{
@@ -34,20 +33,24 @@ var _ = Describe("Message for DID creation", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
-								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
-								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
+								VerificationMethodType: "Ed25519VerificationKey2020",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
+								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#aaa"},
-						VersionId:      uuid.NewString(),
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
+						VersionId: uuid.NewString(),
 					},
 					Signatures: nil,
 				},
 				isValid: true,
-			}),
-
+			},
+		),
 		Entry(
 			"IDs are duplicated",
 			TestCaseMsgCreateDID{
@@ -56,18 +59,26 @@ var _ = Describe("Message for DID creation", func() {
 						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                   "did:canow:testnet:zABCDEFG123456789abcd#key1",
-								Type:                 "Ed25519VerificationKey2020",
-								Controller:           "did:canow:testnet:zABCDEFG123456789abcd",
-								VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
+								VerificationMethodType: "Ed25519VerificationKey2020",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
+								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:canow:testnet:zABCDEFG123456789abcd#key1", "did:canow:testnet:zABCDEFG123456789abcd#key1"},
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
 					},
 					Signatures: nil,
 				},
 				isValid:  false,
-				errorMsg: "payload: (authentication: there should be no duplicates.).: basic validation failed",
-			}),
+				errorMsg: "payload: (authentication: there are verification relationships with same IDs.).: basic validation failed",
+			},
+		),
 	)
 })

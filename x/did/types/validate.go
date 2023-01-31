@@ -83,6 +83,17 @@ func IsDIDUrl(method string, allowedNamespaces []string, pathRule, queryRule, fr
 	})
 }
 
+func IsValidVerificationMethodReference(sharedVerificationMethods []*VerificationMethod) *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsValidVerificationMethodReference must be only applied on string properties")
+		}
+
+		return validateVerificationMethodReference(casted, sharedVerificationMethods)
+	})
+}
+
 func IsURI() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
@@ -102,6 +113,39 @@ func IsMultibase() *CustomErrorRule {
 		}
 
 		return utils.ValidateMultibase(casted)
+	})
+}
+
+func IsMultibaseEd25519VerificationKey2020() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsMultibaseEd25519VerificationKey2020 must be only applied on string properties")
+		}
+
+		return utils.ValidateMultibaseEd25519VerificationKey2020(casted)
+	})
+}
+
+func IsMultibaseBls12381G2Key2020Rule() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("ValidBls12381G2Key2020Rule must be only applied on string properties")
+		}
+
+		return utils.ValidateMultibaseMulticodecBls12381G2PubKey(casted)
+	})
+}
+
+func IsBase58Ed25519VerificationKey2018() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsBase58Ed25519VerificationKey2018 must be only applied on string properties")
+		}
+
+		return utils.ValidateBase58Ed25519VerificationKey2018(casted)
 	})
 }
 
@@ -126,28 +170,20 @@ func IsMultibaseEncodedEd25519PubKey() *CustomErrorRule {
 	})
 }
 
-func IsBls12381G2Key2020() *CustomErrorRule {
+func IsMultibaseMulticodecBls12381G2PubKey() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.(Bls12381G2Key2020)
+		casted, ok := value.(string)
 		if !ok {
-			panic("IsBls12381G2Key2020 must be only applied on Bls12381G2Key2020 instances")
+			panic("IsMultibaseMulticodecBls12381G2PubKey must be only applied on string properties")
 		}
 
-		if casted.PublicKeyMultibase != "" && casted.PublicKeyJwk != nil {
-			return errors.New("Only one of publicKeyMultibase and publicKeyJwk must be set for Bls12381G2Key2020")
-		} else if casted.PublicKeyMultibase != "" {
-			return utils.ValidateMultibaseEncodedBls12381G2PubKey(casted.PublicKeyMultibase)
-		} else if casted.PublicKeyJwk != nil {
-			return utils.ValidateBls12381G2PubKeyJwk(casted.PublicKeyJwk)
-		} else {
-			return errors.New("One of publicKeyMultibase or publicKeyJwk must be set for Bls12381G2Key2020")
-		}
+		return utils.ValidateMultibaseMulticodecBls12381G2PubKey(casted)
 	})
 }
 
 func IsJWK() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.([]byte)
+		casted, ok := value.(string)
 		if !ok {
 			panic("IsJWK must be only applied on byte array properties")
 		}
@@ -229,6 +265,15 @@ func validateDIDUrl(did string, method string, allowedNamespaces []string, pathR
 
 	if fragmentRule == Empty && fragment != "" {
 		return errors.New("fragment must be empty")
+	}
+
+	return nil
+}
+
+func validateVerificationMethodReference(verificationMethodReference string, sharedVerificationMethods []*VerificationMethod) error {
+	_, found := FindVerificationMethod(sharedVerificationMethods, verificationMethodReference)
+	if !found {
+		return fmt.Errorf("can't resolve verification method reference: %s", verificationMethodReference)
 	}
 
 	return nil
