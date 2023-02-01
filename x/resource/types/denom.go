@@ -1,5 +1,5 @@
 package types
 
-const (
+var (
 	BaseMinimalDenom = "ncheq"
 )
