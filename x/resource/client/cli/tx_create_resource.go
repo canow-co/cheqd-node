@@ -116,7 +116,7 @@ Example payload file:
 	AddTxFlagsToCmd(cmd)
 
 	// add custom / override flags
-	cmd.Flags().String(flags.FlagFees, sdk.NewCoin(types.BaseMinimalDenom, sdk.NewInt(types.DefaultCreateResourceImageFee)).String(), "Fixed fee for Resource creation, e.g., 10000000000" + types.BaseMinimalDenom + ". Please check what the current fees by running 'cheqd-noded query params subspace resource feeparams'")
+	cmd.Flags().String(flags.FlagFees, sdk.NewCoin(types.BaseMinimalDenom, sdk.NewInt(types.DefaultCreateResourceImageFee)).String(), "Fixed fee for Resource creation, e.g., 10000000000"+types.BaseMinimalDenom+". Please check what the current fees by running 'cheqd-noded query params subspace resource feeparams'")
 
 	_ = cmd.MarkFlagRequired(flags.FlagFees)
 	_ = cmd.MarkFlagRequired(flags.FlagGas)

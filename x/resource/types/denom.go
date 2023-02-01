@@ -1,5 +1,3 @@
 package types
 
-var (
-	BaseMinimalDenom = "ncheq"
-)
+var BaseMinimalDenom = "ncheq"
