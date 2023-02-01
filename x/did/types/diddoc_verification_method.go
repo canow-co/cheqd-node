@@ -5,31 +5,38 @@ import (
 	"crypto/ed25519"
 	"crypto/rsa"
 	"encoding/binary"
-	"encoding/json"
 	"errors"
 	"fmt"
 
 	"github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/canow-co/cheqd-node/x/did/utils/bls12381g2"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwk"
+	"github.com/mr-tron/base58"
 	"github.com/multiformats/go-multibase"
 )
 
+const (
+	JSONWebKey2020Type             = "JsonWebKey2020"
+	Ed25519VerificationKey2020Type = "Ed25519VerificationKey2020"
+	Ed25519VerificationKey2018Type = "Ed25519VerificationKey2018"
+	Bls12381G2Key2020Type          = "Bls12381G2Key2020"
+)
+
 var SupportedMethodTypes = []string{
-	JsonWebKey2020{}.Type(),
-	Ed25519VerificationKey2020{}.Type(),
-	Bls12381G2Key2020{}.Type(),
+	JSONWebKey2020Type,
+	Ed25519VerificationKey2020Type,
+	Ed25519VerificationKey2018Type,
+	Bls12381G2Key2020Type,
 }
 
-func NewVerificationMethod(id string, type_ string, controller string, verificationMaterial string) *VerificationMethod {
+func NewVerificationMethod(id string, vmType string, controller string, verificationMaterial string) *VerificationMethod {
 	return &VerificationMethod{
-		Id:                   id,
-		Type:                 type_,
-		Controller:           controller,
-		VerificationMaterial: verificationMaterial,
+		Id:                     id,
+		VerificationMethodType: vmType,
+		Controller:             controller,
+		VerificationMaterial:   verificationMaterial,
 	}
 }
 
@@ -58,39 +65,30 @@ func GetVerificationMethodIds(vms []*VerificationMethod) []string {
 func VerifySignature(vm VerificationMethod, message []byte, signature []byte) error {
 	var verificationError error
 
-	switch vm.Type {
-	case Ed25519VerificationKey2020{}.Type():
-		var ed25519VerificationKey2020 Ed25519VerificationKey2020
-		err := json.Unmarshal([]byte(vm.VerificationMaterial), &ed25519VerificationKey2020)
-		if err != nil {
-			return sdkerrors.Wrapf(err, "failed to unmarshal verification material for %s", vm.Id)
-		}
+	switch vm.VerificationMethodType {
+	case Ed25519VerificationKey2020Type:
 
-		_, keyBytes, err := multibase.Decode(ed25519VerificationKey2020.PublicKeyMultibase)
+		_, multibaseBytes, err := multibase.Decode(vm.VerificationMaterial)
 		if err != nil {
 			return err
 		}
 
+		keyBytes := utils.GetEd25519VerificationKey2020(multibaseBytes)
 		verificationError = utils.VerifyED25519Signature(keyBytes, message, signature)
 
-	case Bls12381G2Key2020{}.Type():
-		var bls12381G2Key2020 Bls12381G2Key2020
-		err := json.Unmarshal([]byte(vm.VerificationMaterial), &bls12381G2Key2020)
-		if err != nil {
-			return sdkerrors.Wrapf(err, "failed to unmarshal verification material for %s", vm.Id)
-		}
+	case Bls12381G2Key2020Type:
 
-		_, multicodec, err := multibase.Decode(bls12381G2Key2020.PublicKeyMultibase)
+		_, multicodec, err := multibase.Decode(vm.VerificationMaterial)
 		if err != nil {
 			return err
 		}
 
 		code, codePrefixLength := binary.Uvarint(multicodec)
 		if codePrefixLength <= 0 {
-			return errors.New("Invalid multicodec value")
+			return errors.New("invalid multicodec value")
 		}
 		if code != bls12381g2.Bls12381G2PubCode {
-			return errors.New("Not a Bls12381G2 public key")
+			return errors.New("not a Bls12381G2 public key")
 		}
 
 		keyBytes, err := multicodec[codePrefixLength:], nil
@@ -100,14 +98,8 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 
 		verificationError = utils.VerifyBLS12381G2Signature(keyBytes, message, signature)
 
-	case JsonWebKey2020{}.Type():
-		var jsonWebKey2020 JsonWebKey2020
-		err := json.Unmarshal([]byte(vm.VerificationMaterial), &jsonWebKey2020)
-		if err != nil {
-			return sdkerrors.Wrapf(err, "failed to unmarshal verification material for %s", vm.Id)
-		}
-
-		key, err := jwk.ParseKey([]byte(jsonWebKey2020.PublicKeyJwk))
+	case JSONWebKey2020Type:
+		key, err := jwk.ParseKey([]byte(vm.VerificationMaterial))
 		if err != nil {
 			return fmt.Errorf("can't parse jwk: %s", err.Error())
 		}
@@ -151,6 +143,14 @@ func VerifySignature(vm VerificationMethod, message []byte, signature []byte) er
 			panic("unsupported jwk key type") // This should have been checked during basic validation
 		}
 
+	case Ed25519VerificationKey2018Type:
+		publicKeyBytes, err := base58.Decode(vm.VerificationMaterial)
+		if err != nil {
+			return err
+		}
+
+		verificationError = utils.VerifyED25519Signature(publicKeyBytes, message, signature)
+
 	default:
 		panic("unsupported verification method type") // This should have also been checked during basic validation
 	}
@@ -181,24 +181,26 @@ func (vm *VerificationMethod) ReplaceDids(old, new string) {
 	}
 
 	// Id
-	vm.Id = utils.ReplaceDidInDidUrl(vm.Id, old, new)
+	vm.Id = utils.ReplaceDidInDidURL(vm.Id, old, new)
 }
 
 // Validation
-
 func (vm VerificationMethod) Validate(baseDid string, allowedNamespaces []string) error {
 	return validation.ValidateStruct(&vm,
 		validation.Field(&vm.Id, validation.Required, IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required), HasPrefix(baseDid)),
 		validation.Field(&vm.Controller, validation.Required, IsDID(allowedNamespaces)),
-		validation.Field(&vm.Type, validation.Required, validation.In(utils.ToInterfaces(SupportedMethodTypes)...)),
+		validation.Field(&vm.VerificationMethodType, validation.Required, validation.In(utils.ToInterfaces(SupportedMethodTypes)...)),
 		validation.Field(&vm.VerificationMaterial,
-			validation.When(vm.Type == Ed25519VerificationKey2020{}.Type(), validation.Required, ValidEd25519VerificationKey2020Rule()),
+			validation.When(vm.VerificationMethodType == Ed25519VerificationKey2020Type, validation.Required, IsMultibaseEd25519VerificationKey2020()),
 		),
 		validation.Field(&vm.VerificationMaterial,
-			validation.When(vm.Type == Bls12381G2Key2020{}.Type(), validation.Required, ValidBls12381G2Key2020Rule()),
+			validation.When(vm.VerificationMethodType == Bls12381G2Key2020Type, validation.Required, IsMultibaseBls12381G2Key2020Rule()),
 		),
 		validation.Field(&vm.VerificationMaterial,
-			validation.When(vm.Type == JsonWebKey2020{}.Type(), validation.Required, ValidJsonWebKey2020Rule()),
+			validation.When(vm.VerificationMethodType == Ed25519VerificationKey2018Type, validation.Required, IsBase58Ed25519VerificationKey2018()),
+		),
+		validation.Field(&vm.VerificationMaterial,
+			validation.When(vm.VerificationMethodType == JSONWebKey2020Type, validation.Required, IsJWK()),
 		),
 	)
 }
@@ -214,11 +216,11 @@ func ValidVerificationMethodRule(baseDid string, allowedNamespaces []string) *Cu
 	})
 }
 
-func IsUniqueVerificationMethodListByIdRule() *CustomErrorRule {
+func IsUniqueVerificationMethodListByIDRule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]*VerificationMethod)
 		if !ok {
-			panic("IsUniqueVerificationMethodListByIdRule must be only applied on VM lists")
+			panic("IsUniqueVerificationMethodListByIDRule must be only applied on VM lists")
 		}
 
 		ids := GetVerificationMethodIds(casted)

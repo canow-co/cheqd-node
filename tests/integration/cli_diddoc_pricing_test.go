@@ -9,10 +9,10 @@ import (
 	"github.com/canow-co/cheqd-node/tests/integration/helpers"
 	"github.com/canow-co/cheqd-node/tests/integration/network"
 	"github.com/canow-co/cheqd-node/tests/integration/testdata"
-	clitypes "github.com/canow-co/cheqd-node/x/did/client/cli"
+	didcli "github.com/canow-co/cheqd-node/x/did/client/cli"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
 	"github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/google/uuid"
-	"github.com/multiformats/go-multibase"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -21,8 +21,8 @@ import (
 var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 	var tmpDir string
 	var feeParams types.FeeParams
-	var payload types.MsgCreateDidDocPayload
-	var signInputs []clitypes.SignInput
+	var payload didcli.DIDDocument
+	var signInputs []didcli.SignInput
 
 	BeforeEach(func() {
 		tmpDir = GinkgoT().TempDir()
@@ -34,37 +34,31 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(err).To(BeNil())
 
 		// Create a new DID Doc
-		did := "did:canow:" + network.DID_NAMESPACE + ":" + uuid.NewString()
+		did := "did:canow:" + network.DidNamespace + ":" + uuid.NewString()
 		keyId := did + "#key1"
 
-		pubKey, privKey, err := ed25519.GenerateKey(nil)
+		publicKey, privateKey, err := ed25519.GenerateKey(nil)
 		Expect(err).To(BeNil())
 
-		pubKeyMultibase58, err := multibase.Encode(multibase.Base58BTC, pubKey)
-		Expect(err).To(BeNil())
+		publicKeyMultibase := testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(publicKey)
 
-		payload = types.MsgCreateDidDocPayload{
-			Id: did,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                   keyId,
-					Type:                 "Ed25519VerificationKey2020",
-					Controller:           did,
-					VerificationMaterial: "{\"publicKeyMultibase\": \"" + string(pubKeyMultibase58) + "\"}",
+		payload = didcli.DIDDocument{
+			ID: did,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 keyId,
+					"type":               "Ed25519VerificationKey2020",
+					"controller":         did,
+					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: keyId,
-				},
-			},
-			VersionId: uuid.NewString(),
+			Authentication: []any{keyId},
 		}
 
-		signInputs = []clitypes.SignInput{
+		signInputs = []didcli.SignInput{
 			{
-				VerificationMethodId: keyId,
-				PrivKey:              privKey,
+				VerificationMethodID: keyId,
+				PrivKey:              privateKey,
 			},
 		}
 	})
@@ -77,7 +71,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 
 		By("submitting a create diddoc message")
 		tax := feeParams.CreateDid
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_4, helpers.GenerateFees(tax.String()))
+		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_4, helpers.GenerateFees(tax.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -87,67 +81,6 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(balanceAfter.Denom).To(BeEquivalentTo(types.BaseMinimalDenom))
 
 		By("checking the balance difference")
-		diff := balanceBefore.Amount.Sub(balanceAfter.Amount)
-		Expect(diff).To(Equal(tax.Amount))
-
-		By("exporting a readable tx event log")
-		events := helpers.ReadableEvents(res.Events)
-
-		By("ensuring the events contain the expected tax event")
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "tx",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "fee", Value: tax.String(), Index: true},
-					{Key: "fee_payer", Value: testdata.BASE_ACCOUNT_4_ADDR, Index: true},
-				},
-			},
-		))
-
-		By("ensuring the events contain the expected supply deflation event")
-		burnt := helpers.GetBurntPortion(tax, feeParams.BurnFactor)
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "burn",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "burner", Value: testdata.DID_MODULE_ACCOUNT_ADDR, Index: true},
-					{Key: "amount", Value: burnt.String(), Index: true},
-				},
-			},
-		))
-
-		By("ensuring the events contain the expected reward distribution event")
-		reward := helpers.GetRewardPortion(tax, burnt)
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "transfer",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "recipient", Value: testdata.FEE_COLLECTOR_ADDR, Index: true},
-					{Key: "sender", Value: testdata.DID_MODULE_ACCOUNT_ADDR, Index: true},
-					{Key: "amount", Value: reward.String(), Index: true},
-				},
-			},
-		))
-	})
-
-	It("should tax create diddoc message - case: gas auto", func() {
-		By("querying the fee payer account balance before the transaction")
-		balanceBefore, err := cli.QueryBalance(testdata.BASE_ACCOUNT_4_ADDR, types.BaseMinimalDenom)
-		Expect(err).To(BeNil())
-		Expect(balanceBefore.Denom).To(BeEquivalentTo(types.BaseMinimalDenom))
-
-		By("submitting a create diddoc message")
-		res, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
-		Expect(err).To(BeNil())
-		Expect(res.Code).To(BeEquivalentTo(0))
-
-		By("querying the altered account balance")
-		balanceAfter, err := cli.QueryBalance(testdata.BASE_ACCOUNT_4_ADDR, types.BaseMinimalDenom)
-		Expect(err).To(BeNil())
-		Expect(balanceAfter.Denom).To(BeEquivalentTo(types.BaseMinimalDenom))
-
-		By("checking the balance difference")
-		tax := feeParams.CreateDid
 		diff := balanceBefore.Amount.Sub(balanceAfter.Amount)
 		Expect(diff).To(Equal(tax.Amount))
 
@@ -193,28 +126,23 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 
 	It("should tax update diddoc message - case: fixed fee", func() {
 		By("submitting a create diddoc message")
-		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
+		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_4, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(resp.Code).To(BeEquivalentTo(0))
 
 		By("preparing the update diddoc message")
-		payload2 := types.MsgUpdateDidDocPayload{
-			Id: payload.Id,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                   payload.VerificationMethod[0].Id,
-					Controller:           payload.VerificationMethod[0].Controller,
-					Type:                 payload.VerificationMethod[0].Type,
-					VerificationMaterial: payload.VerificationMethod[0].VerificationMaterial,
+		payload2 := didcli.DIDDocument{
+			ID: payload.ID,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 payload.VerificationMethod[0]["id"],
+					"type":               payload.VerificationMethod[0]["type"],
+					"controller":         payload.VerificationMethod[0]["controller"],
+					"publicKeyMultibase": payload.VerificationMethod[0]["publicKeyMultibase"],
 				},
 			},
 			Authentication: payload.Authentication,
-			AssertionMethod: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: payload.VerificationMethod[0].Id,
-				},
-			}, // <-- changed
-			VersionId: uuid.NewString(), // <-- changed
+			AssertionMethod: []any{payload.VerificationMethod[0]["id"]}, // <-- changed
 		}
 
 		By("querying the fee payer account balance before the transaction")
@@ -224,93 +152,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 
 		By("submitting an update diddoc message")
 		tax := feeParams.UpdateDid
-		res, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs, testdata.BASE_ACCOUNT_4, helpers.GenerateFees(tax.String()))
-		Expect(err).To(BeNil())
-		Expect(res.Code).To(BeEquivalentTo(0))
-
-		By("querying the altered account balance")
-		balanceAfter, err := cli.QueryBalance(testdata.BASE_ACCOUNT_4_ADDR, types.BaseMinimalDenom)
-		Expect(err).To(BeNil())
-		Expect(balanceAfter.Denom).To(BeEquivalentTo(types.BaseMinimalDenom))
-
-		By("checking the balance difference")
-		diff := balanceBefore.Amount.Sub(balanceAfter.Amount)
-		Expect(diff).To(Equal(tax.Amount))
-
-		By("exporting a readable tx event log")
-		events := helpers.ReadableEvents(res.Events)
-
-		By("ensuring the events contain the expected tax event")
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "tx",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "fee", Value: tax.String(), Index: true},
-					{Key: "fee_payer", Value: testdata.BASE_ACCOUNT_4_ADDR, Index: true},
-				},
-			},
-		))
-
-		By("ensuring the events contain the expected supply deflation event")
-		burnt := helpers.GetBurntPortion(tax, feeParams.BurnFactor)
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "burn",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "burner", Value: testdata.DID_MODULE_ACCOUNT_ADDR, Index: true},
-					{Key: "amount", Value: burnt.String(), Index: true},
-				},
-			},
-		))
-
-		By("ensuring the events contain the expected reward distribution event")
-		reward := helpers.GetRewardPortion(tax, burnt)
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "transfer",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "recipient", Value: testdata.FEE_COLLECTOR_ADDR, Index: true},
-					{Key: "sender", Value: testdata.DID_MODULE_ACCOUNT_ADDR, Index: true},
-					{Key: "amount", Value: reward.String(), Index: true},
-				},
-			},
-		))
-	})
-
-	It("should tax update diddoc message - case: gas auto", func() {
-		By("submitting a create diddoc message")
-		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
-		Expect(err).To(BeNil())
-		Expect(resp.Code).To(BeEquivalentTo(0))
-
-		By("preparing the update diddoc message")
-		payload2 := types.MsgUpdateDidDocPayload{
-			Id: payload.Id,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                   payload.VerificationMethod[0].Id,
-					Controller:           payload.VerificationMethod[0].Controller,
-					Type:                 payload.VerificationMethod[0].Type,
-					VerificationMaterial: payload.VerificationMethod[0].VerificationMaterial,
-				},
-			},
-			Authentication: payload.Authentication,
-			AssertionMethod: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: payload.VerificationMethod[0].Id,
-				},
-			}, // <-- changed
-			VersionId: uuid.NewString(), // <-- changed
-		}
-
-		By("querying the fee payer account balance before the transaction")
-		balanceBefore, err := cli.QueryBalance(testdata.BASE_ACCOUNT_4_ADDR, types.BaseMinimalDenom)
-		Expect(err).To(BeNil())
-		Expect(balanceBefore.Denom).To(BeEquivalentTo(types.BaseMinimalDenom))
-
-		By("submitting an update diddoc message")
-		tax := feeParams.UpdateDid
-		res, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
+		res, err := cli.UpdateDidDoc(tmpDir, payload2, signInputs, "", testdata.BASE_ACCOUNT_4, helpers.GenerateFees(tax.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -365,14 +207,13 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 
 	It("should tax deactivate diddoc message - case: fixed fee", func() {
 		By("submitting a create diddoc message")
-		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
+		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_4, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(resp.Code).To(BeEquivalentTo(0))
 
 		By("preparing the deactivate diddoc message")
 		payload2 := types.MsgDeactivateDidDocPayload{
-			Id:        payload.Id,
-			VersionId: uuid.NewString(),
+			Id: payload.ID,
 		}
 
 		By("querying the fee payer account balance before the transaction")
@@ -382,7 +223,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 
 		By("submitting an deactivate diddoc message")
 		tax := feeParams.DeactivateDid
-		res, err := cli.DeactivateDidDoc(tmpDir, payload2, signInputs, testdata.BASE_ACCOUNT_4, helpers.GenerateFees(tax.String()))
+		res, err := cli.DeactivateDidDoc(tmpDir, payload2, signInputs, "", testdata.BASE_ACCOUNT_4, helpers.GenerateFees(tax.String()))
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -392,78 +233,6 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(balanceAfter.Denom).To(BeEquivalentTo(types.BaseMinimalDenom))
 
 		By("checking the balance difference")
-		diff := balanceBefore.Amount.Sub(balanceAfter.Amount)
-		Expect(diff).To(Equal(tax.Amount))
-
-		By("exporting a readable tx event log")
-		events := helpers.ReadableEvents(res.Events)
-
-		By("ensuring the events contain the expected tax event")
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "tx",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "fee", Value: tax.String(), Index: true},
-					{Key: "fee_payer", Value: testdata.BASE_ACCOUNT_4_ADDR, Index: true},
-				},
-			},
-		))
-
-		By("ensuring the events contain the expected supply deflation event")
-		burnt := helpers.GetBurntPortion(tax, feeParams.BurnFactor)
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "burn",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "burner", Value: testdata.DID_MODULE_ACCOUNT_ADDR, Index: true},
-					{Key: "amount", Value: burnt.String(), Index: true},
-				},
-			},
-		))
-
-		By("ensuring the events contain the expected reward distribution event")
-		reward := helpers.GetRewardPortion(tax, burnt)
-		Expect(events).To(ContainElement(
-			helpers.HumanReadableEvent{
-				Type: "transfer",
-				Attributes: []helpers.HumanReadableEventAttribute{
-					{Key: "recipient", Value: testdata.FEE_COLLECTOR_ADDR, Index: true},
-					{Key: "sender", Value: testdata.DID_MODULE_ACCOUNT_ADDR, Index: true},
-					{Key: "amount", Value: reward.String(), Index: true},
-				},
-			},
-		))
-	})
-
-	It("should tax deactivate diddoc message - case: gas auto", func() {
-		By("submitting a create diddoc message")
-		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
-		Expect(err).To(BeNil())
-		Expect(resp.Code).To(BeEquivalentTo(0))
-
-		By("preparing the deactivate diddoc message")
-		payload2 := types.MsgDeactivateDidDocPayload{
-			Id:        payload.Id,
-			VersionId: uuid.NewString(),
-		}
-
-		By("querying the fee payer account balance before the transaction")
-		balanceBefore, err := cli.QueryBalance(testdata.BASE_ACCOUNT_4_ADDR, types.BaseMinimalDenom)
-		Expect(err).To(BeNil())
-		Expect(balanceBefore.Denom).To(BeEquivalentTo(types.BaseMinimalDenom))
-
-		By("submitting an deactivate diddoc message")
-		res, err := cli.DeactivateDidDoc(tmpDir, payload2, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
-		Expect(err).To(BeNil())
-		Expect(res.Code).To(BeEquivalentTo(0))
-
-		By("querying the altered account balance")
-		balanceAfter, err := cli.QueryBalance(testdata.BASE_ACCOUNT_4_ADDR, types.BaseMinimalDenom)
-		Expect(err).To(BeNil())
-		Expect(balanceAfter.Denom).To(BeEquivalentTo(types.BaseMinimalDenom))
-
-		By("checking the balance difference")
-		tax := feeParams.DeactivateDid
 		diff := balanceBefore.Amount.Sub(balanceAfter.Amount)
 		Expect(diff).To(Equal(tax.Amount))
 
@@ -509,7 +278,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 
 	It("should tax create diddoc message with feegrant - case: fixed fee", func() {
 		By("creating a feegrant")
-		res, err := cli.GrantFees(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CLI_GAS_PARAMS)
+		res, err := cli.GrantFees(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CliGasParams)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -522,7 +291,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(err).To(BeNil())
 
 		By("submitting a create diddoc message")
-		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFeeGranter(testdata.BASE_ACCOUNT_4_ADDR, cli.CLI_GAS_PARAMS))
+		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFeeGranter(testdata.BASE_ACCOUNT_4_ADDR, helpers.GenerateFees(feeParams.CreateDid.String())))
 		Expect(err).To(BeNil())
 		Expect(resp.Code).To(BeEquivalentTo(0))
 
@@ -544,38 +313,33 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(diff.IsZero()).To(BeTrue())
 
 		By("revoking the feegrant")
-		res, err = cli.RevokeFeeGrant(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CLI_GAS_PARAMS)
+		res, err = cli.RevokeFeeGrant(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CliGasParams)
 		Expect(err).To(BeNil())
 	})
 
 	It("should tax update diddoc message with feegrant - case: fixed fee", func() {
 		By("submitting a create diddoc message")
-		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
+		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_4, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(resp.Code).To(BeEquivalentTo(0))
 
 		By("preparing the update diddoc message")
-		payload2 := types.MsgUpdateDidDocPayload{
-			Id: payload.Id,
-			VerificationMethod: []*types.VerificationMethod{
-				{
-					Id:                   payload.VerificationMethod[0].Id,
-					Controller:           payload.VerificationMethod[0].Controller,
-					Type:                 payload.VerificationMethod[0].Type,
-					VerificationMaterial: payload.VerificationMethod[0].VerificationMaterial,
+		payload2 := didcli.DIDDocument{
+			ID: payload.ID,
+			VerificationMethod: []didcli.VerificationMethod{
+				map[string]any{
+					"id":                 payload.VerificationMethod[0]["id"],
+					"type":               payload.VerificationMethod[0]["type"],
+					"controller":         payload.VerificationMethod[0]["controller"],
+					"publicKeyMultibase": payload.VerificationMethod[0]["publicKeyMultibase"],
 				},
 			},
 			Authentication: payload.Authentication,
-			AssertionMethod: []*types.VerificationRelationship{
-				{
-					VerificationMethodId: payload.VerificationMethod[0].Id,
-				},
-			}, // <-- changed
-			VersionId: uuid.NewString(), // <-- changed
+			AssertionMethod: []any{payload.VerificationMethod[0]["id"]}, // <-- changed
 		}
 
 		By("creating a feegrant")
-		res, err := cli.GrantFees(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CLI_GAS_PARAMS)
+		res, err := cli.GrantFees(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CliGasParams)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -588,7 +352,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(err).To(BeNil())
 
 		By("submitting an update diddoc message")
-		resp, err = cli.UpdateDidDoc(tmpDir, payload2, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFeeGranter(testdata.BASE_ACCOUNT_4_ADDR, cli.CLI_GAS_PARAMS))
+		resp, err = cli.UpdateDidDoc(tmpDir, payload2, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFeeGranter(testdata.BASE_ACCOUNT_4_ADDR, helpers.GenerateFees(feeParams.UpdateDid.String())))
 		Expect(err).To(BeNil())
 		Expect(resp.Code).To(BeEquivalentTo(0))
 
@@ -610,24 +374,23 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(diff.IsZero()).To(BeTrue())
 
 		By("revoking the feegrant")
-		res, err = cli.RevokeFeeGrant(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CLI_GAS_PARAMS)
+		res, err = cli.RevokeFeeGrant(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CliGasParams)
 		Expect(err).To(BeNil())
 	})
 
 	It("should tax deactivate diddoc message with feegrant - case: fixed fee", func() {
 		By("submitting a create diddoc message")
-		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, testdata.BASE_ACCOUNT_4, cli.CLI_GAS_PARAMS)
+		resp, err := cli.CreateDidDoc(tmpDir, payload, signInputs, "", testdata.BASE_ACCOUNT_4, helpers.GenerateFees(feeParams.CreateDid.String()))
 		Expect(err).To(BeNil())
 		Expect(resp.Code).To(BeEquivalentTo(0))
 
 		By("preparing the deactivate diddoc message")
 		payload2 := types.MsgDeactivateDidDocPayload{
-			Id:        payload.Id,
-			VersionId: uuid.NewString(),
+			Id: payload.ID,
 		}
 
 		By("creating a feegrant")
-		res, err := cli.GrantFees(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CLI_GAS_PARAMS)
+		res, err := cli.GrantFees(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CliGasParams)
 		Expect(err).To(BeNil())
 		Expect(res.Code).To(BeEquivalentTo(0))
 
@@ -640,7 +403,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(err).To(BeNil())
 
 		By("submitting a deactivate diddoc message")
-		resp, err = cli.DeactivateDidDoc(tmpDir, payload2, signInputs, testdata.BASE_ACCOUNT_1, helpers.GenerateFeeGranter(testdata.BASE_ACCOUNT_4_ADDR, cli.CLI_GAS_PARAMS))
+		resp, err = cli.DeactivateDidDoc(tmpDir, payload2, signInputs, "", testdata.BASE_ACCOUNT_1, helpers.GenerateFeeGranter(testdata.BASE_ACCOUNT_4_ADDR, helpers.GenerateFees(feeParams.DeactivateDid.String())))
 		Expect(err).To(BeNil())
 		Expect(resp.Code).To(BeEquivalentTo(0))
 
@@ -662,7 +425,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(diff.IsZero()).To(BeTrue())
 
 		By("revoking the feegrant")
-		res, err = cli.RevokeFeeGrant(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CLI_GAS_PARAMS)
+		res, err = cli.RevokeFeeGrant(testdata.BASE_ACCOUNT_4_ADDR, testdata.BASE_ACCOUNT_1_ADDR, cli.CliGasParams)
 		Expect(err).To(BeNil())
 	})
 })

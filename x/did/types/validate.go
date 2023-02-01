@@ -116,6 +116,39 @@ func IsMultibase() *CustomErrorRule {
 	})
 }
 
+func IsMultibaseEd25519VerificationKey2020() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsMultibaseEd25519VerificationKey2020 must be only applied on string properties")
+		}
+
+		return utils.ValidateMultibaseEd25519VerificationKey2020(casted)
+	})
+}
+
+func IsMultibaseBls12381G2Key2020Rule() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("ValidBls12381G2Key2020Rule must be only applied on string properties")
+		}
+
+		return utils.ValidateMultibaseMulticodecBls12381G2PubKey(casted)
+	})
+}
+
+func IsBase58Ed25519VerificationKey2018() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsBase58Ed25519VerificationKey2018 must be only applied on string properties")
+		}
+
+		return utils.ValidateBase58Ed25519VerificationKey2018(casted)
+	})
+}
+
 func IsMultibaseEncodedEd25519PubKey() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
@@ -150,7 +183,7 @@ func IsMultibaseMulticodecBls12381G2PubKey() *CustomErrorRule {
 
 func IsJWK() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
-		casted, ok := value.([]byte)
+		casted, ok := value.(string)
 		if !ok {
 			panic("IsJWK must be only applied on byte array properties")
 		}

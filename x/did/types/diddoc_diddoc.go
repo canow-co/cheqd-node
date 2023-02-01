@@ -113,31 +113,31 @@ func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
 		validation.Field(&didDoc.Id, validation.Required, IsDID(allowedNamespaces)),
 		validation.Field(&didDoc.Controller, IsUniqueStrList(), validation.Each(IsDID(allowedNamespaces))),
 		validation.Field(&didDoc.VerificationMethod,
-			IsUniqueVerificationMethodListByIdRule(), validation.Each(ValidVerificationMethodRule(didDoc.Id, allowedNamespaces)),
+			IsUniqueVerificationMethodListByIDRule(), validation.Each(ValidVerificationMethodRule(didDoc.Id, allowedNamespaces)),
 		),
 
 		validation.Field(&didDoc.Authentication,
 			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
-			IsUniqueVerificationRelationshipListByIdRule(),
+			IsUniqueVerificationRelationshipListByIDRule(),
 		),
 		validation.Field(&didDoc.AssertionMethod,
 			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
-			IsUniqueVerificationRelationshipListByIdRule(),
+			IsUniqueVerificationRelationshipListByIDRule(),
 		),
 		validation.Field(&didDoc.CapabilityInvocation,
 			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
-			IsUniqueVerificationRelationshipListByIdRule(),
+			IsUniqueVerificationRelationshipListByIDRule(),
 		),
 		validation.Field(&didDoc.CapabilityDelegation,
 			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
-			IsUniqueVerificationRelationshipListByIdRule(),
+			IsUniqueVerificationRelationshipListByIDRule(),
 		),
 		validation.Field(&didDoc.KeyAgreement,
 			validation.Each(ValidVerificationRelationshipRule(didDoc.Id, allowedNamespaces, didDoc.VerificationMethod)),
-			IsUniqueVerificationRelationshipListByIdRule(),
+			IsUniqueVerificationRelationshipListByIDRule(),
 		),
 
-		validation.Field(&didDoc.Service, IsUniqueServiceListByIdRule(), validation.Each(ValidServiceRule(didDoc.Id, allowedNamespaces))),
+		validation.Field(&didDoc.Service, IsUniqueServiceListByIDRule(), validation.Each(ValidServiceRule(didDoc.Id, allowedNamespaces))),
 		validation.Field(&didDoc.AlsoKnownAs, IsUniqueStrList(), validation.Each(IsURI())),
 	)
 	if err != nil {
@@ -152,7 +152,7 @@ func (didDoc DidDoc) Validate(allowedNamespaces []string) error {
 	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.CapabilityDelegation)...)
 	allVerificationMethods = append(allVerificationMethods, FilterEmbeddedVerificationMethods(didDoc.KeyAgreement)...)
 
-	return validation.Validate(allVerificationMethods, IsUniqueVerificationMethodListByIdRule())
+	return validation.Validate(allVerificationMethods, IsUniqueVerificationMethodListByIDRule())
 }
 
 func FilterEmbeddedVerificationMethods(vrs []*VerificationRelationship) []*VerificationMethod {

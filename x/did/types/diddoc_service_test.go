@@ -32,7 +32,7 @@ var _ = Describe("Service tests", func() {
 			TestCaseServiceStruct{
 				service: &Service{
 					Id:              "did:canow:aABCDEFG123456789abcd#service1",
-					Type:            "DIDCommMessaging",
+					ServiceType:     "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint1", "endpoint2"},
 					Accept:          []string{"accept-1"},
 					RoutingKeys:     []string{"did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"},
@@ -48,7 +48,7 @@ var _ = Describe("Service tests", func() {
 			TestCaseServiceStruct{
 				service: &Service{
 					Id:              "did:canow:zABCDEFG123456789abcd#service1",
-					Type:            "DIDCommMessaging",
+					ServiceType:     "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint"},
 				},
 				allowedNamespaces: []string{"mainnet"},
@@ -61,7 +61,7 @@ var _ = Describe("Service tests", func() {
 			TestCaseServiceStruct{
 				service: &Service{
 					Id:              "did:canow:zABCDEFG123456789abcd#service1",
-					Type:            "DIDCommMessaging",
+					ServiceType:     "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint"},
 				},
 				baseDid:  "did:canow:zABCDEFG987654321abcd",
@@ -74,7 +74,7 @@ var _ = Describe("Service tests", func() {
 			TestCaseServiceStruct{
 				service: &Service{
 					Id:              "did:canow:zABCDEFG123456789abcd#service1",
-					Type:            "DIDCommMessaging",
+					ServiceType:     "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint"},
 					Accept:          []string{"accept-1"},
 					RoutingKeys:     []string{"invalid key"},

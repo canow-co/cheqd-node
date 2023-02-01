@@ -34,10 +34,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -52,10 +52,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: InvalidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -70,10 +70,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -88,10 +88,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJWK2020VerificationMaterial,
 					},
 				},
 			},
@@ -105,10 +105,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   InvalidTestDID,
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     InvalidTestDID,
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJWK2020VerificationMaterial,
 					},
 				},
 			},
@@ -122,10 +122,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           InvalidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             InvalidTestDID,
+						VerificationMaterial:   ValidJWK2020VerificationMaterial,
 					},
 				},
 			},
@@ -140,10 +140,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Controller: []string{ValidTestDID, ValidTestDID2},
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -159,10 +159,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Controller: []string{ValidTestDID, InvalidTestDID},
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -177,10 +177,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Controller: []string{ValidTestDID},
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -196,10 +196,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Controller: []string{ValidTestDID, ValidTestDID},
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -213,16 +213,16 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "Ed25519VerificationKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidEd25519MultibaseVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "Ed25519VerificationKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 					},
 				},
 			},
@@ -236,19 +236,19 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment0", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
 					},
 				},
 				Authentication: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 					{
@@ -258,10 +258,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				AssertionMethod: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment2", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment2", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 					{
@@ -271,10 +271,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				CapabilityInvocation: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment3", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment3", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 
@@ -285,10 +285,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				CapabilityDelegation: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment4", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment4", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 					{
@@ -298,10 +298,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				KeyAgreement: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment5", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment5", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 					{
@@ -319,10 +319,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Authentication: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   InvalidTestDID,
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     InvalidTestDID,
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 				},
@@ -338,10 +338,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Authentication: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           InvalidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             InvalidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 				},
@@ -356,27 +356,27 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment0", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
 					},
 				},
 				Authentication: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 				},
@@ -391,19 +391,19 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
 					},
 				},
 				Authentication: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 				},
@@ -418,29 +418,29 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment0", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
 					},
 				},
 				Authentication: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 				},
 				AssertionMethod: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 				},
@@ -454,10 +454,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment0", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
 					},
 				},
 				Authentication: []*VerificationRelationship{
@@ -466,10 +466,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 					},
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 					{
@@ -487,10 +487,10 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
 					},
 				},
 				Authentication: []*VerificationRelationship{
@@ -509,19 +509,19 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment0", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
 					},
 				},
 				Authentication: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 				},
@@ -541,19 +541,19 @@ var _ = DescribeTable("DIDDoc Validation tests", func(testCase DIDDocTestCase) {
 				Id: ValidTestDID,
 				VerificationMethod: []*VerificationMethod{
 					{
-						Id:                   fmt.Sprintf("%s#fragment0", ValidTestDID),
-						Type:                 "JsonWebKey2020",
-						Controller:           ValidTestDID,
-						VerificationMaterial: ValidJwkVerificationMaterial,
+						Id:                     fmt.Sprintf("%s#fragment0", ValidTestDID),
+						VerificationMethodType: "JsonWebKey2020",
+						Controller:             ValidTestDID,
+						VerificationMaterial:   ValidJwkVerificationMaterial,
 					},
 				},
 				Authentication: []*VerificationRelationship{
 					{
 						VerificationMethod: &VerificationMethod{
-							Id:                   fmt.Sprintf("%s#fragment1", ValidTestDID),
-							Type:                 "JsonWebKey2020",
-							Controller:           ValidTestDID,
-							VerificationMaterial: ValidJwkVerificationMaterial,
+							Id:                     fmt.Sprintf("%s#fragment1", ValidTestDID),
+							VerificationMethodType: "JsonWebKey2020",
+							Controller:             ValidTestDID,
+							VerificationMaterial:   ValidJwkVerificationMaterial,
 						},
 					},
 					{
