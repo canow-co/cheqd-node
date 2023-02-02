@@ -30,7 +30,7 @@ func ExtendInit(initCmd *cobra.Command) *cobra.Command {
 func applyConfigDefaults(cmd *cobra.Command) error {
 	clientCtx := client.GetClientContextFromCmd(cmd)
 
-	err := updateTmConfig(clientCtx.HomeDir, func(config *tmcfg.Config) {
+	err := UpdateTmConfig(clientCtx.HomeDir, func(config *tmcfg.Config) {
 		config.Consensus.CreateEmptyBlocks = false
 		config.FastSync.Version = "v0"
 		config.LogFormat = "json"
@@ -46,7 +46,7 @@ func applyConfigDefaults(cmd *cobra.Command) error {
 		return err
 	}
 
-	err = updateCosmConfig(clientCtx.HomeDir, func(config *cosmcfg.Config) {
+	err = UpdateCosmConfig(clientCtx.HomeDir, func(config *cosmcfg.Config) {
 		config.BaseConfig.MinGasPrices = "50ncheq"
 	})
 	if err != nil {
