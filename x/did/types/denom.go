@@ -1,6 +1,6 @@
 package types
 
 var (
-	BaseMinimalDenom = "ncheq"
+	BaseMinimalDenom = "zarx"
 	BaseFactor       = int64(1e9)
 )

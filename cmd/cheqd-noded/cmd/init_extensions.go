@@ -47,7 +47,7 @@ func applyConfigDefaults(cmd *cobra.Command) error {
 	}
 
 	err = UpdateCosmConfig(clientCtx.HomeDir, func(config *cosmcfg.Config) {
-		config.BaseConfig.MinGasPrices = "50ncheq"
+		config.BaseConfig.MinGasPrices = "50zarx"
 	})
 	if err != nil {
 		return err

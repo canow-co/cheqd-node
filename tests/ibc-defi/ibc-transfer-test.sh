@@ -78,7 +78,7 @@ CHEQD_RELAYER_MNEMONIC=$(echo "${CHEQD_RELAYER_ACCOUNT}" | jq --raw-output '.mne
 echo "${CHEQD_RELAYER_MNEMONIC}" > cheqd_relayer_mnemonic.txt
 
 info "Send some tokens to it" # ---
-RES=$(docker compose exec cheqd cheqd-noded tx bank send cheqd-user "${CHEQD_RELAYER_ADDRESS}" 1000000000000ncheq --gas-prices 50ncheq --chain-id cheqd -y --keyring-backend test)
+RES=$(docker compose exec cheqd cheqd-noded tx bank send cheqd-user "${CHEQD_RELAYER_ADDRESS}" 1000000000000zarx --gas-prices 50zarx --chain-id cheqd -y --keyring-backend test)
 assert_tx_successful "${RES}"
 
 info "Create relayer user on osmosis" # ---
@@ -130,7 +130,7 @@ docker compose exec osmosis osmosisd query bank balances "$OSMOSIS_USER_ADDRESS"
 info "Transfer cheqd -> osmosis" # ---
 PORT="transfer"
 CHANNEL="channel-0"
-docker compose exec cheqd cheqd-noded tx ibc-transfer transfer $PORT $CHANNEL "$OSMOSIS_USER_ADDRESS" 10000000000ncheq --from cheqd-user --chain-id cheqd --gas-prices 50ncheq --keyring-backend test -y
+docker compose exec cheqd cheqd-noded tx ibc-transfer transfer $PORT $CHANNEL "$OSMOSIS_USER_ADDRESS" 10000000000zarx --from cheqd-user --chain-id cheqd --gas-prices 50zarx --keyring-backend test -y
 sleep 30 # Wait for relayer
 
 info "Get balances" # ---

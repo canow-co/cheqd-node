@@ -25,7 +25,7 @@ const (
 	ExpectedBlockSeconds int64 = 1
 	ExtraBlocks          int64 = 5
 	UpgradeName                = cheqdapp.UpgradeName
-	DepositAmount              = "10000000ncheq"
+	DepositAmount              = "10000000zarx"
 	NetworkConfigDir           = "network-config"
 	KeyringDir                 = "keyring-test"
 )

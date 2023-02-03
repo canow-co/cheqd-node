@@ -8,7 +8,7 @@ test-install
 1.1.1.1
 27657
 27656
-100ncheq
+100zarx
 nodeid1@1.1.1.1:26656,nodeid2@8.8.8.8:26656
 debug
 plain
