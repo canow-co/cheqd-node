@@ -31,15 +31,15 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type FeeParams struct {
 	// Fixed fee for creating a resource with media type 'image/*'
 	//
-	// Default: 10 CHEQ or 10000000000ncheq
+	// Default: 10 ARX or 10000000000zarx
 	Image types.Coin `protobuf:"bytes,1,opt,name=image,proto3" json:"image"`
 	// Fixed fee for creating a resource with media type 'application/json'
 	//
-	// Default: 2.5 CHEQ or 2500000000ncheq
+	// Default: 2.5 ARX or 2500000000zarx
 	Json types.Coin `protobuf:"bytes,2,opt,name=json,proto3" json:"json"`
 	// Fixed fee for creating a resource with all other media types
 	//
-	// Default: 5 CHEQ or 5000000000ncheq
+	// Default: 5 ARX or 5000000000zarx
 	Default types.Coin `protobuf:"bytes,3,opt,name=default,proto3" json:"default"`
 	// Percentage of the fixed fee that will be burned
 	//

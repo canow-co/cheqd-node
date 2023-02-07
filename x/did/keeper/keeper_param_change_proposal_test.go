@@ -64,7 +64,7 @@ var _ = DescribeTable("Proposal Handler", func(testCase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: didtypes.ModuleName,
 				Key:      string(didtypes.ParamStoreKeyFeeParams),
-				Value:    `{"create_did": {"denom": "ncheq", "amount": "10000000000"}, "update_did": {"denom": "ncheq", "amount": "4000000000"}, "deactivate_did": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"create_did": {"denom": "zarx", "amount": "10000000000"}, "update_did": {"denom": "zarx", "amount": "4000000000"}, "deactivate_did": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(handlerSuite *HandlerTestSuite) {
 				expectedFeeParams := didtypes.FeeParams{
@@ -98,7 +98,7 @@ var _ = DescribeTable("Proposal Handler", func(testCase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: didtypes.ModuleName,
 				Key:      string(didtypes.ParamStoreKeyFeeParams),
-				Value:    `{"create_did": {"denom": "ncheq", "amount": "10000000000"}, "update_did": {"denom": "ncheq", "amount": "4000000000"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"create_did": {"denom": "zarx", "amount": "10000000000"}, "update_did": {"denom": "zarx", "amount": "4000000000"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -110,7 +110,7 @@ var _ = DescribeTable("Proposal Handler", func(testCase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: didtypes.ModuleName,
 				Key:      string(didtypes.ParamStoreKeyFeeParams),
-				Value:    `{"create_did": {"denom": "ncheq", "amount": "0"}, "update_did": {"denom": "ncheq", "amount": "4000000000"}, "deactivate_did": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"create_did": {"denom": "zarx", "amount": "0"}, "update_did": {"denom": "zarx", "amount": "4000000000"}, "deactivate_did": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -122,7 +122,7 @@ var _ = DescribeTable("Proposal Handler", func(testCase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: didtypes.ModuleName,
 				Key:      string(didtypes.ParamStoreKeyFeeParams),
-				Value:    `{"create_did": {"denom": "ncheq", "amount": "10000000000"}, "update_did": {"denom": "ncheq", "amount": "0"}, "deactivate_did": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"create_did": {"denom": "zarx", "amount": "10000000000"}, "update_did": {"denom": "zarx", "amount": "0"}, "deactivate_did": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -133,7 +133,7 @@ var _ = DescribeTable("Proposal Handler", func(testCase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: didtypes.ModuleName,
 				Key:      string(didtypes.ParamStoreKeyFeeParams),
-				Value:    `{"create_did": {"denom": "ncheq", "amount": "10000000000"}, "update_did": {"denom": "ncheq", "amount": "4000000000"}, "deactivate_did": {"denom": "ncheq", "amount": "0"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"create_did": {"denom": "zarx", "amount": "10000000000"}, "update_did": {"denom": "zarx", "amount": "4000000000"}, "deactivate_did": {"denom": "zarx", "amount": "0"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -145,7 +145,7 @@ var _ = DescribeTable("Proposal Handler", func(testCase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: didtypes.ModuleName,
 				Key:      string(didtypes.ParamStoreKeyFeeParams),
-				Value:    `{"create_did": {"denom": "ncheq", "amount": "10000000000"}, "update_did": {"denom": "ncheq", "amount": "4000000000"}, "deactivate_did": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "-1"}`,
+				Value:    `{"create_did": {"denom": "zarx", "amount": "10000000000"}, "update_did": {"denom": "zarx", "amount": "4000000000"}, "deactivate_did": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "-1"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -157,7 +157,7 @@ var _ = DescribeTable("Proposal Handler", func(testCase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: didtypes.ModuleName,
 				Key:      string(didtypes.ParamStoreKeyFeeParams),
-				Value:    `{"create_did": {"denom": "ncheq", "amount": "10000000000"}, "update_did": {"denom": "ncheq", "amount": "4000000000"}, "deactivate_did": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "1.1"}`,
+				Value:    `{"create_did": {"denom": "zarx", "amount": "10000000000"}, "update_did": {"denom": "zarx", "amount": "4000000000"}, "deactivate_did": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "1.1"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
