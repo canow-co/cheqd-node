@@ -9,7 +9,7 @@ import (
 	tmcfg "github.com/tendermint/tendermint/config"
 )
 
-func updateCosmConfig(homeDir string, updateFn func(config *cosmcfg.Config)) error {
+func UpdateCosmConfig(homeDir string, updateFn func(config *cosmcfg.Config)) error {
 	cosmConfig, err := readCosmConfig(homeDir)
 	if err != nil {
 		return err
@@ -46,7 +46,7 @@ func writeCosmConfig(homeDir string, config *cosmcfg.Config) {
 	cosmcfg.WriteConfigFile(tmConfigPath, config)
 }
 
-func updateTmConfig(homeDir string, updateFn func(config *tmcfg.Config)) error {
+func UpdateTmConfig(homeDir string, updateFn func(config *tmcfg.Config)) error {
 	tmConfig, err := readTmConfig(homeDir)
 	if err != nil {
 		return err

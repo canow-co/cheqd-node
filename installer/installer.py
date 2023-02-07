@@ -76,7 +76,7 @@ MAX_SNAPSHOT_DAYS = 7
 ###############################################################
 DEFAULT_RPC_PORT = "26657"
 DEFAULT_P2P_PORT = "26656"
-DEFAULT_GAS_PRICE = "50ncheq"
+DEFAULT_GAS_PRICE = "50zarx"
 DEFAULT_LOG_LEVEL = "error"
 DEFAULT_LOG_FORMAT = "json"
 

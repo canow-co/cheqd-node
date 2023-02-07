@@ -1,6 +1,6 @@
 package types
 
 const (
-	BaseMinimalDenom = "ncheq"
+	BaseMinimalDenom = "zarx"
 	BaseFactor       = 1e9
 )

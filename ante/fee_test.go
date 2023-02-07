@@ -107,12 +107,12 @@ var _ = Describe("Fee tests on CheckTx", func() {
 
 		ncheqPrice = sdk.NewDecCoinFromDec(didtypes.BaseMinimalDenom, sdk.NewDec(0).Quo(sdk.NewDec(didtypes.BaseFactor)))
 		lowGasPrice := []sdk.DecCoin{ncheqPrice}
-		s.ctx = s.ctx.WithMinGasPrices(lowGasPrice) // 1 ncheq
+		s.ctx = s.ctx.WithMinGasPrices(lowGasPrice) // 1 zarx
 
 		newCtx, err := antehandler(s.ctx, tx, false)
 		Expect(err).To(BeNil(), "Decorator should not have errored on fee higher than local gasPrice")
 		// Priority is the smallest gas price amount in any denom. Since we have only 1 gas price
-		// of 10000000000ncheq, the priority here is 10*10^9.
+		// of 10000000000zarx, the priority here is 10*10^9.
 		Expect(int64(10) * didtypes.BaseFactor).To(Equal(newCtx.Priority()))
 	})
 
