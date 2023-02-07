@@ -1,3 +1,3 @@
 package types
 
-var BaseMinimalDenom = "zarx"
+const BaseMinimalDenom = "zarx"

@@ -1,6 +1,6 @@
 package types
 
-var (
+const (
 	BaseMinimalDenom = "zarx"
-	BaseFactor       = int64(1e9)
+	BaseFactor       = 1e9
 )
