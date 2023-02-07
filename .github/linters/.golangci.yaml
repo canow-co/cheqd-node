@@ -50,6 +50,7 @@ linters-settings:
       - cheq
       - ncheq
       - zarx
+      - arx
 
   stylecheck:
     # Select the Go version to target.

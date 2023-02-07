@@ -693,15 +693,15 @@ type FeeParams struct {
 
 	// Fixed fee for creating a DID
 	//
-	// Default: 50 CHEQ or 50000000000ncheq
+	// Default: 50 ARX or 50000000000zarx
 	CreateDid *v1beta1.Coin `protobuf:"bytes,1,opt,name=create_did,json=createDid,proto3" json:"create_did,omitempty"`
 	// Fixed fee for updating a DID
 	//
-	// Default: 25 CHEQ or 25000000000ncheq
+	// Default: 25 ARX or 25000000000zarx
 	UpdateDid *v1beta1.Coin `protobuf:"bytes,2,opt,name=update_did,json=updateDid,proto3" json:"update_did,omitempty"`
 	// Fixed fee for deactivating a DID
 	//
-	// Default: 10 CHEQ or 10000000000ncheq
+	// Default: 10 ARX or 10000000000zarx
 	DeactivateDid *v1beta1.Coin `protobuf:"bytes,3,opt,name=deactivate_did,json=deactivateDid,proto3" json:"deactivate_did,omitempty"`
 	// Percentage of the fixed fee that will be burned
 	//

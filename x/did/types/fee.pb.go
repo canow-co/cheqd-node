@@ -30,15 +30,15 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type FeeParams struct {
 	// Fixed fee for creating a DID
 	//
-	// Default: 50 CHEQ or 50000000000ncheq
+	// Default: 50 ARX or 50000000000zarx
 	CreateDid types.Coin `protobuf:"bytes,1,opt,name=create_did,json=createDid,proto3" json:"create_did"`
 	// Fixed fee for updating a DID
 	//
-	// Default: 25 CHEQ or 25000000000ncheq
+	// Default: 25 ARX or 25000000000zarx
 	UpdateDid types.Coin `protobuf:"bytes,2,opt,name=update_did,json=updateDid,proto3" json:"update_did"`
 	// Fixed fee for deactivating a DID
 	//
-	// Default: 10 CHEQ or 10000000000ncheq
+	// Default: 10 ARX or 10000000000zarx
 	DeactivateDid types.Coin `protobuf:"bytes,3,opt,name=deactivate_did,json=deactivateDid,proto3" json:"deactivate_did"`
 	// Percentage of the fixed fee that will be burned
 	//
