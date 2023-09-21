@@ -95,11 +95,20 @@ func (s *TestSetup) CreateSimpleDid() CreatedDidDocInfo {
 	return s.CreateCustomDidDoc(did)
 }
 
-func (s *TestSetup) CreateDidDocWithExternalControllers(controllers []string, signInputs []SignInput) CreatedDidDocInfo {
+func (s *TestSetup) CreateDidDocWithExternalDocAndMethodsController(controller string, controllerSignInput SignInput) CreatedDidDocInfo {
 	did := s.BuildSimpleDidDoc()
-	did.Msg.Controller = append(did.Msg.Controller, controllers...)
 
-	created, err := s.CreateDid(did.Msg, append(signInputs, did.SignInput))
+	did.Msg.Controller = []string{controller}
+	for _, vm := range did.Msg.VerificationMethod {
+		vm.Controller = controller
+	}
+	setControllerInEmbeddedVerificationMethods(did.Msg.Authentication, controller)
+	setControllerInEmbeddedVerificationMethods(did.Msg.AssertionMethod, controller)
+	setControllerInEmbeddedVerificationMethods(did.Msg.CapabilityInvocation, controller)
+	setControllerInEmbeddedVerificationMethods(did.Msg.CapabilityDelegation, controller)
+	setControllerInEmbeddedVerificationMethods(did.Msg.KeyAgreement, controller)
+
+	created, err := s.CreateDid(did.Msg, []SignInput{controllerSignInput})
 	if err != nil {
 		panic(err)
 	}
@@ -107,5 +116,28 @@ func (s *TestSetup) CreateDidDocWithExternalControllers(controllers []string, si
 	return CreatedDidDocInfo{
 		DidDocInfo: did,
 		VersionID:  created.Value.Metadata.VersionId,
+	}
+}
+
+func (s *TestSetup) CreateDidDocWithExternalDocControllers(controllers []string, controllersSignInputs []SignInput) CreatedDidDocInfo {
+	did := s.BuildSimpleDidDoc()
+	did.Msg.Controller = controllers
+
+	created, err := s.CreateDid(did.Msg, append(controllersSignInputs, did.SignInput))
+	if err != nil {
+		panic(err)
+	}
+
+	return CreatedDidDocInfo{
+		DidDocInfo: did,
+		VersionID:  created.Value.Metadata.VersionId,
+	}
+}
+
+func setControllerInEmbeddedVerificationMethods(verificationRelationships []*types.VerificationRelationship, controller string) {
+	for _, vr := range verificationRelationships {
+		if vr.VerificationMethod != nil {
+			vr.VerificationMethod.Controller = controller
+		}
 	}
 }

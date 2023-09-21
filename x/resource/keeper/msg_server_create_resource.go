@@ -52,8 +52,8 @@ func (k msgServer) CreateResource(goCtx context.Context, msg *types.MsgCreateRes
 		return nil, types.ErrResourceExists.Wrap(msg.Payload.Id)
 	}
 
-	// We can use the same signers as for DID creation because didDoc stays the same
-	signers := didkeeper.GetSignerDIDsForDIDCreation(*didDoc.DidDoc)
+	// The DID subject is the only needed signer
+	signers := []string{did}
 	err = didkeeper.VerifyAllSignersHaveAllValidSignatures(&k.didKeeper, &ctx, map[string]didtypes.DidDocWithMetadata{},
 		signBytes, signers, msg.Signatures)
 	if err != nil {

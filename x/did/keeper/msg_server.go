@@ -129,13 +129,13 @@ func VerifySignature(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.
 
 func VerifyAllSignersHaveAllValidSignatures(k *Keeper, ctx *sdk.Context, inMemoryDIDs map[string]types.DidDocWithMetadata, message []byte, signers []string, signatures []*types.SignInfo) error {
 	for _, signer := range signers {
-		signatures := types.FindSignInfosBySigner(signatures, signer)
+		signaturesBySigner := types.FindSignInfosBySigner(signatures, signer)
 
-		if len(signatures) == 0 {
+		if len(signaturesBySigner) == 0 {
 			return types.ErrSignatureNotFound.Wrapf("signer: %s", signer)
 		}
 
-		for _, signature := range signatures {
+		for _, signature := range signaturesBySigner {
 			err := VerifySignature(k, ctx, inMemoryDIDs, message, signature)
 			if err != nil {
 				return err
