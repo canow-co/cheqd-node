@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"os"
 
-	integrationhelpers "github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/x/did/client/cli"
-	didtypesv2 "github.com/cheqd/cheqd-node/x/did/types"
-	didtypesv1 "github.com/cheqd/cheqd-node/x/did/types/v1"
-	resourcetypesv2 "github.com/cheqd/cheqd-node/x/resource/types"
-	resourcetypesv1 "github.com/cheqd/cheqd-node/x/resource/types/v1"
+	integrationhelpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/x/did/client/cli"
+	didtypesv2 "github.com/canow-co/cheqd-node/x/did/types"
+	didtypesv1 "github.com/canow-co/cheqd-node/x/did/types/v1"
+	resourcetypesv2 "github.com/canow-co/cheqd-node/x/resource/types"
+	resourcetypesv1 "github.com/canow-co/cheqd-node/x/resource/types/v1"
 )
 
 func Loader(path string, ptrPayload interface{}) ([]cli.SignInput, error) {

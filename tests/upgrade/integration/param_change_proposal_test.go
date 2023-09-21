@@ -1,13 +1,13 @@
-// go:build upgrade_integration
+//go:build upgrade_integration
 
 package integration
 
 import (
 	"path/filepath"
 
-	cli "github.com/cheqd/cheqd-node/tests/upgrade/integration/cli"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	cli "github.com/canow-co/cheqd-node/tests/upgrade/integration/cli"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"

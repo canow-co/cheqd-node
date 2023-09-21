@@ -4,7 +4,7 @@ package cheqd.did.v2;
 
 import "cheqd/did/v2/diddoc.proto";
 
-option go_package = "github.com/cheqd/cheqd-node/x/did/types";
+option go_package = "github.com/canow-co/cheqd-node/x/did/types";
 
 // Msg defines the Cosmos SDK Msg service for the cheqd.did.v2 module.
 service Msg {
@@ -64,7 +64,7 @@ message MsgCreateDidDocPayload {
   repeated string context = 1;
 
   // id is the DID of the DID document.
-  // Format: did:cheqd:<namespace>:<unique-identifier>
+  // Format: did:canow:<namespace>:<unique-identifier>
   string id = 2;
 
   // controller is a list of DIDs that are allowed to control the DID document.
@@ -83,23 +83,23 @@ message MsgCreateDidDocPayload {
 
   // authentication is a list of verification methods that can be used to
   // authenticate as the DID subject.
-  repeated string authentication = 5;
+  repeated VerificationRelationship authentication = 5;
 
   // assertionMethod is a list of verification methods that can be used to
   // assert statements as the DID subject.
-  repeated string assertion_method = 6;
+  repeated VerificationRelationship assertion_method = 6;
 
   // capabilityInvocation is a list of verification methods that can be used to
   // invoke capabilities as the DID subject.
-  repeated string capability_invocation = 7;
+  repeated VerificationRelationship capability_invocation = 7;
 
   // capabilityDelegation is a list of verification methods that can be used to
   // delegate capabilities as the DID subject.
-  repeated string capability_delegation = 8;
+  repeated VerificationRelationship capability_delegation = 8;
 
   // keyAgreement is a list of verification methods that can be used to perform
   // key agreement as the DID subject.
-  repeated string key_agreement = 9;
+  repeated VerificationRelationship key_agreement = 9;
 
   // service is a list of services that can be used to interact with the DID subject.
   // Documentation: https://www.w3.org/TR/did-core/#services
@@ -132,7 +132,7 @@ message MsgUpdateDidDocPayload {
   repeated string context = 1;
 
   // id is the DID of the DID document.
-  // Format: did:cheqd:<namespace>:<unique-identifier>
+  // Format: did:canow:<namespace>:<unique-identifier>
   string id = 2;
 
   // controller is a list of DIDs that are allowed to control the DID document.
@@ -151,23 +151,23 @@ message MsgUpdateDidDocPayload {
 
   // authentication is a list of verification methods that can be used to
   // authenticate as the DID subject.
-  repeated string authentication = 5;
+  repeated VerificationRelationship authentication = 5;
 
   // assertionMethod is a list of verification methods that can be used to
   // assert statements as the DID subject.
-  repeated string assertion_method = 6;
+  repeated VerificationRelationship assertion_method = 6;
 
   // capabilityInvocation is a list of verification methods that can be used to
   // invoke capabilities as the DID subject.
-  repeated string capability_invocation = 7;
+  repeated VerificationRelationship capability_invocation = 7;
 
   // capabilityDelegation is a list of verification methods that can be used to
   // delegate capabilities as the DID subject.
-  repeated string capability_delegation = 8;
+  repeated VerificationRelationship capability_delegation = 8;
 
   // keyAgreement is a list of verification methods that can be used to perform
   // key agreement as the DID subject.
-  repeated string key_agreement = 9;
+  repeated VerificationRelationship key_agreement = 9;
 
   // service is a list of services that can be used to interact with the DID subject.
   // Documentation: https://www.w3.org/TR/did-core/#services

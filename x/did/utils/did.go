@@ -15,7 +15,7 @@ var (
 // TrySplitDID Validates generic format of DID. It doesn't validate method, name and id content.
 // Call ValidateDID for further validation.
 func TrySplitDID(did string) (method string, namespace string, id string, err error) {
-	// Example: did:cheqd:testnet:base58str1ng1111
+	// Example: did:canow:testnet:base58str1ng1111
 	// match [0] - the whole string
 	// match [1] - cheqd                - method
 	// match [2] - :testnet
@@ -55,16 +55,6 @@ func ReplaceDidInDidURL(didURL string, oldDid string, newDid string) string {
 	}
 
 	return JoinDIDUrl(did, path, query, fragment)
-}
-
-func ReplaceDidInDidURLList(didURLList []string, oldDid string, newDid string) []string {
-	res := make([]string, len(didURLList))
-
-	for i := range didURLList {
-		res[i] = ReplaceDidInDidURL(didURLList[i], oldDid, newDid)
-	}
-
-	return res
 }
 
 // ValidateDID checks method and allowed namespaces only when the corresponding parameters are specified.

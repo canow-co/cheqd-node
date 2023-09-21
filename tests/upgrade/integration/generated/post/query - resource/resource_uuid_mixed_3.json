@@ -11,7 +11,7 @@
             "resourceType": "TestResourceTypeMixed23",
             "alsoKnownAs": [
                 {
-                    "uri": "did:cheqd:testnet:85d9e742-be4d-59e8-9b10-5449db2e2d04/resources/76ecedeb-225d-4164-90c2-a4857ac3c01a",
+                    "uri": "did:canow:testnet:85d9e742-be4d-59e8-9b10-5449db2e2d04/resources/76ecedeb-225d-4164-90c2-a4857ac3c01a",
                     "description": "did-url"
                 }
             ],

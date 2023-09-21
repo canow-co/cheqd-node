@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	types "github.com/cheqd/cheqd-node/x/did/types/v1"
+	types "github.com/canow-co/cheqd-node/x/did/types/v1"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

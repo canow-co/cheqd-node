@@ -4,7 +4,7 @@ import (
 	"os"
 	"os/exec"
 
-	integrationcli "github.com/cheqd/cheqd-node/tests/integration/cli"
+	integrationcli "github.com/canow-co/cheqd-node/tests/integration/cli"
 	"github.com/cosmos/cosmos-sdk/types/errors"
 )
 

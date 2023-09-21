@@ -1,12 +1,14 @@
 {
     "didDoc": {
         "context": [],
-        "id": "did:cheqd:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb",
+        "id": "did:canow:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb",
         "controller": [
-            "did:cheqd:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb"
+            "did:canow:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb"
         ],
         "authentication": [
-            "did:cheqd:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb#key-1"
+            {
+                "verificationMethodId": "did:canow:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb#key-1"
+            }
         ],
         "assertionMethod": [],
         "capabilityInvocation": [],
@@ -15,9 +17,9 @@
         "alsoKnownAs": [],
         "verificationMethod": [
             {
-                "id": "did:cheqd:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb#key-1",
+                "id": "did:canow:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb#key-1",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb",
+                "controller": "did:canow:testnet:97096fb1-63ea-4f81-b296-8eb5da6ab6eb",
                 "verificationMaterial": "z6MkjndtVVvRivBfWddHt5QC2WHoguixzrVBxTTnCJW2ArYp"
             }
         ],

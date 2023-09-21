@@ -5,7 +5,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	. "github.com/cheqd/cheqd-node/x/did/types"
+	. "github.com/canow-co/cheqd-node/x/did/types"
 )
 
 var _ = Describe("Message for DID creation", func() {
@@ -30,17 +30,21 @@ var _ = Describe("Message for DID creation", func() {
 			TestCaseMsgCreateDID{
 				msg: &MsgCreateDidDoc{
 					Payload: &MsgCreateDidDocPayload{
-						Id: "did:cheqd:testnet:zABCDEFG123456789abcd",
+						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                     "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
 								VerificationMethodType: "Ed25519VerificationKey2020",
-								Controller:             "did:cheqd:testnet:zABCDEFG123456789abcd",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
 								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:cheqd:testnet:zABCDEFG123456789abcd#key1", "did:cheqd:testnet:zABCDEFG123456789abcd#aaa"},
-						VersionId:      uuid.NewString(),
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
+						VersionId: uuid.NewString(),
 					},
 					Signatures: nil,
 				},
@@ -52,21 +56,28 @@ var _ = Describe("Message for DID creation", func() {
 			TestCaseMsgCreateDID{
 				msg: &MsgCreateDidDoc{
 					Payload: &MsgCreateDidDocPayload{
-						Id: "did:cheqd:testnet:zABCDEFG123456789abcd",
+						Id: "did:canow:testnet:zABCDEFG123456789abcd",
 						VerificationMethod: []*VerificationMethod{
 							{
-								Id:                     "did:cheqd:testnet:zABCDEFG123456789abcd#key1",
+								Id:                     "did:canow:testnet:zABCDEFG123456789abcd#key1",
 								VerificationMethodType: "Ed25519VerificationKey2020",
-								Controller:             "did:cheqd:testnet:zABCDEFG123456789abcd",
+								Controller:             "did:canow:testnet:zABCDEFG123456789abcd",
 								VerificationMaterial:   ValidEd25519VerificationKey2020VerificationMaterial,
 							},
 						},
-						Authentication: []string{"did:cheqd:testnet:zABCDEFG123456789abcd#key1", "did:cheqd:testnet:zABCDEFG123456789abcd#key1"},
+						Authentication: []*VerificationRelationship{
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+							{
+								VerificationMethodId: "did:canow:testnet:zABCDEFG123456789abcd#key1",
+							},
+						},
 					},
 					Signatures: nil,
 				},
 				isValid:  false,
-				errorMsg: "payload: (authentication: there should be no duplicates.).: basic validation failed",
+				errorMsg: "payload: (authentication: there are verification relationships with same IDs.).: basic validation failed",
 			},
 		),
 	)

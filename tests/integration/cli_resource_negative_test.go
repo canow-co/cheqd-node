@@ -6,14 +6,14 @@ import (
 	"crypto/ed25519"
 	"fmt"
 
-	"github.com/cheqd/cheqd-node/tests/integration/cli"
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
-	"github.com/cheqd/cheqd-node/tests/integration/testdata"
-	didcli "github.com/cheqd/cheqd-node/x/did/client/cli"
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	"github.com/canow-co/cheqd-node/tests/integration/cli"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/tests/integration/testdata"
+	didcli "github.com/canow-co/cheqd-node/x/did/client/cli"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	"github.com/google/uuid"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -47,7 +47,7 @@ var _ = Describe("cheqd cli - negative resource", func() {
 
 		// Create a new DID Doc
 		collectionID = uuid.NewString()
-		did := "did:cheqd:" + network.DidNamespace + ":" + collectionID
+		did := "did:canow:" + network.DidNamespace + ":" + collectionID
 		keyId := did + "#key1"
 
 		publicKey, privateKey, err := ed25519.GenerateKey(nil)
@@ -65,7 +65,8 @@ var _ = Describe("cheqd cli - negative resource", func() {
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []string{keyId},
+			Authentication: []any{keyId},
+
 		}
 
 		signInputs = []didcli.SignInput{

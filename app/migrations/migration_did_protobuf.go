@@ -3,10 +3,10 @@ package migrations
 import (
 	"encoding/json"
 
-	"github.com/cheqd/cheqd-node/app/migrations/helpers"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	didtypesv1 "github.com/cheqd/cheqd-node/x/did/types/v1"
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/app/migrations/helpers"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	didtypesv1 "github.com/canow-co/cheqd-node/x/did/types/v1"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -129,11 +129,11 @@ func MigrateDidDoc(oldDid *didtypesv1.Did) didtypes.DidDoc {
 		Service:              srvs,
 		Context:              oldDid.Context,
 		Controller:           oldDid.Controller,
-		Authentication:       oldDid.Authentication,
-		AssertionMethod:      oldDid.AssertionMethod,
-		CapabilityDelegation: oldDid.CapabilityDelegation,
-		CapabilityInvocation: oldDid.CapabilityInvocation,
-		KeyAgreement:         oldDid.KeyAgreement,
+		Authentication:       MigrateVerificationRelationships(oldDid.Authentication),
+		AssertionMethod:      MigrateVerificationRelationships(oldDid.AssertionMethod),
+		CapabilityDelegation: MigrateVerificationRelationships(oldDid.CapabilityDelegation),
+		CapabilityInvocation: MigrateVerificationRelationships(oldDid.CapabilityInvocation),
+		KeyAgreement:         MigrateVerificationRelationships(oldDid.KeyAgreement),
 		AlsoKnownAs:          oldDid.AlsoKnownAs,
 	}
 }
@@ -173,4 +173,14 @@ func MigrateVerificationMaterial(vm *didtypesv1.VerificationMethod) string {
 	default:
 		panic("Unknown type")
 	}
+}
+
+func MigrateVerificationRelationships(vrs []string) []*didtypes.VerificationRelationship {
+	res := []*didtypes.VerificationRelationship{}
+	for _, vr := range vrs {
+		res = append(res, &didtypes.VerificationRelationship{
+			VerificationMethodId: vr,
+		})
+	}
+	return res
 }

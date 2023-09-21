@@ -1,7 +1,7 @@
 package types_test
 
 import (
-	. "github.com/cheqd/cheqd-node/x/did/types"
+	. "github.com/canow-co/cheqd-node/x/did/types"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -14,8 +14,12 @@ var _ = Describe("Create DID Payload Validation tests", func() {
 
 	DescribeTable("UUID validation tests", func(testCase TestCaseUUIDDidStruct) {
 		inputMsg := MsgCreateDidDocPayload{
-			Id:             testCase.inputID,
-			Authentication: []string{testCase.inputID + "#key1"},
+			Id: testCase.inputID,
+			Authentication: []*VerificationRelationship{
+				{
+					VerificationMethodId: testCase.inputID + "#key1",
+				},
+			},
 			VerificationMethod: []*VerificationMethod{
 				{
 					Id:                     testCase.inputID + "#key1",
@@ -25,8 +29,12 @@ var _ = Describe("Create DID Payload Validation tests", func() {
 			},
 		}
 		expectedMsg := MsgCreateDidDocPayload{
-			Id:             testCase.expectedID,
-			Authentication: []string{testCase.expectedID + "#key1"},
+			Id: testCase.expectedID,
+			Authentication: []*VerificationRelationship{
+				{
+					VerificationMethodId: testCase.expectedID + "#key1",
+				},
+			},
 			VerificationMethod: []*VerificationMethod{
 				{
 					Id:                     testCase.expectedID + "#key1",
@@ -42,29 +50,29 @@ var _ = Describe("Create DID Payload Validation tests", func() {
 		Entry(
 			"base58 identifier - not changed",
 			TestCaseUUIDDidStruct{
-				inputID:    "did:cheqd:testnet:zABCDEFG123456789abcd",
-				expectedID: "did:cheqd:testnet:zABCDEFG123456789abcd",
+				inputID:    "did:canow:testnet:zABCDEFG123456789abcd",
+				expectedID: "did:canow:testnet:zABCDEFG123456789abcd",
 			}),
 
 		Entry(
 			"Mixed case UUID",
 			TestCaseUUIDDidStruct{
-				inputID:    "did:cheqd:testnet:BAbbba14-f294-458a-9b9c-474d188680fd",
-				expectedID: "did:cheqd:testnet:babbba14-f294-458a-9b9c-474d188680fd",
+				inputID:    "did:canow:testnet:BAbbba14-f294-458a-9b9c-474d188680fd",
+				expectedID: "did:canow:testnet:babbba14-f294-458a-9b9c-474d188680fd",
 			}),
 
 		Entry(
 			"Low case UUID",
 			TestCaseUUIDDidStruct{
-				inputID:    "did:cheqd:testnet:babbba14-f294-458a-9b9c-474d188680fd",
-				expectedID: "did:cheqd:testnet:babbba14-f294-458a-9b9c-474d188680fd",
+				inputID:    "did:canow:testnet:babbba14-f294-458a-9b9c-474d188680fd",
+				expectedID: "did:canow:testnet:babbba14-f294-458a-9b9c-474d188680fd",
 			}),
 
 		Entry(
 			"Upper case UUID",
 			TestCaseUUIDDidStruct{
-				inputID:    "did:cheqd:testnet:A86F9CAE-0902-4a7c-a144-96b60ced2FC9",
-				expectedID: "did:cheqd:testnet:a86f9cae-0902-4a7c-a144-96b60ced2fc9",
+				inputID:    "did:canow:testnet:A86F9CAE-0902-4a7c-a144-96b60ced2FC9",
+				expectedID: "did:canow:testnet:a86f9cae-0902-4a7c-a144-96b60ced2fc9",
 			}),
 	)
 })

@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"github.com/cheqd/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -15,8 +15,8 @@ func CmdDeactivateDidDoc() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "deactivate-did [payload-file] --version-id [version-id]",
 		Short: "Deactivate a DID.",
-		Long: `Deactivates a DID and its associated DID Document. 
-[payload-file] is JSON encoded MsgDeactivateDidDocPayload alongside with sign inputs. 
+		Long: `Deactivates a DID and its associated DID Document.
+[payload-file] is JSON encoded MsgDeactivateDidDocPayload alongside with sign inputs.
 
 NOTES:
 1. Fee used for the transaction will ALWAYS take the fixed fee for DID Document deactivation, REGARDLESS of what value is passed in '--fees' flag.
@@ -27,11 +27,11 @@ NOTES:
 Example payload file:
 {
     "payload": {
-        "id": "did:cheqd:<namespace>:<unique-identifier>"
+        "id": "did:canow:<namespace>:<unique-identifier>"
     },
     "signInputs": [
         {
-            "verificationMethodId": "did:cheqd:<namespace>:<unique-identifier>#<key-id>",
+            "verificationMethodId": "did:canow:<namespace>:<unique-identifier>#<key-id>",
             "privKey": "<private-key-bytes-encoded-to-base64>"
         }
     ]
@@ -101,7 +101,7 @@ Example payload file:
 
 	// add custom / override flags
 	cmd.Flags().String(FlagVersionID, "", "Version ID of the DID Document")
-	cmd.Flags().String(flags.FlagFees, sdk.NewCoin(types.BaseMinimalDenom, sdk.NewInt(types.DefaultDeactivateDidTxFee)).String(), "Fixed fee for DID deactivation, e.g., 10000000000ncheq. Please check what the current fees by running 'cheqd-noded query params subspace cheqd feeparams'")
+	cmd.Flags().String(flags.FlagFees, sdk.NewCoin(types.BaseMinimalDenom, sdk.NewInt(types.DefaultDeactivateDidTxFee)).String(), "Fixed fee for DID deactivation, e.g., 10000000000"+types.BaseMinimalDenom+". Please check what the current fees by running 'cheqd-noded query params subspace cheqd feeparams'")
 
 	_ = cmd.MarkFlagRequired(flags.FlagFees)
 	_ = cmd.MarkFlagRequired(flags.FlagGas)

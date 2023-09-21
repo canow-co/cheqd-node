@@ -5,7 +5,7 @@ package cheqd.did.v2;
 import "gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/cheqd/cheqd-node/x/did/types";
+option go_package = "github.com/canow-co/cheqd-node/x/did/types";
 
 // DidDoc defines a DID Document, as defined in the DID Core specification.
 // Documentation: https://www.w3.org/TR/did-core/
@@ -15,7 +15,7 @@ message DidDoc {
   repeated string context = 1;
 
   // id is the DID of the DID document.
-  // Format: did:cheqd:<namespace>:<unique-identifier>
+  // Format: did:canow:<namespace>:<unique-identifier>
   string id = 2;
 
   // controller is a list of DIDs that are allowed to control the DID document.
@@ -27,23 +27,23 @@ message DidDoc {
 
   // authentication is a list of verification methods that can be used to
   // authenticate as the DID subject.
-  repeated string authentication = 5;
+  repeated VerificationRelationship authentication = 5;
 
   // assertionMethod is a list of verification methods that can be used to
   // assert statements as the DID subject.
-  repeated string assertion_method = 6;
+  repeated VerificationRelationship assertion_method = 6;
 
   // capabilityInvocation is a list of verification methods that can be used to
   // invoke capabilities as the DID subject.
-  repeated string capability_invocation = 7;
+  repeated VerificationRelationship capability_invocation = 7;
 
   // capabilityDelegation is a list of verification methods that can be used to
   // delegate capabilities as the DID subject.
-  repeated string capability_delegation = 8;
+  repeated VerificationRelationship capability_delegation = 8;
 
   // keyAgreement is a list of verification methods that can be used to perform
   // key agreement as the DID subject.
-  repeated string key_agreement = 9;
+  repeated VerificationRelationship key_agreement = 9;
 
   // service is a list of services that can be used to interact with the DID subject.
   repeated Service service = 10;
@@ -56,7 +56,7 @@ message DidDoc {
 // Documentation: https://www.w3.org/TR/did-core/#verification-methods
 message VerificationMethod {
   // id is the unique identifier of the verification method.
-  // Format: did:cheqd:<namespace>:<unique-identifier>#<key-id>
+  // Format: did:canow:<namespace>:<unique-identifier>#<key-id>
   string id = 1;
 
   // type is the type of the verification method.
@@ -64,7 +64,7 @@ message VerificationMethod {
   string verification_method_type = 2 [(gogoproto.jsontag) = "type,omitempty"];
 
   // controller is the DID of the controller of the verification method.
-  // Format: did:cheqd:<namespace>:<unique-identifier>
+  // Format: did:canow:<namespace>:<unique-identifier>
   string controller = 3;
 
   // verification_material is the public key of the verification method.
@@ -72,11 +72,16 @@ message VerificationMethod {
   string verification_material = 4;
 }
 
+message VerificationRelationship {
+  string verification_method_id = 1;
+  VerificationMethod verification_method = 2;
+}
+
 // Service defines a service, as defined in the DID Core specification.
 // Documentation: https://www.w3.org/TR/did-core/#services
 message Service {
   // id is the unique identifier of the service.
-  // Format: did:cheqd:<namespace>:<unique-identifier>#<service-id>
+  // Format: did:canow:<namespace>:<unique-identifier>#<service-id>
   string id = 1;
 
   // type is the type of the service.
@@ -86,6 +91,8 @@ message Service {
   // serviceEndpoint is the endpoint of the service.
   // Example: https://example.com/endpoint
   repeated string service_endpoint = 3;
+  repeated string accept = 4;
+  repeated string routing_keys = 5;
 }
 
 // DidDocWithMetadata defines a DID Document with metadata, as defined in the DID Core specification.

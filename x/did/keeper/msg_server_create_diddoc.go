@@ -3,8 +3,8 @@ package keeper
 import (
 	"context"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -67,7 +67,10 @@ func (k MsgServer) CreateDidDoc(goCtx context.Context, msg *types.MsgCreateDidDo
 
 func GetSignerDIDsForDIDCreation(did types.DidDoc) []string {
 	res := did.GetControllersOrSubject()
-	res = append(res, did.GetVerificationMethodControllers()...)
+
+	for _, vm := range getEffectiveAuthenticationMethods(&did) {
+		res = append(res, vm.Controller)
+	}
 
 	return utils.UniqueSorted(res)
 }

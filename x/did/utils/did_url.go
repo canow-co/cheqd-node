@@ -8,8 +8,8 @@ import (
 
 // SplitDIDURLRegexp ...
 // That for groups:
-// Example: did:cheqd:testnet:fafdsffq11213343/path-to-s/ome-external-resource?query#key1???
-// 1 - [^/?#]* - all the symbols except / and ? and # . This is the DID part                      (did:cheqd:testnet:fafdsffq11213343)
+// Example: did:canow:testnet:fafdsffq11213343/path-to-s/ome-external-resource?query#key1???
+// 1 - [^/?#]* - all the symbols except / and ? and # . This is the DID part                      (did:canow:testnet:fafdsffq11213343)
 // 2 - [^?#]*  - all the symbols except ? and #. it means te section started from /, path-abempty (/path-to-s/ome-external-resource)
 // 3 - \?([^#]*) - group for `query` part but with ? symbol 									  (?query)
 // 4 - [^#]*     - group inside query string, match only exact query                              (query)
@@ -93,7 +93,7 @@ func ValidateDIDUrl(didURL string, method string, allowedNamespaces []string) er
 
 func ValidateFragment(fragment string) error {
 	if !DIDFragmentRegexp.MatchString(fragment) {
-		return fmt.Errorf("did url fragmnt must match the following regexp: %s", DIDFragmentRegexp)
+		return fmt.Errorf("did url fragment must match the following regexp: %s", DIDFragmentRegexp)
 	}
 	return nil
 }
@@ -107,7 +107,7 @@ func ValidateQuery(query string) error {
 
 func ValidatePath(path string) error {
 	if !DIDPathAbemptyRegexp.MatchString(path) {
-		return fmt.Errorf("did url path abempty must match the following regexp: %s", DIDPathAbemptyRegexp)
+		return fmt.Errorf("did url path empty must match the following regexp: %s", DIDPathAbemptyRegexp)
 	}
 	return nil
 }

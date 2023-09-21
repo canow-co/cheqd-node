@@ -38,9 +38,9 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	// cheqd specific imports
-	cheqdapp "github.com/cheqd/cheqd-node/app"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	cheqdapp "github.com/canow-co/cheqd-node/app"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 )
 
 // DefaultConsensusParams defines the default Tendermint consensus params used in

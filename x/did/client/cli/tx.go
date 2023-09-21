@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
@@ -25,11 +25,11 @@ type DIDDocument struct {
 	ID                   string               `json:"id"`
 	Controller           []string             `json:"controller,omitempty"`
 	VerificationMethod   []VerificationMethod `json:"verificationMethod,omitempty"`
-	Authentication       []string             `json:"authentication,omitempty"`
-	AssertionMethod      []string             `json:"assertionMethod,omitempty"`
-	CapabilityInvocation []string             `json:"capabilityInvocation,omitempty"`
-	CapabilityDelegation []string             `json:"capabilityDelegation,omitempty"`
-	KeyAgreement         []string             `json:"keyAgreement,omitempty"`
+	Authentication       []any                `json:"authentication,omitempty"`
+	AssertionMethod      []any                `json:"assertionMethod,omitempty"`
+	CapabilityInvocation []any                `json:"capabilityInvocation,omitempty"`
+	CapabilityDelegation []any                `json:"capabilityDelegation,omitempty"`
+	KeyAgreement         []any                `json:"keyAgreement,omitempty"`
 	Service              []Service            `json:"service,omitempty"`
 	AlsoKnownAs          []string             `json:"alsoKnownAs,omitempty"`
 }
@@ -40,6 +40,8 @@ type Service struct {
 	ID              string   `json:"id"`
 	Type            string   `json:"type"`
 	ServiceEndpoint []string `json:"serviceEndpoint"`
+	Accept          []string `json:"accept,omitempty"`
+	RoutingKeys     []string `json:"routingKeys,omitempty"`
 }
 
 type PayloadWithSignInputs struct {
@@ -60,7 +62,7 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	cmd.Flags().Uint64P(flags.FlagAccountNumber, "a", 0, "The account number of the signing account (offline mode only)")
 	cmd.Flags().Uint64P(flags.FlagSequence, "s", 0, "The sequence number of the signing account (offline mode only)")
 	cmd.Flags().String(flags.FlagNote, "", "Note to add a description to the transaction (previously --memo)")
-	cmd.Flags().String(flags.FlagGasPrices, "", "Gas prices in decimal format to determine the transaction fee (e.g. 50ncheq)")
+	cmd.Flags().String(flags.FlagGasPrices, "", "Gas prices in decimal format to determine the transaction fee (e.g. 50"+types.BaseMinimalDenom+")")
 	cmd.Flags().String(flags.FlagNode, "tcp://localhost:26657", "<host>:<port> to tendermint rpc interface for this chain")
 	cmd.Flags().Bool(flags.FlagUseLedger, false, "Use a connected Ledger device")
 	cmd.Flags().StringP(flags.FlagBroadcastMode, "b", flags.BroadcastSync, "Transaction broadcasting mode (sync|async|block)")
@@ -166,68 +168,101 @@ func ReadPayloadWithSignInputsFromFile(filePath string) (json.RawMessage, []Sign
 func GetFromSpecCompliantPayload(specPayload DIDDocument) ([]*types.VerificationMethod, []*types.Service, error) {
 	verificationMethod := make([]*types.VerificationMethod, 0, len(specPayload.VerificationMethod))
 	for i, vm := range specPayload.VerificationMethod {
-		var verificationMethodType string
-		if value, ok := vm["type"].(string); !ok {
-			return nil, nil, fmt.Errorf("%d: verification method type is not specified", i)
-		} else {
-			verificationMethodType = value
+		normalizedVM, err := getVerificationMethodFromSpecComplant(i, vm)
+		if err != nil {
+			return nil, nil, err
 		}
-
-		switch verificationMethodType {
-		case "Ed25519VerificationKey2020":
-			_, ok := vm["publicKeyMultibase"]
-			if !ok {
-				return nil, nil, fmt.Errorf("%d: publicKeyMultibase is not specified", i)
-			}
-
-			verificationMethod = append(verificationMethod, &types.VerificationMethod{
-				Id:                     vm["id"].(string),
-				VerificationMethodType: vm["type"].(string),
-				Controller:             vm["controller"].(string),
-				VerificationMaterial:   vm["publicKeyMultibase"].(string),
-			})
-		case "Ed25519VerificationKey2018":
-			_, ok := vm["publicKeyBase58"]
-			if !ok {
-				return nil, nil, fmt.Errorf("%d: publicKeyBase58 is not specified", i)
-			}
-
-			verificationMethod = append(verificationMethod, &types.VerificationMethod{
-				Id:                     vm["id"].(string),
-				VerificationMethodType: vm["type"].(string),
-				Controller:             vm["controller"].(string),
-				VerificationMaterial:   vm["publicKeyBase58"].(string),
-			})
-		case "JsonWebKey2020":
-			_, ok := vm["publicKeyJwk"]
-			if !ok {
-				return nil, nil, fmt.Errorf("%d: publicKeyJwk is not specified", i)
-			}
-
-			jwk, err := json.Marshal(vm["publicKeyJwk"])
-			if err != nil {
-				return nil, nil, err
-			}
-
-			verificationMethod = append(verificationMethod, &types.VerificationMethod{
-				Id:                     vm["id"].(string),
-				VerificationMethodType: vm["type"].(string),
-				Controller:             vm["controller"].(string),
-				VerificationMaterial:   string(jwk),
-			})
-		default:
-			return nil, nil, fmt.Errorf("%d: verification method type is not supported", i)
-		}
+		verificationMethod = append(verificationMethod, normalizedVM)
 	}
-
 	service := make([]*types.Service, 0, len(specPayload.Service))
 	for _, s := range specPayload.Service {
 		service = append(service, &types.Service{
 			Id:              s.ID,
 			ServiceType:     s.Type,
 			ServiceEndpoint: s.ServiceEndpoint,
+			Accept:          s.Accept,
+			RoutingKeys:     s.RoutingKeys,
 		})
 	}
 
 	return verificationMethod, service, nil
+}
+
+func GetMixedVerificationMethodList(verificationRelationship []any) ([]*types.VerificationRelationship, error) {
+	verificationRelationshipList := make([]*types.VerificationRelationship, 0, len(verificationRelationship))
+	for i, vr := range verificationRelationship {
+		var normalizedRelationship *types.VerificationRelationship
+
+		if vm, ok := vr.(map[string]any); ok {
+			normalizedVM, err := getVerificationMethodFromSpecComplant(i, vm)
+			if err != nil {
+				return nil, err
+			}
+			normalizedRelationship = &types.VerificationRelationship{
+				VerificationMethod: normalizedVM,
+			}
+		} else if vmID, ok := vr.(string); ok {
+			normalizedRelationship = &types.VerificationRelationship{
+				VerificationMethodId: vmID,
+			}
+		} else {
+			return nil, fmt.Errorf("%#v: verification relationship has incorrect format", vr)
+		}
+		verificationRelationshipList = append(verificationRelationshipList, normalizedRelationship)
+	}
+	return verificationRelationshipList, nil
+}
+
+func getVerificationMethodFromSpecComplant(index int, vm VerificationMethod) (*types.VerificationMethod, error) {
+	var verificationMethodType string
+	if value, ok := vm["type"].(string); !ok {
+		return nil, fmt.Errorf("%d: verification method type is not specified", index)
+	} else {
+		verificationMethodType = value
+	}
+	switch verificationMethodType {
+	case "Ed25519VerificationKey2020":
+		_, ok := vm["publicKeyMultibase"]
+		if !ok {
+			return nil, fmt.Errorf("%d: publicKeyMultibase is not specified", index)
+		}
+
+		return &types.VerificationMethod{
+			Id:                     vm["id"].(string),
+			VerificationMethodType: vm["type"].(string),
+			Controller:             vm["controller"].(string),
+			VerificationMaterial:   vm["publicKeyMultibase"].(string),
+		}, nil
+	case "Ed25519VerificationKey2018":
+		_, ok := vm["publicKeyBase58"]
+		if !ok {
+			return nil, fmt.Errorf("%d: publicKeyBase58 is not specified", index)
+		}
+
+		return &types.VerificationMethod{
+			Id:                     vm["id"].(string),
+			VerificationMethodType: vm["type"].(string),
+			Controller:             vm["controller"].(string),
+			VerificationMaterial:   vm["publicKeyBase58"].(string),
+		}, nil
+	case "JsonWebKey2020":
+		_, ok := vm["publicKeyJwk"]
+		if !ok {
+			return nil, fmt.Errorf("%d: publicKeyJwk is not specified", index)
+		}
+
+		jwk, err := json.Marshal(vm["publicKeyJwk"])
+		if err != nil {
+			return nil, err
+		}
+
+		return &types.VerificationMethod{
+			Id:                     vm["id"].(string),
+			VerificationMethodType: vm["type"].(string),
+			Controller:             vm["controller"].(string),
+			VerificationMaterial:   string(jwk),
+		}, nil
+	default:
+		return nil, fmt.Errorf("%d: verification method type is not supported", index)
+	}
 }

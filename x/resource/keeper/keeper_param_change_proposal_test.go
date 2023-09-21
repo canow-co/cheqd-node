@@ -5,8 +5,8 @@ import (
 
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	cheqdsimapp "github.com/cheqd/cheqd-node/simapp"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	cheqdsimapp "github.com/canow-co/cheqd-node/simapp"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	"github.com/cosmos/cosmos-sdk/x/params"
@@ -64,7 +64,7 @@ var _ = DescribeTable("Proposal Handler", func(testcase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: resourcetypes.ModuleName,
 				Key:      string(resourcetypes.ParamStoreKeyFeeParams),
-				Value:    `{"image": {"denom": "ncheq", "amount": "10000000000"}, "json": {"denom": "ncheq", "amount": "4000000000"}, "default": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"image": {"denom": "zarx", "amount": "10000000000"}, "json": {"denom": "zarx", "amount": "4000000000"}, "default": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(handlerSuite *HandlerTestSuite) {
 				expectedFeeParams := resourcetypes.FeeParams{
@@ -97,7 +97,7 @@ var _ = DescribeTable("Proposal Handler", func(testcase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: resourcetypes.ModuleName,
 				Key:      string(resourcetypes.ParamStoreKeyFeeParams),
-				Value:    `{"image": {"denom": "ncheq", "amount": "10000000000"}, "json": {"denom": "ncheq", "amount": "4000000000"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"image": {"denom": "zarx", "amount": "10000000000"}, "json": {"denom": "zarx", "amount": "4000000000"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -108,7 +108,7 @@ var _ = DescribeTable("Proposal Handler", func(testcase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: resourcetypes.ModuleName,
 				Key:      string(resourcetypes.ParamStoreKeyFeeParams),
-				Value:    `{"image": {"denom": "ncheq", "amount": "0"}, "json": {"denom": "ncheq", "amount": "4000000000"}, "default": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"image": {"denom": "zarx", "amount": "0"}, "json": {"denom": "zarx", "amount": "4000000000"}, "default": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -119,7 +119,7 @@ var _ = DescribeTable("Proposal Handler", func(testcase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: resourcetypes.ModuleName,
 				Key:      string(resourcetypes.ParamStoreKeyFeeParams),
-				Value:    `{"image": {"denom": "ncheq", "amount": "10000000000"}, "json": {"denom": "ncheq", "amount": "0"}, "default": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"image": {"denom": "zarx", "amount": "10000000000"}, "json": {"denom": "zarx", "amount": "0"}, "default": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -130,7 +130,7 @@ var _ = DescribeTable("Proposal Handler", func(testcase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: resourcetypes.ModuleName,
 				Key:      string(resourcetypes.ParamStoreKeyFeeParams),
-				Value:    `{"image": {"denom": "ncheq", "amount": "10000000000"}, "json": {"denom": "ncheq", "amount": "4000000000"}, "default": {"denom": "ncheq", "amount": "0"}, "burn_factor": "0.600000000000000000"}`,
+				Value:    `{"image": {"denom": "zarx", "amount": "10000000000"}, "json": {"denom": "zarx", "amount": "4000000000"}, "default": {"denom": "zarx", "amount": "0"}, "burn_factor": "0.600000000000000000"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -141,7 +141,7 @@ var _ = DescribeTable("Proposal Handler", func(testcase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: resourcetypes.ModuleName,
 				Key:      string(resourcetypes.ParamStoreKeyFeeParams),
-				Value:    `{"image": {"denom": "ncheq", "amount": "10000000000"}, "json": {"denom": "ncheq", "amount": "4000000000"}, "default": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "-1"}`,
+				Value:    `{"image": {"denom": "zarx", "amount": "10000000000"}, "json": {"denom": "zarx", "amount": "4000000000"}, "default": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "-1"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,
@@ -152,7 +152,7 @@ var _ = DescribeTable("Proposal Handler", func(testcase TestCaseKeeperProposal) 
 			testProposal(proposal.ParamChange{
 				Subspace: resourcetypes.ModuleName,
 				Key:      string(resourcetypes.ParamStoreKeyFeeParams),
-				Value:    `{"image": {"denom": "ncheq", "amount": "10000000000"}, "json": {"denom": "ncheq", "amount": "4000000000"}, "default": {"denom": "ncheq", "amount": "2000000000"}, "burn_factor": "1.1"}`,
+				Value:    `{"image": {"denom": "zarx", "amount": "10000000000"}, "json": {"denom": "zarx", "amount": "4000000000"}, "default": {"denom": "zarx", "amount": "2000000000"}, "burn_factor": "1.1"}`,
 			}),
 			func(*HandlerTestSuite) {},
 			true,

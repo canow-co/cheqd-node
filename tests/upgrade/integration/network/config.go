@@ -1,7 +1,7 @@
 package network
 
 import (
-	integrationnetwork "github.com/cheqd/cheqd-node/tests/integration/network"
+	integrationnetwork "github.com/canow-co/cheqd-node/tests/integration/network"
 )
 
 const (

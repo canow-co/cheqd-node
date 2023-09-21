@@ -6,11 +6,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	didtypesv1 "github.com/cheqd/cheqd-node/x/did/types/v1"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	didtypesv1 "github.com/canow-co/cheqd-node/x/did/types/v1"
 
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
-	resourcetypesv1 "github.com/cheqd/cheqd-node/x/resource/types/v1"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
+	resourcetypesv1 "github.com/canow-co/cheqd-node/x/resource/types/v1"
 )
 
 type KeyPairBase64 struct {

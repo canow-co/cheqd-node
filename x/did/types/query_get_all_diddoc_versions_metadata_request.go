@@ -1,7 +1,7 @@
 package types
 
 import (
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 )
 
 func (query *QueryAllDidDocVersionsMetadataRequest) Normalize() {

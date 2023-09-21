@@ -3,8 +3,8 @@ package cli
 import (
 	"os"
 
-	didcli "github.com/cheqd/cheqd-node/x/did/client/cli"
-	"github.com/cheqd/cheqd-node/x/resource/types"
+	didcli "github.com/canow-co/cheqd-node/x/did/client/cli"
+	"github.com/canow-co/cheqd-node/x/resource/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -37,7 +37,7 @@ Example payload file:
         "resourceType": "<resource-type>",
         "alsoKnownAs": [
             {
-                "uri": "did:cheqd:<namespace>:<unique-identifier>/resource/<uuid>",
+                "uri": "did:canow:<namespace>:<unique-identifier>/resource/<uuid>",
                 "description": "did-url"
             },
             {
@@ -48,7 +48,7 @@ Example payload file:
     },
     "signInputs": [
         {
-            "verificationMethodId": "did:cheqd:<namespace>:<unique-identifier>#<key-id>",
+            "verificationMethodId": "did:canow:<namespace>:<unique-identifier>#<key-id>",
             "privKey": "<private-key-bytes-encoded-to-base64>"
         }
     ]
@@ -116,7 +116,7 @@ Example payload file:
 	AddTxFlagsToCmd(cmd)
 
 	// add custom / override flags
-	cmd.Flags().String(flags.FlagFees, sdk.NewCoin(types.BaseMinimalDenom, sdk.NewInt(types.DefaultCreateResourceImageFee)).String(), "Fixed fee for Resource creation, e.g., 10000000000ncheq. Please check what the current fees by running 'cheqd-noded query params subspace resource feeparams'")
+	cmd.Flags().String(flags.FlagFees, sdk.NewCoin(types.BaseMinimalDenom, sdk.NewInt(types.DefaultCreateResourceImageFee)).String(), "Fixed fee for Resource creation, e.g., 10000000000"+types.BaseMinimalDenom+". Please check what the current fees by running 'cheqd-noded query params subspace resource feeparams'")
 
 	_ = cmd.MarkFlagRequired(flags.FlagFees)
 	_ = cmd.MarkFlagRequired(flags.FlagGas)

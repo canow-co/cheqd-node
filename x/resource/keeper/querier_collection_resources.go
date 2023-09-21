@@ -1,8 +1,8 @@
 package keeper
 
 import (
-	didkeeper "github.com/cheqd/cheqd-node/x/did/keeper"
-	"github.com/cheqd/cheqd-node/x/resource/types"
+	didkeeper "github.com/canow-co/cheqd-node/x/did/keeper"
+	"github.com/canow-co/cheqd-node/x/resource/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"

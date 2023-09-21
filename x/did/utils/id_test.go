@@ -4,7 +4,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	. "github.com/cheqd/cheqd-node/x/did/utils"
+	. "github.com/canow-co/cheqd-node/x/did/utils"
 )
 
 var _ = Describe("Identifier Validation tests", func() {

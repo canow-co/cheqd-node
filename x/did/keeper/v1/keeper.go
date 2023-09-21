@@ -3,7 +3,7 @@ package keeper
 import (
 	"fmt"
 
-	types "github.com/cheqd/cheqd-node/x/did/types/v1"
+	types "github.com/canow-co/cheqd-node/x/did/types/v1"
 	"github.com/tendermint/tendermint/libs/log"
 
 	"github.com/cosmos/cosmos-sdk/codec"

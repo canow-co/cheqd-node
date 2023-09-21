@@ -1,12 +1,13 @@
 package cli
 
 import (
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
 
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	paramproposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 )
 
@@ -55,6 +56,21 @@ func QueryParams(subspace, key string) (paramproposal.ParamChange, error) {
 	}
 
 	return resp, nil
+}
+
+func QueryGetBalances(address string) (banktypes.QueryAllBalancesResponse, error) {
+	res, err := Query("bank", "balances", address)
+	if err != nil {
+		return banktypes.QueryAllBalancesResponse{}, err
+	}
+
+	var resp banktypes.QueryAllBalancesResponse
+	err = helpers.Codec.UnmarshalJSON([]byte(res), &resp)
+	if err != nil {
+		return banktypes.QueryAllBalancesResponse{}, err
+	}
+
+	return resp, err
 }
 
 func QueryDidDoc(did string) (didtypes.QueryDidDocResponse, error) {

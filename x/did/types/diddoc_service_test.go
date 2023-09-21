@@ -4,7 +4,7 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	. "github.com/cheqd/cheqd-node/x/did/types"
+	. "github.com/canow-co/cheqd-node/x/did/types"
 )
 
 var _ = Describe("Service tests", func() {
@@ -31,11 +31,13 @@ var _ = Describe("Service tests", func() {
 			"Valid service entry",
 			TestCaseServiceStruct{
 				service: &Service{
-					Id:              "did:cheqd:aABCDEFG123456789abcd#service1",
+					Id:              "did:canow:aABCDEFG123456789abcd#service1",
 					ServiceType:     "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint1", "endpoint2"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"},
 				},
-				baseDid:           "did:cheqd:aABCDEFG123456789abcd",
+				baseDid:           "did:canow:aABCDEFG123456789abcd",
 				allowedNamespaces: []string{""},
 				isValid:           true,
 				errorMsg:          "",
@@ -45,7 +47,7 @@ var _ = Describe("Service tests", func() {
 			"Namespace is not allowed",
 			TestCaseServiceStruct{
 				service: &Service{
-					Id:              "did:cheqd:zABCDEFG123456789abcd#service1",
+					Id:              "did:canow:zABCDEFG123456789abcd#service1",
 					ServiceType:     "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint"},
 				},
@@ -58,13 +60,28 @@ var _ = Describe("Service tests", func() {
 			"Base DID is not the same as in ID",
 			TestCaseServiceStruct{
 				service: &Service{
-					Id:              "did:cheqd:zABCDEFG123456789abcd#service1",
+					Id:              "did:canow:zABCDEFG123456789abcd#service1",
 					ServiceType:     "DIDCommMessaging",
 					ServiceEndpoint: []string{"endpoint"},
 				},
-				baseDid:  "did:cheqd:zABCDEFG987654321abcd",
+				baseDid:  "did:canow:zABCDEFG987654321abcd",
 				isValid:  false,
-				errorMsg: "id: must have prefix: did:cheqd:zABCDEFG987654321abcd",
+				errorMsg: "id: must have prefix: did:canow:zABCDEFG987654321abcd",
+			}),
+
+		Entry(
+			"Invalid Service RoutingKeys field",
+			TestCaseServiceStruct{
+				service: &Service{
+					Id:              "did:canow:zABCDEFG123456789abcd#service1",
+					ServiceType:     "DIDCommMessaging",
+					ServiceEndpoint: []string{"endpoint"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"invalid key"},
+				},
+				baseDid:  "did:canow:zABCDEFG987654321abcd",
+				isValid:  false,
+				errorMsg: "unable to split did into method, namespace and id",
 			}),
 	)
 })

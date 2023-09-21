@@ -3,7 +3,7 @@ package cheqdid.cheqdnode.resource.v1;
 
 import "cheqd/resource/v1/resource.proto";
 
-option go_package = "github.com/cheqd/cheqd-node/x/resource/types/v1";
+option go_package = "github.com/canow-co/cheqd-node/x/resource/types/v1";
 
 // GenesisState defines the cheqd module's genesis state.
 message GenesisState {

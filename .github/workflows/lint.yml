@@ -66,13 +66,12 @@ jobs:
       - uses: bufbuild/buf-lint-action@v1
         with:
           input: proto
-      
+
       # Breaking change detection
-      - uses: bufbuild/buf-breaking-action@v1
-        continue-on-error: true
-        with:
-          input: proto
-          against: 'https://github.com/cheqd/cheqd-node.git#branch=main,ref=HEAD~1,subdir=proto'
+      # - uses: bufbuild/buf-breaking-action@v1
+        # with:
+          # input: proto
+          # against: 'https://github.com/canow-co/cheqd-node.git#branch=develop,ref=HEAD~1,subdir=proto'
 
   super-lint:
     name: "Super Linter"
@@ -88,7 +87,7 @@ jobs:
       env:
         IGNORE_GITIGNORED_FILES: true
         DEFAULT_BRANCH: main
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         LOG_LEVEL: WARN
         VALIDATE_ALL_CODEBASE: false
         MULTI_STATUS: true

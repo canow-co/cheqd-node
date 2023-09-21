@@ -6,10 +6,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/cheqd/cheqd-node/app"
-	"github.com/cheqd/cheqd-node/app/params"
+	"github.com/canow-co/cheqd-node/app"
+	"github.com/canow-co/cheqd-node/app/params"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/client/config"
 	"github.com/cosmos/cosmos-sdk/client/debug"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/keys"
@@ -54,12 +55,22 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithInput(os.Stdin).
 		WithAccountRetriever(types.AccountRetriever{}).
 		WithBroadcastMode(flags.BroadcastBlock).
-		WithHomeDir(app.DefaultNodeHome)
+		WithHomeDir(app.DefaultNodeHome).
+		WithViper("")
 
 	rootCmd := &cobra.Command{
 		Use:   app.Name + "d",
 		Short: "cheqd App",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
+			initClientCtx, err := client.ReadPersistentCommandFlags(initClientCtx, cmd.Flags())
+			if err != nil {
+				return err
+			}
+			initClientCtx, err = config.ReadFromClientConfig(initClientCtx)
+			if err != nil {
+				return err
+			}
+
 			if err := client.SetCmdClientContextHandler(initClientCtx, cmd); err != nil {
 				return err
 			}
@@ -88,14 +99,15 @@ func initRootCmd(rootCmd *cobra.Command, encodingConfig params.EncodingConfig) {
 	cfg.Seal()
 
 	rootCmd.AddCommand(
-		extendInit(genutilcli.InitCmd(app.ModuleBasics, app.DefaultNodeHome)),
+		ExtendInit(genutilcli.InitCmd(app.ModuleBasics, app.DefaultNodeHome)),
 		genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
 		genutilcli.MigrateGenesisCmd(),
 		genutilcli.GenTxCmd(app.ModuleBasics, encodingConfig.TxConfig, banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
 		genutilcli.ValidateGenesisCmd(app.ModuleBasics),
 		AddGenesisAccountCmd(app.DefaultNodeHome),
 		tmcli.NewCompletionCmd(rootCmd, true),
-		extendDebug(debug.Cmd()),
+		ExtendDebug(debug.Cmd()),
+		config.Cmd(),
 	)
 
 	a := appCreator{encodingConfig}
@@ -163,7 +175,7 @@ func txCommand() *cobra.Command {
 
 	app.ModuleBasics.AddTxCommands(cmd)
 	cmd.PersistentFlags().String(flags.FlagChainID, "cheqd-mainnet-1", "The network chain ID")
-	cmd.PersistentFlags().String(flags.FlagGasPrices, "50ncheq", "Gas prices in decimal format")
+	cmd.PersistentFlags().String(flags.FlagGasPrices, "50zarx", "Gas prices in decimal format")
 	cmd.PersistentFlags().Float64(flags.FlagGasAdjustment, 1.3, "Gas adjustment factor to be multiplied against estimated gas")
 	cmd.PersistentFlags().String(flags.FlagGas, flags.GasFlagAuto, "Gas limit to set per-transaction; set to 'auto' to calculate sufficient gas automatically")
 

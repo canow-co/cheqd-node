@@ -2363,7 +2363,7 @@ func (x *_MsgCreateDidDocPayload_4_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgCreateDidDocPayload_5_list)(nil)
 
 type _MsgCreateDidDocPayload_5_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgCreateDidDocPayload_5_list) Len() int {
@@ -2374,32 +2374,37 @@ func (x *_MsgCreateDidDocPayload_5_list) Len() int {
 }
 
 func (x *_MsgCreateDidDocPayload_5_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_5_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgCreateDidDocPayload_5_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgCreateDidDocPayload_5_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgCreateDidDocPayload at list field Authentication as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_5_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgCreateDidDocPayload_5_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_5_list) IsValid() bool {
@@ -2409,7 +2414,7 @@ func (x *_MsgCreateDidDocPayload_5_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgCreateDidDocPayload_6_list)(nil)
 
 type _MsgCreateDidDocPayload_6_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgCreateDidDocPayload_6_list) Len() int {
@@ -2420,32 +2425,37 @@ func (x *_MsgCreateDidDocPayload_6_list) Len() int {
 }
 
 func (x *_MsgCreateDidDocPayload_6_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_6_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgCreateDidDocPayload_6_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgCreateDidDocPayload_6_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgCreateDidDocPayload at list field AssertionMethod as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_6_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgCreateDidDocPayload_6_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_6_list) IsValid() bool {
@@ -2455,7 +2465,7 @@ func (x *_MsgCreateDidDocPayload_6_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgCreateDidDocPayload_7_list)(nil)
 
 type _MsgCreateDidDocPayload_7_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgCreateDidDocPayload_7_list) Len() int {
@@ -2466,32 +2476,37 @@ func (x *_MsgCreateDidDocPayload_7_list) Len() int {
 }
 
 func (x *_MsgCreateDidDocPayload_7_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_7_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgCreateDidDocPayload_7_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgCreateDidDocPayload_7_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgCreateDidDocPayload at list field CapabilityInvocation as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_7_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgCreateDidDocPayload_7_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_7_list) IsValid() bool {
@@ -2501,7 +2516,7 @@ func (x *_MsgCreateDidDocPayload_7_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgCreateDidDocPayload_8_list)(nil)
 
 type _MsgCreateDidDocPayload_8_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgCreateDidDocPayload_8_list) Len() int {
@@ -2512,32 +2527,37 @@ func (x *_MsgCreateDidDocPayload_8_list) Len() int {
 }
 
 func (x *_MsgCreateDidDocPayload_8_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_8_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgCreateDidDocPayload_8_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgCreateDidDocPayload_8_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgCreateDidDocPayload at list field CapabilityDelegation as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_8_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgCreateDidDocPayload_8_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_8_list) IsValid() bool {
@@ -2547,7 +2567,7 @@ func (x *_MsgCreateDidDocPayload_8_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgCreateDidDocPayload_9_list)(nil)
 
 type _MsgCreateDidDocPayload_9_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgCreateDidDocPayload_9_list) Len() int {
@@ -2558,32 +2578,37 @@ func (x *_MsgCreateDidDocPayload_9_list) Len() int {
 }
 
 func (x *_MsgCreateDidDocPayload_9_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_9_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgCreateDidDocPayload_9_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgCreateDidDocPayload_9_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgCreateDidDocPayload at list field KeyAgreement as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_9_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgCreateDidDocPayload_9_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgCreateDidDocPayload_9_list) IsValid() bool {
@@ -3122,31 +3147,31 @@ func (x *fastReflection_MsgCreateDidDocPayload) Mutable(fd protoreflect.FieldDes
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgCreateDidDocPayload.authentication":
 		if x.Authentication == nil {
-			x.Authentication = []string{}
+			x.Authentication = []*VerificationRelationship{}
 		}
 		value := &_MsgCreateDidDocPayload_5_list{list: &x.Authentication}
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgCreateDidDocPayload.assertion_method":
 		if x.AssertionMethod == nil {
-			x.AssertionMethod = []string{}
+			x.AssertionMethod = []*VerificationRelationship{}
 		}
 		value := &_MsgCreateDidDocPayload_6_list{list: &x.AssertionMethod}
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgCreateDidDocPayload.capability_invocation":
 		if x.CapabilityInvocation == nil {
-			x.CapabilityInvocation = []string{}
+			x.CapabilityInvocation = []*VerificationRelationship{}
 		}
 		value := &_MsgCreateDidDocPayload_7_list{list: &x.CapabilityInvocation}
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgCreateDidDocPayload.capability_delegation":
 		if x.CapabilityDelegation == nil {
-			x.CapabilityDelegation = []string{}
+			x.CapabilityDelegation = []*VerificationRelationship{}
 		}
 		value := &_MsgCreateDidDocPayload_8_list{list: &x.CapabilityDelegation}
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgCreateDidDocPayload.key_agreement":
 		if x.KeyAgreement == nil {
-			x.KeyAgreement = []string{}
+			x.KeyAgreement = []*VerificationRelationship{}
 		}
 		value := &_MsgCreateDidDocPayload_9_list{list: &x.KeyAgreement}
 		return protoreflect.ValueOfList(value)
@@ -3191,19 +3216,19 @@ func (x *fastReflection_MsgCreateDidDocPayload) NewField(fd protoreflect.FieldDe
 		list := []*VerificationMethod{}
 		return protoreflect.ValueOfList(&_MsgCreateDidDocPayload_4_list{list: &list})
 	case "cheqd.did.v2.MsgCreateDidDocPayload.authentication":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgCreateDidDocPayload_5_list{list: &list})
 	case "cheqd.did.v2.MsgCreateDidDocPayload.assertion_method":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgCreateDidDocPayload_6_list{list: &list})
 	case "cheqd.did.v2.MsgCreateDidDocPayload.capability_invocation":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgCreateDidDocPayload_7_list{list: &list})
 	case "cheqd.did.v2.MsgCreateDidDocPayload.capability_delegation":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgCreateDidDocPayload_8_list{list: &list})
 	case "cheqd.did.v2.MsgCreateDidDocPayload.key_agreement":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgCreateDidDocPayload_9_list{list: &list})
 	case "cheqd.did.v2.MsgCreateDidDocPayload.service":
 		list := []*Service{}
@@ -3305,32 +3330,32 @@ func (x *fastReflection_MsgCreateDidDocPayload) ProtoMethods() *protoiface.Metho
 			}
 		}
 		if len(x.Authentication) > 0 {
-			for _, s := range x.Authentication {
-				l = len(s)
+			for _, e := range x.Authentication {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
 		if len(x.AssertionMethod) > 0 {
-			for _, s := range x.AssertionMethod {
-				l = len(s)
+			for _, e := range x.AssertionMethod {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
 		if len(x.CapabilityInvocation) > 0 {
-			for _, s := range x.CapabilityInvocation {
-				l = len(s)
+			for _, e := range x.CapabilityInvocation {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
 		if len(x.CapabilityDelegation) > 0 {
-			for _, s := range x.CapabilityDelegation {
-				l = len(s)
+			for _, e := range x.CapabilityDelegation {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
 		if len(x.KeyAgreement) > 0 {
-			for _, s := range x.KeyAgreement {
-				l = len(s)
+			for _, e := range x.KeyAgreement {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
@@ -3413,45 +3438,80 @@ func (x *fastReflection_MsgCreateDidDocPayload) ProtoMethods() *protoiface.Metho
 		}
 		if len(x.KeyAgreement) > 0 {
 			for iNdEx := len(x.KeyAgreement) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.KeyAgreement[iNdEx])
-				copy(dAtA[i:], x.KeyAgreement[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.KeyAgreement[iNdEx])))
+				encoded, err := options.Marshal(x.KeyAgreement[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x4a
 			}
 		}
 		if len(x.CapabilityDelegation) > 0 {
 			for iNdEx := len(x.CapabilityDelegation) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.CapabilityDelegation[iNdEx])
-				copy(dAtA[i:], x.CapabilityDelegation[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.CapabilityDelegation[iNdEx])))
+				encoded, err := options.Marshal(x.CapabilityDelegation[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x42
 			}
 		}
 		if len(x.CapabilityInvocation) > 0 {
 			for iNdEx := len(x.CapabilityInvocation) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.CapabilityInvocation[iNdEx])
-				copy(dAtA[i:], x.CapabilityInvocation[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.CapabilityInvocation[iNdEx])))
+				encoded, err := options.Marshal(x.CapabilityInvocation[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x3a
 			}
 		}
 		if len(x.AssertionMethod) > 0 {
 			for iNdEx := len(x.AssertionMethod) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.AssertionMethod[iNdEx])
-				copy(dAtA[i:], x.AssertionMethod[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AssertionMethod[iNdEx])))
+				encoded, err := options.Marshal(x.AssertionMethod[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x32
 			}
 		}
 		if len(x.Authentication) > 0 {
 			for iNdEx := len(x.Authentication) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.Authentication[iNdEx])
-				copy(dAtA[i:], x.Authentication[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Authentication[iNdEx])))
+				encoded, err := options.Marshal(x.Authentication[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x2a
 			}
@@ -3680,7 +3740,7 @@ func (x *fastReflection_MsgCreateDidDocPayload) ProtoMethods() *protoiface.Metho
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Authentication", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -3690,29 +3750,31 @@ func (x *fastReflection_MsgCreateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Authentication = append(x.Authentication, string(dAtA[iNdEx:postIndex]))
+				x.Authentication = append(x.Authentication, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Authentication[len(x.Authentication)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 6:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AssertionMethod", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -3722,29 +3784,31 @@ func (x *fastReflection_MsgCreateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.AssertionMethod = append(x.AssertionMethod, string(dAtA[iNdEx:postIndex]))
+				x.AssertionMethod = append(x.AssertionMethod, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.AssertionMethod[len(x.AssertionMethod)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 7:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CapabilityInvocation", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -3754,29 +3818,31 @@ func (x *fastReflection_MsgCreateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.CapabilityInvocation = append(x.CapabilityInvocation, string(dAtA[iNdEx:postIndex]))
+				x.CapabilityInvocation = append(x.CapabilityInvocation, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CapabilityInvocation[len(x.CapabilityInvocation)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 8:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CapabilityDelegation", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -3786,29 +3852,31 @@ func (x *fastReflection_MsgCreateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.CapabilityDelegation = append(x.CapabilityDelegation, string(dAtA[iNdEx:postIndex]))
+				x.CapabilityDelegation = append(x.CapabilityDelegation, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CapabilityDelegation[len(x.CapabilityDelegation)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 9:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field KeyAgreement", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -3818,23 +3886,25 @@ func (x *fastReflection_MsgCreateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.KeyAgreement = append(x.KeyAgreement, string(dAtA[iNdEx:postIndex]))
+				x.KeyAgreement = append(x.KeyAgreement, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.KeyAgreement[len(x.KeyAgreement)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 10:
 				if wireType != 2 {
@@ -4550,7 +4620,7 @@ func (x *_MsgUpdateDidDocPayload_4_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgUpdateDidDocPayload_5_list)(nil)
 
 type _MsgUpdateDidDocPayload_5_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgUpdateDidDocPayload_5_list) Len() int {
@@ -4561,32 +4631,37 @@ func (x *_MsgUpdateDidDocPayload_5_list) Len() int {
 }
 
 func (x *_MsgUpdateDidDocPayload_5_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_5_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgUpdateDidDocPayload_5_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgUpdateDidDocPayload_5_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgUpdateDidDocPayload at list field Authentication as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_5_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgUpdateDidDocPayload_5_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_5_list) IsValid() bool {
@@ -4596,7 +4671,7 @@ func (x *_MsgUpdateDidDocPayload_5_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgUpdateDidDocPayload_6_list)(nil)
 
 type _MsgUpdateDidDocPayload_6_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgUpdateDidDocPayload_6_list) Len() int {
@@ -4607,32 +4682,37 @@ func (x *_MsgUpdateDidDocPayload_6_list) Len() int {
 }
 
 func (x *_MsgUpdateDidDocPayload_6_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_6_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgUpdateDidDocPayload_6_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgUpdateDidDocPayload_6_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgUpdateDidDocPayload at list field AssertionMethod as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_6_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgUpdateDidDocPayload_6_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_6_list) IsValid() bool {
@@ -4642,7 +4722,7 @@ func (x *_MsgUpdateDidDocPayload_6_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgUpdateDidDocPayload_7_list)(nil)
 
 type _MsgUpdateDidDocPayload_7_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgUpdateDidDocPayload_7_list) Len() int {
@@ -4653,32 +4733,37 @@ func (x *_MsgUpdateDidDocPayload_7_list) Len() int {
 }
 
 func (x *_MsgUpdateDidDocPayload_7_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_7_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgUpdateDidDocPayload_7_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgUpdateDidDocPayload_7_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgUpdateDidDocPayload at list field CapabilityInvocation as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_7_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgUpdateDidDocPayload_7_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_7_list) IsValid() bool {
@@ -4688,7 +4773,7 @@ func (x *_MsgUpdateDidDocPayload_7_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgUpdateDidDocPayload_8_list)(nil)
 
 type _MsgUpdateDidDocPayload_8_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgUpdateDidDocPayload_8_list) Len() int {
@@ -4699,32 +4784,37 @@ func (x *_MsgUpdateDidDocPayload_8_list) Len() int {
 }
 
 func (x *_MsgUpdateDidDocPayload_8_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_8_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgUpdateDidDocPayload_8_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgUpdateDidDocPayload_8_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgUpdateDidDocPayload at list field CapabilityDelegation as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_8_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgUpdateDidDocPayload_8_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_8_list) IsValid() bool {
@@ -4734,7 +4824,7 @@ func (x *_MsgUpdateDidDocPayload_8_list) IsValid() bool {
 var _ protoreflect.List = (*_MsgUpdateDidDocPayload_9_list)(nil)
 
 type _MsgUpdateDidDocPayload_9_list struct {
-	list *[]string
+	list *[]*VerificationRelationship
 }
 
 func (x *_MsgUpdateDidDocPayload_9_list) Len() int {
@@ -4745,32 +4835,37 @@ func (x *_MsgUpdateDidDocPayload_9_list) Len() int {
 }
 
 func (x *_MsgUpdateDidDocPayload_9_list) Get(i int) protoreflect.Value {
-	return protoreflect.ValueOfString((*x.list)[i])
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_9_list) Set(i int, value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_MsgUpdateDidDocPayload_9_list) Append(value protoreflect.Value) {
-	valueUnwrapped := value.String()
-	concreteValue := valueUnwrapped
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*VerificationRelationship)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_MsgUpdateDidDocPayload_9_list) AppendMutable() protoreflect.Value {
-	panic(fmt.Errorf("AppendMutable can not be called on message MsgUpdateDidDocPayload at list field KeyAgreement as it is not of Message kind"))
+	v := new(VerificationRelationship)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_9_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
 	*x.list = (*x.list)[:n]
 }
 
 func (x *_MsgUpdateDidDocPayload_9_list) NewElement() protoreflect.Value {
-	v := ""
-	return protoreflect.ValueOfString(v)
+	v := new(VerificationRelationship)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
 func (x *_MsgUpdateDidDocPayload_9_list) IsValid() bool {
@@ -5309,31 +5404,31 @@ func (x *fastReflection_MsgUpdateDidDocPayload) Mutable(fd protoreflect.FieldDes
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.authentication":
 		if x.Authentication == nil {
-			x.Authentication = []string{}
+			x.Authentication = []*VerificationRelationship{}
 		}
 		value := &_MsgUpdateDidDocPayload_5_list{list: &x.Authentication}
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.assertion_method":
 		if x.AssertionMethod == nil {
-			x.AssertionMethod = []string{}
+			x.AssertionMethod = []*VerificationRelationship{}
 		}
 		value := &_MsgUpdateDidDocPayload_6_list{list: &x.AssertionMethod}
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.capability_invocation":
 		if x.CapabilityInvocation == nil {
-			x.CapabilityInvocation = []string{}
+			x.CapabilityInvocation = []*VerificationRelationship{}
 		}
 		value := &_MsgUpdateDidDocPayload_7_list{list: &x.CapabilityInvocation}
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.capability_delegation":
 		if x.CapabilityDelegation == nil {
-			x.CapabilityDelegation = []string{}
+			x.CapabilityDelegation = []*VerificationRelationship{}
 		}
 		value := &_MsgUpdateDidDocPayload_8_list{list: &x.CapabilityDelegation}
 		return protoreflect.ValueOfList(value)
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.key_agreement":
 		if x.KeyAgreement == nil {
-			x.KeyAgreement = []string{}
+			x.KeyAgreement = []*VerificationRelationship{}
 		}
 		value := &_MsgUpdateDidDocPayload_9_list{list: &x.KeyAgreement}
 		return protoreflect.ValueOfList(value)
@@ -5378,19 +5473,19 @@ func (x *fastReflection_MsgUpdateDidDocPayload) NewField(fd protoreflect.FieldDe
 		list := []*VerificationMethod{}
 		return protoreflect.ValueOfList(&_MsgUpdateDidDocPayload_4_list{list: &list})
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.authentication":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgUpdateDidDocPayload_5_list{list: &list})
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.assertion_method":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgUpdateDidDocPayload_6_list{list: &list})
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.capability_invocation":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgUpdateDidDocPayload_7_list{list: &list})
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.capability_delegation":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgUpdateDidDocPayload_8_list{list: &list})
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.key_agreement":
-		list := []string{}
+		list := []*VerificationRelationship{}
 		return protoreflect.ValueOfList(&_MsgUpdateDidDocPayload_9_list{list: &list})
 	case "cheqd.did.v2.MsgUpdateDidDocPayload.service":
 		list := []*Service{}
@@ -5492,32 +5587,32 @@ func (x *fastReflection_MsgUpdateDidDocPayload) ProtoMethods() *protoiface.Metho
 			}
 		}
 		if len(x.Authentication) > 0 {
-			for _, s := range x.Authentication {
-				l = len(s)
+			for _, e := range x.Authentication {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
 		if len(x.AssertionMethod) > 0 {
-			for _, s := range x.AssertionMethod {
-				l = len(s)
+			for _, e := range x.AssertionMethod {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
 		if len(x.CapabilityInvocation) > 0 {
-			for _, s := range x.CapabilityInvocation {
-				l = len(s)
+			for _, e := range x.CapabilityInvocation {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
 		if len(x.CapabilityDelegation) > 0 {
-			for _, s := range x.CapabilityDelegation {
-				l = len(s)
+			for _, e := range x.CapabilityDelegation {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
 		if len(x.KeyAgreement) > 0 {
-			for _, s := range x.KeyAgreement {
-				l = len(s)
+			for _, e := range x.KeyAgreement {
+				l = options.Size(e)
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
@@ -5600,45 +5695,80 @@ func (x *fastReflection_MsgUpdateDidDocPayload) ProtoMethods() *protoiface.Metho
 		}
 		if len(x.KeyAgreement) > 0 {
 			for iNdEx := len(x.KeyAgreement) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.KeyAgreement[iNdEx])
-				copy(dAtA[i:], x.KeyAgreement[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.KeyAgreement[iNdEx])))
+				encoded, err := options.Marshal(x.KeyAgreement[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x4a
 			}
 		}
 		if len(x.CapabilityDelegation) > 0 {
 			for iNdEx := len(x.CapabilityDelegation) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.CapabilityDelegation[iNdEx])
-				copy(dAtA[i:], x.CapabilityDelegation[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.CapabilityDelegation[iNdEx])))
+				encoded, err := options.Marshal(x.CapabilityDelegation[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x42
 			}
 		}
 		if len(x.CapabilityInvocation) > 0 {
 			for iNdEx := len(x.CapabilityInvocation) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.CapabilityInvocation[iNdEx])
-				copy(dAtA[i:], x.CapabilityInvocation[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.CapabilityInvocation[iNdEx])))
+				encoded, err := options.Marshal(x.CapabilityInvocation[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x3a
 			}
 		}
 		if len(x.AssertionMethod) > 0 {
 			for iNdEx := len(x.AssertionMethod) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.AssertionMethod[iNdEx])
-				copy(dAtA[i:], x.AssertionMethod[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AssertionMethod[iNdEx])))
+				encoded, err := options.Marshal(x.AssertionMethod[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x32
 			}
 		}
 		if len(x.Authentication) > 0 {
 			for iNdEx := len(x.Authentication) - 1; iNdEx >= 0; iNdEx-- {
-				i -= len(x.Authentication[iNdEx])
-				copy(dAtA[i:], x.Authentication[iNdEx])
-				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Authentication[iNdEx])))
+				encoded, err := options.Marshal(x.Authentication[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 				i--
 				dAtA[i] = 0x2a
 			}
@@ -5867,7 +5997,7 @@ func (x *fastReflection_MsgUpdateDidDocPayload) ProtoMethods() *protoiface.Metho
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Authentication", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -5877,29 +6007,31 @@ func (x *fastReflection_MsgUpdateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Authentication = append(x.Authentication, string(dAtA[iNdEx:postIndex]))
+				x.Authentication = append(x.Authentication, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Authentication[len(x.Authentication)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 6:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AssertionMethod", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -5909,29 +6041,31 @@ func (x *fastReflection_MsgUpdateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.AssertionMethod = append(x.AssertionMethod, string(dAtA[iNdEx:postIndex]))
+				x.AssertionMethod = append(x.AssertionMethod, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.AssertionMethod[len(x.AssertionMethod)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 7:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CapabilityInvocation", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -5941,29 +6075,31 @@ func (x *fastReflection_MsgUpdateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.CapabilityInvocation = append(x.CapabilityInvocation, string(dAtA[iNdEx:postIndex]))
+				x.CapabilityInvocation = append(x.CapabilityInvocation, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CapabilityInvocation[len(x.CapabilityInvocation)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 8:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CapabilityDelegation", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -5973,29 +6109,31 @@ func (x *fastReflection_MsgUpdateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.CapabilityDelegation = append(x.CapabilityDelegation, string(dAtA[iNdEx:postIndex]))
+				x.CapabilityDelegation = append(x.CapabilityDelegation, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.CapabilityDelegation[len(x.CapabilityDelegation)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 9:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field KeyAgreement", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -6005,23 +6143,25 @@ func (x *fastReflection_MsgUpdateDidDocPayload) ProtoMethods() *protoiface.Metho
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.KeyAgreement = append(x.KeyAgreement, string(dAtA[iNdEx:postIndex]))
+				x.KeyAgreement = append(x.KeyAgreement, &VerificationRelationship{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.KeyAgreement[len(x.KeyAgreement)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			case 10:
 				if wireType != 2 {
@@ -7720,7 +7860,7 @@ type MsgCreateDidDocPayload struct {
 	// Default: https://www.w3.org/ns/did/v1
 	Context []string `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
 	// id is the DID of the DID document.
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	// controller is a list of DIDs that are allowed to control the DID document.
 	Controller []string `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
@@ -7736,19 +7876,19 @@ type MsgCreateDidDocPayload struct {
 	VerificationMethod []*VerificationMethod `protobuf:"bytes,4,rep,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
 	// authentication is a list of verification methods that can be used to
 	// authenticate as the DID subject.
-	Authentication []string `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
+	Authentication []*VerificationRelationship `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
 	// assertionMethod is a list of verification methods that can be used to
 	// assert statements as the DID subject.
-	AssertionMethod []string `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
+	AssertionMethod []*VerificationRelationship `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
 	// capabilityInvocation is a list of verification methods that can be used to
 	// invoke capabilities as the DID subject.
-	CapabilityInvocation []string `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
+	CapabilityInvocation []*VerificationRelationship `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
 	// capabilityDelegation is a list of verification methods that can be used to
 	// delegate capabilities as the DID subject.
-	CapabilityDelegation []string `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
+	CapabilityDelegation []*VerificationRelationship `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
 	// keyAgreement is a list of verification methods that can be used to perform
 	// key agreement as the DID subject.
-	KeyAgreement []string `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
+	KeyAgreement []*VerificationRelationship `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
 	// service is a list of services that can be used to interact with the DID subject.
 	// Documentation: https://www.w3.org/TR/did-core/#services
 	//
@@ -7813,35 +7953,35 @@ func (x *MsgCreateDidDocPayload) GetVerificationMethod() []*VerificationMethod {
 	return nil
 }
 
-func (x *MsgCreateDidDocPayload) GetAuthentication() []string {
+func (x *MsgCreateDidDocPayload) GetAuthentication() []*VerificationRelationship {
 	if x != nil {
 		return x.Authentication
 	}
 	return nil
 }
 
-func (x *MsgCreateDidDocPayload) GetAssertionMethod() []string {
+func (x *MsgCreateDidDocPayload) GetAssertionMethod() []*VerificationRelationship {
 	if x != nil {
 		return x.AssertionMethod
 	}
 	return nil
 }
 
-func (x *MsgCreateDidDocPayload) GetCapabilityInvocation() []string {
+func (x *MsgCreateDidDocPayload) GetCapabilityInvocation() []*VerificationRelationship {
 	if x != nil {
 		return x.CapabilityInvocation
 	}
 	return nil
 }
 
-func (x *MsgCreateDidDocPayload) GetCapabilityDelegation() []string {
+func (x *MsgCreateDidDocPayload) GetCapabilityDelegation() []*VerificationRelationship {
 	if x != nil {
 		return x.CapabilityDelegation
 	}
 	return nil
 }
 
-func (x *MsgCreateDidDocPayload) GetKeyAgreement() []string {
+func (x *MsgCreateDidDocPayload) GetKeyAgreement() []*VerificationRelationship {
 	if x != nil {
 		return x.KeyAgreement
 	}
@@ -7916,7 +8056,7 @@ type MsgUpdateDidDocPayload struct {
 	// Default: https://www.w3.org/ns/did/v1
 	Context []string `protobuf:"bytes,1,rep,name=context,proto3" json:"context,omitempty"`
 	// id is the DID of the DID document.
-	// Format: did:cheqd:<namespace>:<unique-identifier>
+	// Format: did:canow:<namespace>:<unique-identifier>
 	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	// controller is a list of DIDs that are allowed to control the DID document.
 	Controller []string `protobuf:"bytes,3,rep,name=controller,proto3" json:"controller,omitempty"`
@@ -7932,19 +8072,19 @@ type MsgUpdateDidDocPayload struct {
 	VerificationMethod []*VerificationMethod `protobuf:"bytes,4,rep,name=verification_method,json=verificationMethod,proto3" json:"verification_method,omitempty"`
 	// authentication is a list of verification methods that can be used to
 	// authenticate as the DID subject.
-	Authentication []string `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
+	Authentication []*VerificationRelationship `protobuf:"bytes,5,rep,name=authentication,proto3" json:"authentication,omitempty"`
 	// assertionMethod is a list of verification methods that can be used to
 	// assert statements as the DID subject.
-	AssertionMethod []string `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
+	AssertionMethod []*VerificationRelationship `protobuf:"bytes,6,rep,name=assertion_method,json=assertionMethod,proto3" json:"assertion_method,omitempty"`
 	// capabilityInvocation is a list of verification methods that can be used to
 	// invoke capabilities as the DID subject.
-	CapabilityInvocation []string `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
+	CapabilityInvocation []*VerificationRelationship `protobuf:"bytes,7,rep,name=capability_invocation,json=capabilityInvocation,proto3" json:"capability_invocation,omitempty"`
 	// capabilityDelegation is a list of verification methods that can be used to
 	// delegate capabilities as the DID subject.
-	CapabilityDelegation []string `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
+	CapabilityDelegation []*VerificationRelationship `protobuf:"bytes,8,rep,name=capability_delegation,json=capabilityDelegation,proto3" json:"capability_delegation,omitempty"`
 	// keyAgreement is a list of verification methods that can be used to perform
 	// key agreement as the DID subject.
-	KeyAgreement []string `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
+	KeyAgreement []*VerificationRelationship `protobuf:"bytes,9,rep,name=key_agreement,json=keyAgreement,proto3" json:"key_agreement,omitempty"`
 	// service is a list of services that can be used to interact with the DID subject.
 	// Documentation: https://www.w3.org/TR/did-core/#services
 	//
@@ -8010,35 +8150,35 @@ func (x *MsgUpdateDidDocPayload) GetVerificationMethod() []*VerificationMethod {
 	return nil
 }
 
-func (x *MsgUpdateDidDocPayload) GetAuthentication() []string {
+func (x *MsgUpdateDidDocPayload) GetAuthentication() []*VerificationRelationship {
 	if x != nil {
 		return x.Authentication
 	}
 	return nil
 }
 
-func (x *MsgUpdateDidDocPayload) GetAssertionMethod() []string {
+func (x *MsgUpdateDidDocPayload) GetAssertionMethod() []*VerificationRelationship {
 	if x != nil {
 		return x.AssertionMethod
 	}
 	return nil
 }
 
-func (x *MsgUpdateDidDocPayload) GetCapabilityInvocation() []string {
+func (x *MsgUpdateDidDocPayload) GetCapabilityInvocation() []*VerificationRelationship {
 	if x != nil {
 		return x.CapabilityInvocation
 	}
 	return nil
 }
 
-func (x *MsgUpdateDidDocPayload) GetCapabilityDelegation() []string {
+func (x *MsgUpdateDidDocPayload) GetCapabilityDelegation() []*VerificationRelationship {
 	if x != nil {
 		return x.CapabilityDelegation
 	}
 	return nil
 }
 
-func (x *MsgUpdateDidDocPayload) GetKeyAgreement() []string {
+func (x *MsgUpdateDidDocPayload) GetKeyAgreement() []*VerificationRelationship {
 	if x != nil {
 		return x.KeyAgreement
 	}
@@ -8225,7 +8365,7 @@ var file_cheqd_did_v2_tx_proto_rawDesc = []byte{
 	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x14, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69,
 	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x49, 0x64, 0x12, 0x1c,
 	0x0a, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0c, 0x52, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x22, 0x8b, 0x04, 0x0a,
+	0x0c, 0x52, 0x09, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x74, 0x75, 0x72, 0x65, 0x22, 0xd3, 0x05, 0x0a,
 	0x16, 0x4d, 0x73, 0x67, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x44, 0x69, 0x64, 0x44, 0x6f, 0x63,
 	0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65,
 	0x78, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78,
@@ -8237,58 +8377,83 @@ var file_cheqd_did_v2_tx_proto_rawDesc = []byte{
 	0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65,
 	0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64,
 	0x52, 0x12, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65,
-	0x74, 0x68, 0x6f, 0x64, 0x12, 0x26, 0x0a, 0x0e, 0x61, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69,
-	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0e, 0x61, 0x75,
-	0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x29, 0x0a, 0x10,
-	0x61, 0x73, 0x73, 0x65, 0x72, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6d, 0x65, 0x74, 0x68, 0x6f, 0x64,
-	0x18, 0x06, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0f, 0x61, 0x73, 0x73, 0x65, 0x72, 0x74, 0x69, 0x6f,
-	0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x12, 0x33, 0x0a, 0x15, 0x63, 0x61, 0x70, 0x61, 0x62,
+	0x74, 0x68, 0x6f, 0x64, 0x12, 0x4e, 0x0a, 0x0e, 0x61, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63,
+	0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65, 0x72, 0x69,
+	0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x68, 0x69, 0x70, 0x52, 0x0e, 0x61, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x51, 0x0a, 0x10, 0x61, 0x73, 0x73, 0x65, 0x72, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x6d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26,
+	0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65,
+	0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x73, 0x68, 0x69, 0x70, 0x52, 0x0f, 0x61, 0x73, 0x73, 0x65, 0x72, 0x74, 0x69, 0x6f,
+	0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x12, 0x5b, 0x0a, 0x15, 0x63, 0x61, 0x70, 0x61, 0x62,
 	0x69, 0x6c, 0x69, 0x74, 0x79, 0x5f, 0x69, 0x6e, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x18, 0x07, 0x20, 0x03, 0x28, 0x09, 0x52, 0x14, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69,
-	0x74, 0x79, 0x49, 0x6e, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x33, 0x0a, 0x15,
-	0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x5f, 0x64, 0x65, 0x6c, 0x65, 0x67,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x08, 0x20, 0x03, 0x28, 0x09, 0x52, 0x14, 0x63, 0x61, 0x70,
+	0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64,
+	0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x68, 0x69, 0x70, 0x52, 0x14,
+	0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x49, 0x6e, 0x76, 0x6f, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x5b, 0x0a, 0x15, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69,
+	0x74, 0x79, 0x5f, 0x64, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x08, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e,
+	0x76, 0x32, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x68, 0x69, 0x70, 0x52, 0x14, 0x63, 0x61, 0x70,
 	0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x12, 0x23, 0x0a, 0x0d, 0x6b, 0x65, 0x79, 0x5f, 0x61, 0x67, 0x72, 0x65, 0x65, 0x6d, 0x65,
-	0x6e, 0x74, 0x18, 0x09, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0c, 0x6b, 0x65, 0x79, 0x41, 0x67, 0x72,
-	0x65, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x2f, 0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x18, 0x0a, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e,
-	0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x52, 0x07,
-	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x22, 0x0a, 0x0d, 0x61, 0x6c, 0x73, 0x6f, 0x5f,
-	0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x5f, 0x61, 0x73, 0x18, 0x0b, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0b,
-	0x61, 0x6c, 0x73, 0x6f, 0x4b, 0x6e, 0x6f, 0x77, 0x6e, 0x41, 0x73, 0x12, 0x1d, 0x0a, 0x0a, 0x76,
-	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x09, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x51, 0x0a, 0x17, 0x4d, 0x73,
-	0x67, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x44, 0x69, 0x64, 0x44, 0x6f, 0x63, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64,
-	0x2e, 0x76, 0x32, 0x2e, 0x44, 0x69, 0x64, 0x44, 0x6f, 0x63, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x65,
-	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x8b, 0x04,
-	0x0a, 0x16, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x69, 0x64, 0x44, 0x6f,
-	0x63, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74,
-	0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65,
-	0x78, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
-	0x69, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65, 0x72,
-	0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c,
-	0x65, 0x72, 0x12, 0x51, 0x0a, 0x13, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x6d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32,
-	0x20, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56,
-	0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f,
-	0x64, 0x52, 0x12, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d,
-	0x65, 0x74, 0x68, 0x6f, 0x64, 0x12, 0x26, 0x0a, 0x0e, 0x61, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74,
-	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0e, 0x61,
-	0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x29, 0x0a,
+	0x6e, 0x12, 0x4b, 0x0a, 0x0d, 0x6b, 0x65, 0x79, 0x5f, 0x61, 0x67, 0x72, 0x65, 0x65, 0x6d, 0x65,
+	0x6e, 0x74, 0x18, 0x09, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64,
+	0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x68, 0x69, 0x70,
+	0x52, 0x0c, 0x6b, 0x65, 0x79, 0x41, 0x67, 0x72, 0x65, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x2f,
+	0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x18, 0x0a, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x15, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x53,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x52, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
+	0x22, 0x0a, 0x0d, 0x61, 0x6c, 0x73, 0x6f, 0x5f, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x5f, 0x61, 0x73,
+	0x18, 0x0b, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0b, 0x61, 0x6c, 0x73, 0x6f, 0x4b, 0x6e, 0x6f, 0x77,
+	0x6e, 0x41, 0x73, 0x12, 0x1d, 0x0a, 0x0a, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
+	0x64, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e,
+	0x49, 0x64, 0x22, 0x51, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x44,
+	0x69, 0x64, 0x44, 0x6f, 0x63, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a,
+	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x63,
+	0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x44, 0x69, 0x64, 0x44,
+	0x6f, 0x63, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x52, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0xd3, 0x05, 0x0a, 0x16, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x44, 0x69, 0x64, 0x44, 0x6f, 0x63, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64,
+	0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x09, 0x52, 0x07, 0x63, 0x6f, 0x6e, 0x74, 0x65, 0x78, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x63, 0x6f,
+	0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0a,
+	0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x12, 0x51, 0x0a, 0x13, 0x76, 0x65,
+	0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6d, 0x65, 0x74, 0x68, 0x6f,
+	0x64, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e,
+	0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x12, 0x76, 0x65, 0x72, 0x69, 0x66,
+	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x12, 0x4e, 0x0a,
+	0x0e, 0x61, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18,
+	0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69,
+	0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x68, 0x69, 0x70, 0x52, 0x0e, 0x61,
+	0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x51, 0x0a,
 	0x10, 0x61, 0x73, 0x73, 0x65, 0x72, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6d, 0x65, 0x74, 0x68, 0x6f,
-	0x64, 0x18, 0x06, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0f, 0x61, 0x73, 0x73, 0x65, 0x72, 0x74, 0x69,
-	0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x12, 0x33, 0x0a, 0x15, 0x63, 0x61, 0x70, 0x61,
-	0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x5f, 0x69, 0x6e, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x18, 0x07, 0x20, 0x03, 0x28, 0x09, 0x52, 0x14, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c,
-	0x69, 0x74, 0x79, 0x49, 0x6e, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x33, 0x0a,
+	0x64, 0x18, 0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e,
+	0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x68, 0x69, 0x70, 0x52,
+	0x0f, 0x61, 0x73, 0x73, 0x65, 0x72, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64,
+	0x12, 0x5b, 0x0a, 0x15, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x5f, 0x69,
+	0x6e, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x26, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56,
+	0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x68, 0x69, 0x70, 0x52, 0x14, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c,
+	0x69, 0x74, 0x79, 0x49, 0x6e, 0x76, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x5b, 0x0a,
 	0x15, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x5f, 0x64, 0x65, 0x6c, 0x65,
-	0x67, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x08, 0x20, 0x03, 0x28, 0x09, 0x52, 0x14, 0x63, 0x61,
-	0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x12, 0x23, 0x0a, 0x0d, 0x6b, 0x65, 0x79, 0x5f, 0x61, 0x67, 0x72, 0x65, 0x65, 0x6d,
-	0x65, 0x6e, 0x74, 0x18, 0x09, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0c, 0x6b, 0x65, 0x79, 0x41, 0x67,
+	0x67, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x08, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63,
+	0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x56, 0x65, 0x72, 0x69,
+	0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x68, 0x69, 0x70, 0x52, 0x14, 0x63, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79,
+	0x44, 0x65, 0x6c, 0x65, 0x67, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x4b, 0x0a, 0x0d, 0x6b, 0x65,
+	0x79, 0x5f, 0x61, 0x67, 0x72, 0x65, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x09, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x26, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32,
+	0x2e, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x6c,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x68, 0x69, 0x70, 0x52, 0x0c, 0x6b, 0x65, 0x79, 0x41, 0x67,
 	0x72, 0x65, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x2f, 0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x18, 0x0a, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x63, 0x68, 0x65, 0x71, 0x64,
 	0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x52,
@@ -8332,8 +8497,8 @@ var file_cheqd_did_v2_tx_proto_rawDesc = []byte{
 	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0xa4, 0x01, 0x0a, 0x10, 0x63, 0x6f, 0x6d,
 	0x2e, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x64, 0x69, 0x64, 0x2e, 0x76, 0x32, 0x42, 0x07, 0x54,
 	0x78, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x35, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
-	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x68, 0x65, 0x71, 0x64, 0x2f, 0x63, 0x68, 0x65, 0x71, 0x64,
-	0x2d, 0x6e, 0x6f, 0x64, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x32, 0x2f, 0x63, 0x68, 0x65,
+	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x61, 0x6e, 0x6f, 0x77, 0x2d, 0x63, 0x6f, 0x2f, 0x63, 0x68,
+	0x65, 0x71, 0x64, 0x2d, 0x6e, 0x6f, 0x64, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x32, 0x2f, 0x63, 0x68, 0x65,
 	0x71, 0x64, 0x2f, 0x64, 0x69, 0x64, 0x2f, 0x76, 0x32, 0x3b, 0x64, 0x69, 0x64, 0x76, 0x32, 0xa2,
 	0x02, 0x03, 0x43, 0x44, 0x58, 0xaa, 0x02, 0x0c, 0x43, 0x68, 0x65, 0x71, 0x64, 0x2e, 0x44, 0x69,
 	0x64, 0x2e, 0x56, 0x32, 0xca, 0x02, 0x0c, 0x43, 0x68, 0x65, 0x71, 0x64, 0x5c, 0x44, 0x69, 0x64,
@@ -8368,8 +8533,9 @@ var file_cheqd_did_v2_tx_proto_goTypes = []interface{}{
 	(*MsgDeactivateDidDocPayload)(nil),  // 8: cheqd.did.v2.MsgDeactivateDidDocPayload
 	(*MsgDeactivateDidDocResponse)(nil), // 9: cheqd.did.v2.MsgDeactivateDidDocResponse
 	(*VerificationMethod)(nil),          // 10: cheqd.did.v2.VerificationMethod
-	(*Service)(nil),                     // 11: cheqd.did.v2.Service
-	(*DidDocWithMetadata)(nil),          // 12: cheqd.did.v2.DidDocWithMetadata
+	(*VerificationRelationship)(nil),    // 11: cheqd.did.v2.VerificationRelationship
+	(*Service)(nil),                     // 12: cheqd.did.v2.Service
+	(*DidDocWithMetadata)(nil),          // 13: cheqd.did.v2.DidDocWithMetadata
 }
 var file_cheqd_did_v2_tx_proto_depIdxs = []int32{
 	4,  // 0: cheqd.did.v2.MsgCreateDidDoc.payload:type_name -> cheqd.did.v2.MsgCreateDidDocPayload
@@ -8379,23 +8545,33 @@ var file_cheqd_did_v2_tx_proto_depIdxs = []int32{
 	8,  // 4: cheqd.did.v2.MsgDeactivateDidDoc.payload:type_name -> cheqd.did.v2.MsgDeactivateDidDocPayload
 	3,  // 5: cheqd.did.v2.MsgDeactivateDidDoc.signatures:type_name -> cheqd.did.v2.SignInfo
 	10, // 6: cheqd.did.v2.MsgCreateDidDocPayload.verification_method:type_name -> cheqd.did.v2.VerificationMethod
-	11, // 7: cheqd.did.v2.MsgCreateDidDocPayload.service:type_name -> cheqd.did.v2.Service
-	12, // 8: cheqd.did.v2.MsgCreateDidDocResponse.value:type_name -> cheqd.did.v2.DidDocWithMetadata
-	10, // 9: cheqd.did.v2.MsgUpdateDidDocPayload.verification_method:type_name -> cheqd.did.v2.VerificationMethod
-	11, // 10: cheqd.did.v2.MsgUpdateDidDocPayload.service:type_name -> cheqd.did.v2.Service
-	12, // 11: cheqd.did.v2.MsgUpdateDidDocResponse.value:type_name -> cheqd.did.v2.DidDocWithMetadata
-	12, // 12: cheqd.did.v2.MsgDeactivateDidDocResponse.value:type_name -> cheqd.did.v2.DidDocWithMetadata
-	0,  // 13: cheqd.did.v2.Msg.CreateDidDoc:input_type -> cheqd.did.v2.MsgCreateDidDoc
-	1,  // 14: cheqd.did.v2.Msg.UpdateDidDoc:input_type -> cheqd.did.v2.MsgUpdateDidDoc
-	2,  // 15: cheqd.did.v2.Msg.DeactivateDidDoc:input_type -> cheqd.did.v2.MsgDeactivateDidDoc
-	5,  // 16: cheqd.did.v2.Msg.CreateDidDoc:output_type -> cheqd.did.v2.MsgCreateDidDocResponse
-	7,  // 17: cheqd.did.v2.Msg.UpdateDidDoc:output_type -> cheqd.did.v2.MsgUpdateDidDocResponse
-	9,  // 18: cheqd.did.v2.Msg.DeactivateDidDoc:output_type -> cheqd.did.v2.MsgDeactivateDidDocResponse
-	16, // [16:19] is the sub-list for method output_type
-	13, // [13:16] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	11, // 7: cheqd.did.v2.MsgCreateDidDocPayload.authentication:type_name -> cheqd.did.v2.VerificationRelationship
+	11, // 8: cheqd.did.v2.MsgCreateDidDocPayload.assertion_method:type_name -> cheqd.did.v2.VerificationRelationship
+	11, // 9: cheqd.did.v2.MsgCreateDidDocPayload.capability_invocation:type_name -> cheqd.did.v2.VerificationRelationship
+	11, // 10: cheqd.did.v2.MsgCreateDidDocPayload.capability_delegation:type_name -> cheqd.did.v2.VerificationRelationship
+	11, // 11: cheqd.did.v2.MsgCreateDidDocPayload.key_agreement:type_name -> cheqd.did.v2.VerificationRelationship
+	12, // 12: cheqd.did.v2.MsgCreateDidDocPayload.service:type_name -> cheqd.did.v2.Service
+	13, // 13: cheqd.did.v2.MsgCreateDidDocResponse.value:type_name -> cheqd.did.v2.DidDocWithMetadata
+	10, // 14: cheqd.did.v2.MsgUpdateDidDocPayload.verification_method:type_name -> cheqd.did.v2.VerificationMethod
+	11, // 15: cheqd.did.v2.MsgUpdateDidDocPayload.authentication:type_name -> cheqd.did.v2.VerificationRelationship
+	11, // 16: cheqd.did.v2.MsgUpdateDidDocPayload.assertion_method:type_name -> cheqd.did.v2.VerificationRelationship
+	11, // 17: cheqd.did.v2.MsgUpdateDidDocPayload.capability_invocation:type_name -> cheqd.did.v2.VerificationRelationship
+	11, // 18: cheqd.did.v2.MsgUpdateDidDocPayload.capability_delegation:type_name -> cheqd.did.v2.VerificationRelationship
+	11, // 19: cheqd.did.v2.MsgUpdateDidDocPayload.key_agreement:type_name -> cheqd.did.v2.VerificationRelationship
+	12, // 20: cheqd.did.v2.MsgUpdateDidDocPayload.service:type_name -> cheqd.did.v2.Service
+	13, // 21: cheqd.did.v2.MsgUpdateDidDocResponse.value:type_name -> cheqd.did.v2.DidDocWithMetadata
+	13, // 22: cheqd.did.v2.MsgDeactivateDidDocResponse.value:type_name -> cheqd.did.v2.DidDocWithMetadata
+	0,  // 23: cheqd.did.v2.Msg.CreateDidDoc:input_type -> cheqd.did.v2.MsgCreateDidDoc
+	1,  // 24: cheqd.did.v2.Msg.UpdateDidDoc:input_type -> cheqd.did.v2.MsgUpdateDidDoc
+	2,  // 25: cheqd.did.v2.Msg.DeactivateDidDoc:input_type -> cheqd.did.v2.MsgDeactivateDidDoc
+	5,  // 26: cheqd.did.v2.Msg.CreateDidDoc:output_type -> cheqd.did.v2.MsgCreateDidDocResponse
+	7,  // 27: cheqd.did.v2.Msg.UpdateDidDoc:output_type -> cheqd.did.v2.MsgUpdateDidDocResponse
+	9,  // 28: cheqd.did.v2.Msg.DeactivateDidDoc:output_type -> cheqd.did.v2.MsgDeactivateDidDocResponse
+	26, // [26:29] is the sub-list for method output_type
+	23, // [23:26] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_cheqd_did_v2_tx_proto_init() }

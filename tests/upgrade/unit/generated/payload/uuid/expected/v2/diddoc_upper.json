@@ -4,60 +4,82 @@
             "abc",
             "def"
         ],
-        "id": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
+        "id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
         "controller": [
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808"
+            "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808"
         ],
         "verificationMethod": [
             {
-                "id": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-1",
+                "id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-1",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
+                "controller": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
                 "verificationMaterial": "z6Mkk9TamLok1PQjyBWTMqbJQHSXJKFv1HNCGhfoJehKLQSd"
             },
             {
-                "id": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-2",
+                "id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-2",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
+                "controller": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
                 "verificationMaterial": "z6MkrsTjbK78f9j51EDUsHtPpc76A23h7i5V3x1cTUbtRy5A"
             },
             {
-                "id": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-3",
+                "id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-3",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
+                "controller": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
                 "verificationMaterial": "z6MkssCp5pzQWtJnHQSSjfkzp5hz2haR2vnfPaAAv7uAjBL8"
             },
             {
-                "id": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-4",
+                "id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-4",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
+                "controller": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808",
                 "verificationMaterial": "z6MkvHQLprMMxhavc1DTsbWgDFDdF5FaCVuZyPHuahpMMDUE"
             }
         ],
         "authentication": [
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-1",
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-2"
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-1"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-2"
+            }
         ],
         "assertionMethod": [
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-3"
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-3"
+            }
         ],
         "capabilityInvocation": [
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-4",
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-1"
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-4"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-1"
+            }
         ],
         "capabilityDelegation": [
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-4",
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-2"
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-4"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-2"
+            }
         ],
         "keyAgreement": [
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-1",
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-2",
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-3",
-            "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-4"
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-1"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-2"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-3"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#key-4"
+            }
         ],
         "service": [
             {
-                "id": "did:cheqd:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#service-1",
+                "id": "did:canow:testnet:d87f512c-cbfc-58d1-b995-f526589ad808#service-1",
                 "serviceType": "type-1",
                 "serviceEndpoint": [
                     "endpoint-1"

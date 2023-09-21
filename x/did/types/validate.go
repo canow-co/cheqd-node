@@ -7,7 +7,7 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/multiformats/go-multibase"
 )
 
@@ -61,47 +61,36 @@ func IsDID(allowedNamespaces []string) *CustomErrorRule {
 	})
 }
 
-func IsDIDUrl(allowedNamespaces []string, pathRule, queryRule, fragmentRule ValidationType) *CustomErrorRule {
+func IsSpecificDIDUrl(allowedNamespaces []string, pathRule, queryRule, fragmentRule ValidationType) *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsSpecificDIDUrl must be only applied on string properties")
+		}
+
+		return validateDIDUrl(casted, DidMethod, allowedNamespaces, pathRule, queryRule, fragmentRule)
+	})
+}
+
+func IsDIDUrl(method string, allowedNamespaces []string, pathRule, queryRule, fragmentRule ValidationType) *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
 			panic("IsDIDUrl must be only applied on string properties")
 		}
 
-		if err := utils.ValidateDIDUrl(casted, DidMethod, allowedNamespaces); err != nil {
-			return err
+		return validateDIDUrl(casted, method, allowedNamespaces, pathRule, queryRule, fragmentRule)
+	})
+}
+
+func IsValidVerificationMethodReference(sharedVerificationMethods []*VerificationMethod) *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsValidVerificationMethodReference must be only applied on string properties")
 		}
 
-		_, path, query, fragment, err := utils.TrySplitDIDUrl(casted)
-		if err != nil {
-			return err
-		}
-
-		if pathRule == Required && path == "" {
-			return errors.New("path is required")
-		}
-
-		if pathRule == Empty && path != "" {
-			return errors.New("path must be empty")
-		}
-
-		if queryRule == Required && query == "" {
-			return errors.New("query is required")
-		}
-
-		if queryRule == Empty && query != "" {
-			return errors.New("query must be empty")
-		}
-
-		if fragmentRule == Required && fragment == "" {
-			return errors.New("fragment is required")
-		}
-
-		if fragmentRule == Empty && fragment != "" {
-			return errors.New("fragment must be empty")
-		}
-
-		return nil
+		return validateVerificationMethodReference(casted, sharedVerificationMethods)
 	})
 }
 
@@ -138,6 +127,17 @@ func IsMultibaseEd25519VerificationKey2020() *CustomErrorRule {
 	})
 }
 
+func IsMultibaseBls12381G2Key2020Rule() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("ValidBls12381G2Key2020Rule must be only applied on string properties")
+		}
+
+		return utils.ValidateMultibaseMulticodecBls12381G2PubKey(casted)
+	})
+}
+
 func IsBase58Ed25519VerificationKey2018() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
@@ -170,11 +170,22 @@ func IsMultibaseEncodedEd25519PubKey() *CustomErrorRule {
 	})
 }
 
+func IsMultibaseMulticodecBls12381G2PubKey() *CustomErrorRule {
+	return NewCustomErrorRule(func(value interface{}) error {
+		casted, ok := value.(string)
+		if !ok {
+			panic("IsMultibaseMulticodecBls12381G2PubKey must be only applied on string properties")
+		}
+
+		return utils.ValidateMultibaseMulticodecBls12381G2PubKey(casted)
+	})
+}
+
 func IsJWK() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("IsJWK must be only applied on string properties")
+			panic("IsJWK must be only applied on byte array properties")
 		}
 
 		return utils.ValidateJWK(casted)
@@ -200,7 +211,7 @@ func IsUniqueStrList() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]string)
 		if !ok {
-			panic("IsSet must be only applied on string array properties")
+			panic("IsUniqueStrList must be only applied on string array properties")
 		}
 
 		if !utils.IsUnique(casted) {
@@ -215,9 +226,55 @@ func IsUUID() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.(string)
 		if !ok {
-			panic("IsDID must be only applied on string properties")
+			panic("IsUUID must be only applied on string properties")
 		}
 
 		return utils.ValidateUUID(casted)
 	})
+}
+
+func validateDIDUrl(did string, method string, allowedNamespaces []string, pathRule, queryRule, fragmentRule ValidationType) error {
+	if err := utils.ValidateDIDUrl(did, method, allowedNamespaces); err != nil {
+		return err
+	}
+
+	_, path, query, fragment, err := utils.TrySplitDIDUrl(did)
+	if err != nil {
+		return err
+	}
+
+	if pathRule == Required && path == "" {
+		return errors.New("path is required")
+	}
+
+	if pathRule == Empty && path != "" {
+		return errors.New("path must be empty")
+	}
+
+	if queryRule == Required && query == "" {
+		return errors.New("query is required")
+	}
+
+	if queryRule == Empty && query != "" {
+		return errors.New("query must be empty")
+	}
+
+	if fragmentRule == Required && fragment == "" {
+		return errors.New("fragment is required")
+	}
+
+	if fragmentRule == Empty && fragment != "" {
+		return errors.New("fragment must be empty")
+	}
+
+	return nil
+}
+
+func validateVerificationMethodReference(verificationMethodReference string, sharedVerificationMethods []*VerificationMethod) error {
+	_, found := FindVerificationMethod(sharedVerificationMethods, verificationMethodReference)
+	if !found {
+		return fmt.Errorf("can't resolve verification method reference: %s", verificationMethodReference)
+	}
+
+	return nil
 }

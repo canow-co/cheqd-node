@@ -1,4 +1,4 @@
-module github.com/cheqd/cheqd-node/api/v2
+module github.com/canow-co/cheqd-node/api/v2
 
 go 1.18
 

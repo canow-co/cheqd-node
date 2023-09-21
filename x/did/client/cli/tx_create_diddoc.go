@@ -3,8 +3,8 @@ package cli
 import (
 	"encoding/json"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -17,9 +17,9 @@ func CmdCreateDidDoc() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-did [payload-file] --version-id [version-id]",
 		Short: "Create a new DID and associated DID Document.",
-		Long: `Creates a new DID and associated DID Document. 
+		Long: `Creates a new DID and associated DID Document.
 [payload-file] is JSON encoded DID Document alongside with sign inputs.
-Version ID is optional and is determined by the '--version-id' flag. 
+Version ID is optional and is determined by the '--version-id' flag.
 If not provided, a random UUID will be used as version-id.
 
 NOTES:
@@ -31,12 +31,18 @@ Example payload file:
 {
     "payload": {
         "context": [ "https://www.w3.org/ns/did/v1" ],
-        "id": "did:cheqd:<namespace>:<unique-identifier>",
+        "id": "did:canow:<namespace>:<unique-identifier>",
         "controller": [
-            "did:cheqd:<namespace>:<unique-identifier>"
+            "did:canow:<namespace>:<unique-identifier>"
         ],
         "authentication": [
-            "did:cheqd:<namespace>:<unique-identifier>#<key-id>"
+            "did:canow:<namespace>:<unique-identifier>#<key-id>",
+			{
+                "id": "did:canow:<namespace>:<unique-identifier>#<key-id>",
+                "type": "<verification-method-type>",
+                "controller": "did:canow:<namespace>:<unique-identifier>",
+                "publicKeyMultibase": "<public-key>"
+            }
         ],
         "assertionMethod": [],
         "capabilityInvocation": [],
@@ -45,15 +51,15 @@ Example payload file:
         "alsoKnownAs": [],
         "verificationMethod": [
             {
-                "id": "did:cheqd:<namespace>:<unique-identifier>#<key-id>",
+                "id": "did:canow:<namespace>:<unique-identifier>#<key-id>",
                 "type": "<verification-method-type>",
-                "controller": "did:cheqd:<namespace>:<unique-identifier>",
+                "controller": "did:canow:<namespace>:<unique-identifier>",
                 "publicKeyMultibase": "<public-key>"
             }
         ],
         "service": [
 			{
-                "id": "did:cheqd:<namespace>:<unique-identifier>#<service-id>",
+                "id": "did:canow:<namespace>:<unique-identifier>#<service-id>",
                 "type": "<service-type>",
                 "serviceEndpoint": [
                     "<service-endpoint>"
@@ -63,7 +69,7 @@ Example payload file:
     },
 	"signInputs": [
         {
-            "verificationMethodId": "did:cheqd:<namespace>:<unique-identifier>#<key-id>",
+            "verificationMethodId": "did:canow:<namespace>:<unique-identifier>#<key-id>",
             "privKey": "<private-key-bytes-encoded-to-base64>"
         }
     ]
@@ -109,17 +115,38 @@ Example payload file:
 				return err
 			}
 
+			authentication, err := GetMixedVerificationMethodList(specPayload.Authentication)
+			if err != nil {
+				return err
+			}
+			assertionMethod, err := GetMixedVerificationMethodList(specPayload.AssertionMethod)
+			if err != nil {
+				return err
+			}
+			capabilityInvocation, err := GetMixedVerificationMethodList(specPayload.CapabilityInvocation)
+			if err != nil {
+				return err
+			}
+			capabilityDelegation, err := GetMixedVerificationMethodList(specPayload.CapabilityDelegation)
+			if err != nil {
+				return err
+			}
+			keyAgreement, err := GetMixedVerificationMethodList(specPayload.KeyAgreement)
+			if err != nil {
+				return err
+			}
+
 			// Construct MsgCreateDidDocPayload
 			payload := types.MsgCreateDidDocPayload{
 				Context:              specPayload.Context,
 				Id:                   specPayload.ID,
 				Controller:           specPayload.Controller,
 				VerificationMethod:   verificationMethod,
-				Authentication:       specPayload.Authentication,
-				AssertionMethod:      specPayload.AssertionMethod,
-				CapabilityInvocation: specPayload.CapabilityInvocation,
-				CapabilityDelegation: specPayload.CapabilityDelegation,
-				KeyAgreement:         specPayload.KeyAgreement,
+				Authentication:       authentication,
+				AssertionMethod:      assertionMethod,
+				CapabilityInvocation: capabilityInvocation,
+				CapabilityDelegation: capabilityDelegation,
+				KeyAgreement:         keyAgreement,
 				Service:              service,
 				AlsoKnownAs:          specPayload.AlsoKnownAs,
 				VersionId:            versionID,
@@ -149,7 +176,7 @@ Example payload file:
 
 	// add custom / override flags
 	cmd.Flags().String(FlagVersionID, "", "Version ID of the DID Document")
-	cmd.Flags().String(flags.FlagFees, sdk.NewCoin(types.BaseMinimalDenom, sdk.NewInt(types.DefaultCreateDidTxFee)).String(), "Fixed fee for DID creation, e.g., 50000000000ncheq. Please check what the current fees are by running 'cheqd-noded query params subspace cheqd feeparams'")
+	cmd.Flags().String(flags.FlagFees, sdk.NewCoin(types.BaseMinimalDenom, sdk.NewInt(types.DefaultCreateDidTxFee)).String(), "Fixed fee for DID creation, e.g., 50000000000"+types.BaseMinimalDenom+". Please check what the current fees are by running 'cheqd-noded query params subspace cheqd feeparams'")
 
 	_ = cmd.MarkFlagRequired(flags.FlagFees)
 	_ = cmd.MarkFlagRequired(flags.FlagGas)

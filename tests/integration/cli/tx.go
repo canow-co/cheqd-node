@@ -3,11 +3,11 @@ package cli
 import (
 	"encoding/json"
 
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
-	"github.com/cheqd/cheqd-node/x/did/client/cli"
-	"github.com/cheqd/cheqd-node/x/did/types"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/x/did/client/cli"
+	"github.com/canow-co/cheqd-node/x/did/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -67,6 +67,10 @@ func GrantFees(granter, grantee string, feeParams []string) (sdk.TxResponse, err
 
 func RevokeFeeGrant(granter, grantee string, feeParams []string) (sdk.TxResponse, error) {
 	return Tx("feegrant", "revoke", granter, feeParams, granter, grantee)
+}
+
+func TransferToken(from string, to string, amount string, feeParams []string) (sdk.TxResponse, error) {
+	return Tx("bank", "send", from, feeParams, from, to, amount)
 }
 
 func CreateDidDoc(tmpDir string, payload cli.DIDDocument, signInputs []cli.SignInput, versionID, from string, feeParams []string) (sdk.TxResponse, error) {

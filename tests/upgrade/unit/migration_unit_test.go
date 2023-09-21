@@ -3,11 +3,11 @@
 package unit
 
 import (
-	. "github.com/cheqd/cheqd-node/tests/upgrade/unit/setup"
+	. "github.com/canow-co/cheqd-node/tests/upgrade/unit/setup"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	appmigrations "github.com/cheqd/cheqd-node/app/migrations"
+	appmigrations "github.com/canow-co/cheqd-node/app/migrations"
 )
 
 var _ = Describe("Migration - Unit", func() {

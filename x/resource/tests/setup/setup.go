@@ -4,10 +4,10 @@ import (
 	"crypto/rand"
 	"time"
 
-	didkeeper "github.com/cheqd/cheqd-node/x/did/keeper"
-	didsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/resource/types"
+	didkeeper "github.com/canow-co/cheqd-node/x/did/keeper"
+	didsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/resource/types"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -16,7 +16,7 @@ import (
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/cheqd/cheqd-node/x/resource/keeper"
+	"github.com/canow-co/cheqd-node/x/resource/keeper"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramskeeper "github.com/cosmos/cosmos-sdk/x/params/keeper"
@@ -95,7 +95,7 @@ func Setup() TestSetup {
 		ResourceQueryServer: queryServer,
 	}
 
-	setup.Keeper.SetDidNamespace(&ctx, didsetup.DidNamespace)
+	setup.TestSetup.Keeper.SetDidNamespace(&ctx, didsetup.DidNamespace)
 	return setup
 }
 

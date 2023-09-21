@@ -11,7 +11,7 @@
             "resourceType": "TestResourceType",
             "alsoKnownAs": [
                 {
-                    "uri": "did:cheqd:testnet:5rjaLzcffhGUH4nt4fyfAg/resources/7f2589aa-1279-4bd7-b704-f868772b460a",
+                    "uri": "did:canow:testnet:5rjaLzcffhGUH4nt4fyfAg/resources/7f2589aa-1279-4bd7-b704-f868772b460a",
                     "description": "did-url"
                 }
             ],

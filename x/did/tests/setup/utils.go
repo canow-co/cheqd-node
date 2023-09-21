@@ -53,7 +53,7 @@ func ParseJSONToMap(jsonStr string) (map[string]any, error) {
 }
 
 func GenerateDID(idtype IDType) string {
-	prefix := "did:cheqd:" + DidNamespace + ":"
+	prefix := "did:canow:" + DidNamespace + ":"
 	mathrand.Seed(time.Now().UnixNano())
 
 	switch idtype {

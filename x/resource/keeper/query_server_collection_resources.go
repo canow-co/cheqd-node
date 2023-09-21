@@ -3,9 +3,9 @@ package keeper
 import (
 	"context"
 
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
-	"github.com/cheqd/cheqd-node/x/resource/types"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/resource/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

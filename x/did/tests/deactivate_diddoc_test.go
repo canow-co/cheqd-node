@@ -8,8 +8,8 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	"github.com/cheqd/cheqd-node/x/did/types"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	"github.com/canow-co/cheqd-node/x/did/types"
 )
 
 var _ = Describe("Deactivate DID tests", func() {

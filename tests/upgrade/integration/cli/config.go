@@ -1,9 +1,9 @@
 package cli
 
 import (
-	cheqdapp "github.com/cheqd/cheqd-node/app"
-	integrationcli "github.com/cheqd/cheqd-node/tests/integration/cli"
-	integrationnetwork "github.com/cheqd/cheqd-node/tests/integration/network"
+	cheqdapp "github.com/canow-co/cheqd-node/app"
+	integrationcli "github.com/canow-co/cheqd-node/tests/integration/cli"
+	integrationnetwork "github.com/canow-co/cheqd-node/tests/integration/network"
 )
 
 const (
@@ -25,7 +25,7 @@ const (
 	ExpectedBlockSeconds int64 = 1
 	ExtraBlocks          int64 = 5
 	UpgradeName                = cheqdapp.UpgradeName
-	DepositAmount              = "10000000ncheq"
+	DepositAmount              = "10000000zarx"
 	NetworkConfigDir           = "network-config"
 	KeyringDir                 = "keyring-test"
 )

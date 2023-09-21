@@ -5,13 +5,13 @@ package integration
 import (
 	"crypto/ed25519"
 
-	"github.com/cheqd/cheqd-node/tests/integration/cli"
-	"github.com/cheqd/cheqd-node/tests/integration/helpers"
-	"github.com/cheqd/cheqd-node/tests/integration/network"
-	"github.com/cheqd/cheqd-node/tests/integration/testdata"
-	didcli "github.com/cheqd/cheqd-node/x/did/client/cli"
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	"github.com/cheqd/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/tests/integration/cli"
+	"github.com/canow-co/cheqd-node/tests/integration/helpers"
+	"github.com/canow-co/cheqd-node/tests/integration/network"
+	"github.com/canow-co/cheqd-node/tests/integration/testdata"
+	didcli "github.com/canow-co/cheqd-node/x/did/client/cli"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	"github.com/canow-co/cheqd-node/x/did/types"
 	"github.com/google/uuid"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -34,7 +34,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 		Expect(err).To(BeNil())
 
 		// Create a new DID Doc
-		did := "did:cheqd:" + network.DidNamespace + ":" + uuid.NewString()
+		did := "did:canow:" + network.DidNamespace + ":" + uuid.NewString()
 		keyId := did + "#key1"
 
 		publicKey, privateKey, err := ed25519.GenerateKey(nil)
@@ -52,7 +52,7 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 					"publicKeyMultibase": publicKeyMultibase,
 				},
 			},
-			Authentication: []string{keyId},
+			Authentication: []any{keyId},
 		}
 
 		signInputs = []didcli.SignInput{
@@ -141,8 +141,8 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 					"publicKeyMultibase": payload.VerificationMethod[0]["publicKeyMultibase"],
 				},
 			},
-			Authentication:  payload.Authentication,
-			AssertionMethod: []string{payload.VerificationMethod[0]["id"].(string)}, // <-- changed
+			Authentication: payload.Authentication,
+			AssertionMethod: []any{payload.VerificationMethod[0]["id"]}, // <-- changed
 		}
 
 		By("querying the fee payer account balance before the transaction")
@@ -334,8 +334,8 @@ var _ = Describe("cheqd cli - positive diddoc pricing", func() {
 					"publicKeyMultibase": payload.VerificationMethod[0]["publicKeyMultibase"],
 				},
 			},
-			Authentication:  payload.Authentication,
-			AssertionMethod: []string{payload.VerificationMethod[0]["id"].(string)}, // <-- changed
+			Authentication: payload.Authentication,
+			AssertionMethod: []any{payload.VerificationMethod[0]["id"]}, // <-- changed
 		}
 
 		By("creating a feegrant")

@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func extendDebug(debugCmd *cobra.Command) *cobra.Command {
+func ExtendDebug(debugCmd *cobra.Command) *cobra.Command {
 	debugCmd.AddCommand(ed25519Cmd(),
 		encodingCmd())
 

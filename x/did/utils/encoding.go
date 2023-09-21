@@ -1,9 +1,12 @@
 package utils
 
 import (
+	"encoding/binary"
 	"encoding/json"
+	"errors"
 	"fmt"
 
+	"github.com/canow-co/cheqd-node/x/did/utils/bls12381g2"
 	"github.com/mr-tron/base58"
 	"github.com/multiformats/go-multibase"
 )
@@ -59,6 +62,25 @@ func ValidateMulticodecEd25519VerificationKey2020(keyBytes []byte) error {
 			"0xed01", fmt.Sprintf("0x%02x%02x", keyBytes[0], keyBytes[1]))
 	}
 	return nil
+}
+
+func ValidateMultibaseMulticodecBls12381G2PubKey(key string) error {
+	_, multicodec, err := multibase.Decode(key)
+	if err != nil {
+		return err
+	}
+
+	code, codePrefixLength := binary.Uvarint(multicodec)
+	if codePrefixLength <= 0 {
+		return errors.New("invalid multicodec value")
+	}
+	if code != bls12381g2.Bls12381G2PubCode {
+		return errors.New("not a Bls12381G2 public key")
+	}
+
+	keyBytes := multicodec[codePrefixLength:]
+
+	return ValidateBls12381G2PubKey(keyBytes)
 }
 
 func ValidateMultibaseEd25519VerificationKey2020(data string) error {

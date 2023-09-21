@@ -1,7 +1,7 @@
 package types_test
 
 import (
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )

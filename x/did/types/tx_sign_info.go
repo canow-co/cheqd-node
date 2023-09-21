@@ -3,7 +3,7 @@ package types
 import (
 	"errors"
 
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/mr-tron/base58"
 )
@@ -73,7 +73,7 @@ func FindSignInfoBySigner(infos []*SignInfo, signer string) (info SignInfo, foun
 
 func (si SignInfo) Validate(allowedNamespaces []string) error {
 	return validation.ValidateStruct(&si,
-		validation.Field(&si.VerificationMethodId, validation.Required, IsDIDUrl(allowedNamespaces, Empty, Empty, Required)),
+		validation.Field(&si.VerificationMethodId, validation.Required, IsSpecificDIDUrl(allowedNamespaces, Empty, Empty, Required)),
 		validation.Field(&si.Signature, validation.Required),
 	)
 }
@@ -93,7 +93,7 @@ func IsUniqueSignInfoListByIDRule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]*SignInfo)
 		if !ok {
-			panic("IsUniqueVerificationMethodListByIdRule must be only applied on VM lists")
+			panic("IsUniqueVerificationMethodListByIDRule must be only applied on VM lists")
 		}
 
 		ids := GetSignInfoIds(casted)
@@ -109,7 +109,7 @@ func IsUniqueSignInfoListRule() *CustomErrorRule {
 	return NewCustomErrorRule(func(value interface{}) error {
 		casted, ok := value.([]*SignInfo)
 		if !ok {
-			panic("IsUniqueVerificationMethodListByIdRule must be only applied on VM lists")
+			panic("IsUniqueVerificationMethodListByIDRule must be only applied on VM lists")
 		}
 
 		if !IsUniqueSignInfoList(casted) {

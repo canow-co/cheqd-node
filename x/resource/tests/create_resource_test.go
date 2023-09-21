@@ -5,13 +5,13 @@ import (
 	"encoding/hex"
 	"strings"
 
-	. "github.com/cheqd/cheqd-node/x/resource/tests/setup"
+	. "github.com/canow-co/cheqd-node/x/resource/tests/setup"
 	"github.com/google/uuid"
 
-	didsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
-	didutils "github.com/cheqd/cheqd-node/x/did/utils"
-	resourcetypes "github.com/cheqd/cheqd-node/x/resource/types"
+	didsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
+	didutils "github.com/canow-co/cheqd-node/x/did/utils"
+	resourcetypes "github.com/canow-co/cheqd-node/x/resource/types"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -25,7 +25,7 @@ func ExpectPayloadToMatchResource(payload *resourcetypes.MsgCreateResourcePayloa
 	Expect(payload.ResourceType).To(Equal(resource.Metadata.ResourceType))
 
 	defaultAlternativeURL := resourcetypes.AlternativeUri{
-		Uri:         "did:cheqd:" + didsetup.DidNamespace + ":" + payload.CollectionId + "/resources/" + payload.Id,
+		Uri:         "did:canow:" + didsetup.DidNamespace + ":" + payload.CollectionId + "/resources/" + payload.Id,
 		Description: "did-url",
 	}
 

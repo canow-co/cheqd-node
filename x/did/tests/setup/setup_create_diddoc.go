@@ -3,8 +3,8 @@ package setup
 import (
 	"crypto/ed25519"
 
-	"github.com/cheqd/cheqd-node/x/did/types"
-	"github.com/cheqd/cheqd-node/x/did/utils"
+	"github.com/canow-co/cheqd-node/x/did/types"
+	"github.com/canow-co/cheqd-node/x/did/utils"
 	"github.com/google/uuid"
 )
 
@@ -45,8 +45,12 @@ func (s *TestSetup) BuildDidDocWithCustomDID(did string) DidDocInfo {
 				VerificationMaterial:   GenerateEd25519VerificationKey2020VerificationMaterial(keyPair.Public),
 			},
 		},
-		Authentication: []string{keyID},
-		VersionId:      uuid.NewString(),
+		Authentication: []*types.VerificationRelationship{
+			{
+				VerificationMethodId: keyID,
+			},
+		},
+		VersionId: uuid.NewString(),
 	}
 
 	signInput := SignInput{
@@ -65,7 +69,7 @@ func (s *TestSetup) BuildDidDocWithCustomDID(did string) DidDocInfo {
 }
 
 func (s *TestSetup) BuildDidDocWithCustomID(uuid string) DidDocInfo {
-	did := "did:cheqd:" + DidNamespace + ":" + uuid
+	did := "did:canow:" + DidNamespace + ":" + uuid
 	return s.BuildDidDocWithCustomDID(did)
 }
 

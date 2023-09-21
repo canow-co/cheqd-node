@@ -1,7 +1,7 @@
 package types
 
 import (
-	didtypes "github.com/cheqd/cheqd-node/x/did/types"
+	didtypes "github.com/canow-co/cheqd-node/x/did/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )

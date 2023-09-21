@@ -1,9 +1,9 @@
 package cli
 
 import (
-	integrationhelpers "github.com/cheqd/cheqd-node/tests/integration/helpers"
-	didtypesv2 "github.com/cheqd/cheqd-node/x/did/types"
-	didtypesv1 "github.com/cheqd/cheqd-node/x/did/types/v1"
+	integrationhelpers "github.com/canow-co/cheqd-node/tests/integration/helpers"
+	didtypesv2 "github.com/canow-co/cheqd-node/x/did/types"
+	didtypesv1 "github.com/canow-co/cheqd-node/x/did/types/v1"
 )
 
 func QueryDidLegacy(did string, container string) (didtypesv1.QueryGetDidResponse, error) {

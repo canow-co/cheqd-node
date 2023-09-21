@@ -4,56 +4,78 @@
             "abc",
             "def"
         ],
-        "id": "did:cheqd:testnet:xcWigjiDhDTaBGRX",
+        "id": "did:canow:testnet:xcWigjiDhDTaBGRX",
         "controller": [
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX"
+            "did:canow:testnet:xcWigjiDhDTaBGRX"
         ],
         "verificationMethod": [
             {
-                "id": "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-1",
+                "id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-1",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:xcWigjiDhDTaBGRX",
+                "controller": "did:canow:testnet:xcWigjiDhDTaBGRX",
                 "verificationMaterial": "z6MkeXDkMqPMfDgq8ZQkRzwRZAo8TviYAo5nr957E56nTXE1"
             },
             {
-                "id": "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-2",
+                "id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-2",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:xcWigjiDhDTaBGRX",
+                "controller": "did:canow:testnet:xcWigjiDhDTaBGRX",
                 "verificationMaterial": "z6MkjnP7TsFXr32rX3EoD6uUEzE2Fp2pPcGZYtBCEKL1fUAT"
             },
             {
-                "id": "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-3",
+                "id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-3",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:xcWigjiDhDTaBGRX",
+                "controller": "did:canow:testnet:xcWigjiDhDTaBGRX",
                 "verificationMaterial": "z6MkofRWLT37dkx57TYhETh2ytBzifDMvV6dpVrLC5ugXm17"
             },
             {
-                "id": "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-4",
+                "id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-4",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:xcWigjiDhDTaBGRX",
+                "controller": "did:canow:testnet:xcWigjiDhDTaBGRX",
                 "verificationMaterial": "z6MkirAS5q6B4EQD1Vhe5vXFmorUpex6rLjuSH9eVYCHWK26"
             }
         ],
         "authentication": [
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-1",
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-2"
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-1"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-2"
+            }
         ],
         "assertionMethod": [
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-3"
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-3"
+            }
         ],
         "capabilityInvocation": [
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-4",
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-1"
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-4"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-1"
+            }
         ],
         "capabilityDelegation": [
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-4",
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-2"
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-4"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-2"
+            }
         ],
         "keyAgreement": [
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-1",
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-2",
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-3",
-            "did:cheqd:testnet:xcWigjiDhDTaBGRX#key-4"
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-1"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-2"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-3"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:xcWigjiDhDTaBGRX#key-4"
+            }
         ],
         "alsoKnownAs": [
             "alias-1",
@@ -61,7 +83,7 @@
         ],
         "service": [
             {
-                "id": "did:cheqd:testnet:xcWigjiDhDTaBGRX#service-1",
+                "id": "did:canow:testnet:xcWigjiDhDTaBGRX#service-1",
                 "serviceType": "type-1",
                 "serviceEndpoint": [
                     "endpoint-1"

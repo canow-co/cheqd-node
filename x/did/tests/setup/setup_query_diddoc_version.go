@@ -1,6 +1,6 @@
 package setup
 
-import "github.com/cheqd/cheqd-node/x/did/types"
+import "github.com/canow-co/cheqd-node/x/did/types"
 
 func (s *TestSetup) QueryDidDocVersion(did, version string) (*types.QueryDidDocVersionResponse, error) {
 	req := &types.QueryDidDocVersionRequest{

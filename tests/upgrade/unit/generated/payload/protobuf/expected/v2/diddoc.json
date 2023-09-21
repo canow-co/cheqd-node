@@ -4,60 +4,82 @@
             "abc",
             "def"
         ],
-        "id": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE",
+        "id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE",
         "controller": [
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE"
+            "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE"
         ],
         "verificationMethod": [
             {
-                "id": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-1",
+                "id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-1",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE",
+                "controller": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE",
                 "verificationMaterial": "z6MknmnJvvx4xK3EQQsbBS7DuMvsvKG7wF9GBXFxSVsVmYzV"
             },
             {
-                "id": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-2",
+                "id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-2",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE",
+                "controller": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE",
                 "verificationMaterial": "z6MkotEbRMNwstgbk41M11yEBzSgVSnD5imzmQD83vvZGDur"
             },
             {
-                "id": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-3",
+                "id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-3",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE",
+                "controller": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE",
                 "verificationMaterial": "z6MknTEAYV9n61NZyqZdBF565j8YoXUzpBbvy4frDWtNuiAW"
             },
             {
-                "id": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-4",
+                "id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-4",
                 "verificationMethodType": "Ed25519VerificationKey2020",
-                "controller": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE",
+                "controller": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE",
                 "verificationMaterial": "z6Mkjt4a7XEZrZTY2MSL1myF8bfez6szk5BRrHVGEKjVvfWT"
             }
         ],
         "authentication": [
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-1",
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-2"
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-1"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-2"
+            }
         ],
         "assertionMethod": [
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-3"
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-3"
+            }
         ],
         "capabilityInvocation": [
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-4",
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-1"
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-4"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-1"
+            }
         ],
         "capabilityDelegation": [
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-4",
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-2"
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-4"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-2"
+            }
         ],
         "keyAgreement": [
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-1",
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-2",
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-3",
-            "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#key-4"
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-1"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-2"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-3"
+            },
+            {
+                "verification_method_id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#key-4"
+            }
         ],
         "service": [
             {
-                "id": "did:cheqd:testnet:GR4bwyhJMubXbHvHTGiYnE#service-1",
+                "id": "did:canow:testnet:GR4bwyhJMubXbHvHTGiYnE#service-1",
                 "serviceType": "type-1",
                 "serviceEndpoint": [
                     "endpoint-1"

@@ -8,8 +8,8 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	testsetup "github.com/cheqd/cheqd-node/x/did/tests/setup"
-	"github.com/cheqd/cheqd-node/x/did/types"
+	testsetup "github.com/canow-co/cheqd-node/x/did/tests/setup"
+	"github.com/canow-co/cheqd-node/x/did/types"
 )
 
 var _ = Describe("Create DID tests", func() {
@@ -25,8 +25,12 @@ var _ = Describe("Create DID tests", func() {
 		keyID := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyID},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     keyID,
@@ -60,8 +64,12 @@ var _ = Describe("Create DID tests", func() {
 		keyID := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyID},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     keyID,
@@ -95,8 +103,12 @@ var _ = Describe("Create DID tests", func() {
 		keyID := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyID},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     keyID,
@@ -124,6 +136,193 @@ var _ = Describe("Create DID tests", func() {
 		Expect(msg.ToDidDoc()).To(Equal(*created.Value.DidDoc))
 	})
 
+	It("Valid: Signature by method referenced from Authentication", func() {
+		did := testsetup.GenerateDID(testsetup.Base58_16bytes)
+		keypair := testsetup.GenerateKeyPair()
+		keyID := did + "#key-1"
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                     keyID,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+				},
+			},
+			VersionId: uuid.NewString(),
+		}
+
+		signatures := []testsetup.SignInput{
+			{
+				VerificationMethodID: keyID,
+				Key:                  keypair.Private,
+			},
+		}
+
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err).To(BeNil())
+
+		// check
+		created, err := setup.QueryDidDoc(did)
+		Expect(err).To(BeNil())
+		Expect(msg.ToDidDoc()).To(Equal(*created.Value.DidDoc))
+	})
+
+	It("Valid: Signature by method embedded in Authentication", func() {
+		did := testsetup.GenerateDID(testsetup.Base58_16bytes)
+		keypair := testsetup.GenerateKeyPair()
+		keyID := did + "#key-1"
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethod: &types.VerificationMethod{
+						Id:                     keyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             did,
+						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+					},
+				},
+			},
+			VersionId: uuid.NewString(),
+		}
+
+		signatures := []testsetup.SignInput{
+			{
+				VerificationMethodID: keyID,
+				Key:                  keypair.Private,
+			},
+		}
+
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err).To(BeNil())
+
+		// check
+		created, err := setup.QueryDidDoc(did)
+		Expect(err).To(BeNil())
+		Expect(msg.ToDidDoc()).To(Equal(*created.Value.DidDoc))
+	})
+
+	// When searching for the authentication method, the current implementation must fall back
+	// into `verificationMethod` list in case the method is not found in `authentication` list.
+	It("Valid: Signature by method from VerificationMethod not referenced from Authentication", func() {
+		did := testsetup.GenerateDID(testsetup.Base58_16bytes)
+
+		keypair1 := testsetup.GenerateKeyPair()
+		keyID1 := did + "#key-1"
+
+		keypair2 := testsetup.GenerateKeyPair()
+		keyID2 := did + "#key-2"
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID1,
+				},
+			},
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                     keyID1,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair1.Public),
+				},
+				{
+					Id:                     keyID2,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair2.Public),
+				},
+			},
+			VersionId: uuid.NewString(),
+		}
+
+		signatures := []testsetup.SignInput{
+			{
+				VerificationMethodID: keyID2,
+				Key:                  keypair2.Private,
+			},
+		}
+
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err).To(BeNil())
+
+		// check
+		created, err := setup.QueryDidDoc(did)
+		Expect(err).To(BeNil())
+		Expect(msg.ToDidDoc()).To(Equal(*created.Value.DidDoc))
+	})
+
+	// When searching for the authentication method, the current implementation must fall back
+	// into `verificationMethod` list in case the method is not found in `authentication` list.
+	It("Valid: Signature by method from VerificationMethod not referenced from Authentication but referenced from other verification relationships", func() {
+		did := testsetup.GenerateDID(testsetup.Base58_16bytes)
+
+		keypair1 := testsetup.GenerateKeyPair()
+		keyID1 := did + "#key-1"
+
+		keypair2 := testsetup.GenerateKeyPair()
+		keyID2 := did + "#key-2"
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID1,
+				},
+			},
+			AssertionMethod: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID2,
+				},
+			},
+			CapabilityInvocation: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID2,
+				},
+			},
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                     keyID1,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair1.Public),
+				},
+				{
+					Id:                     keyID2,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair2.Public),
+				},
+			},
+			VersionId: uuid.NewString(),
+		}
+
+		signatures := []testsetup.SignInput{
+			{
+				VerificationMethodID: keyID2,
+				Key:                  keypair2.Private,
+			},
+		}
+
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err).To(BeNil())
+
+		// check
+		created, err := setup.QueryDidDoc(did)
+		Expect(err).To(BeNil())
+		Expect(msg.ToDidDoc()).To(Equal(*created.Value.DidDoc))
+	})
+
 	It("Valid: DID with external controllers", func() {
 		// Alice
 		alice := setup.CreateSimpleDid()
@@ -135,9 +334,13 @@ var _ = Describe("Create DID tests", func() {
 		bobKeyID := bobDid + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             bobDid,
-			Controller:     []string{alice.Did, anna.Did},
-			Authentication: []string{bobKeyID},
+			Id:         bobDid,
+			Controller: []string{alice.Did, anna.Did},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: bobKeyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     bobKeyID,
@@ -175,6 +378,12 @@ var _ = Describe("Create DID tests", func() {
 		keypair4 := testsetup.GenerateKeyPair()
 		keyID4 := did + "#key-4"
 
+		keypair5 := testsetup.GenerateKeyPair()
+		keyID5 := did + "#key-5"
+
+		keypair6 := testsetup.GenerateKeyPair()
+		keyID6 := did + "#key-6"
+
 		msg := &types.MsgCreateDidDocPayload{
 			Context:    []string{"abc", "def"},
 			Id:         did,
@@ -205,16 +414,72 @@ var _ = Describe("Create DID tests", func() {
 					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair4.Public),
 				},
 			},
-			Authentication:       []string{keyID1, keyID2},
-			AssertionMethod:      []string{keyID3},
-			CapabilityInvocation: []string{keyID4, keyID1},
-			CapabilityDelegation: []string{keyID4, keyID2},
-			KeyAgreement:         []string{keyID1, keyID2, keyID3, keyID4},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID1,
+				},
+				{
+					VerificationMethodId: keyID2,
+				},
+				{
+					VerificationMethod: &types.VerificationMethod{
+						Id:                     keyID5,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             did,
+						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair5.Public),
+					},
+				},
+			},
+			AssertionMethod: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID3,
+				},
+			},
+			CapabilityInvocation: []*types.VerificationRelationship{
+				{
+					VerificationMethod: &types.VerificationMethod{
+						Id:                     keyID6,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             did,
+						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair6.Public),
+					},
+				},
+				{
+					VerificationMethodId: keyID4,
+				},
+				{
+					VerificationMethodId: keyID1,
+				},
+			},
+			CapabilityDelegation: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID4,
+				},
+				{
+					VerificationMethodId: keyID2,
+				},
+			},
+			KeyAgreement: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID1,
+				},
+				{
+					VerificationMethodId: keyID2,
+				},
+				{
+					VerificationMethodId: keyID3,
+				},
+				{
+					VerificationMethodId: keyID4,
+				},
+			},
 			Service: []*types.Service{
 				{
 					Id:              did + "#service-1",
 					ServiceType:     "type-1",
 					ServiceEndpoint: []string{"endpoint-1"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"did:example:HPXoCUSjrSvWC54SLWQjsm#somekey"},
 				},
 			},
 			AlsoKnownAs: []string{"alias-1", "alias-2"},
@@ -241,6 +506,37 @@ var _ = Describe("Create DID tests", func() {
 	// ***** Negative cases *****
 	// **************************
 
+	It("Not Valid: Signature by method embedded in verification relationship other than Authentication", func() {
+		did := testsetup.GenerateDID(testsetup.Base58_16bytes)
+		keypair := testsetup.GenerateKeyPair()
+		keyID := did + "#key-1"
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id: did,
+			CapabilityInvocation: []*types.VerificationRelationship{
+				{
+					VerificationMethod: &types.VerificationMethod{
+						Id:                     keyID,
+						VerificationMethodType: types.Ed25519VerificationKey2020Type,
+						Controller:             did,
+						VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+					},
+				},
+			},
+			VersionId: uuid.NewString(),
+		}
+
+		signatures := []testsetup.SignInput{
+			{
+				VerificationMethodID: keyID,
+				Key:                  keypair.Private,
+			},
+		}
+
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("%s: authentication method not found", keyID)))
+	})
+
 	It("Not Valid: Second controller did not sign request", func() {
 		// Alice
 		alice := setup.CreateSimpleDid()
@@ -251,9 +547,13 @@ var _ = Describe("Create DID tests", func() {
 		bobKeyID := bobDid + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             bobDid,
-			Controller:     []string{alice.Did, bobDid},
-			Authentication: []string{bobKeyID},
+			Id:         bobDid,
+			Controller: []string{alice.Did, bobDid},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: bobKeyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     bobKeyID,
@@ -282,9 +582,13 @@ var _ = Describe("Create DID tests", func() {
 		keyID := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Controller:     []string{did},
-			Authentication: []string{keyID},
+			Id:         did,
+			Controller: []string{did},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     keyID,
@@ -310,9 +614,13 @@ var _ = Describe("Create DID tests", func() {
 		nonExistingDid := testsetup.GenerateDID(testsetup.Base58_16bytes)
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Controller:     []string{nonExistingDid},
-			Authentication: []string{keyID},
+			Id:         did,
+			Controller: []string{nonExistingDid},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     keyID,
@@ -342,9 +650,13 @@ var _ = Describe("Create DID tests", func() {
 		keyID := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Controller:     []string{did},
-			Authentication: []string{keyID},
+			Id:         did,
+			Controller: []string{did},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     keyID,
@@ -379,9 +691,13 @@ var _ = Describe("Create DID tests", func() {
 		bobKeyID := bobDid + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             bobDid,
-			Controller:     []string{bobDid},
-			Authentication: []string{bobKeyID},
+			Id:         bobDid,
+			Controller: []string{bobDid},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: bobKeyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     bobKeyID,
@@ -405,9 +721,13 @@ var _ = Describe("Create DID tests", func() {
 		keyID := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Controller:     []string{did},
-			Authentication: []string{keyID},
+			Id:         did,
+			Controller: []string{did},
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     keyID,
@@ -429,7 +749,7 @@ var _ = Describe("Create DID tests", func() {
 		}
 
 		_, err := setup.CreateDid(msg, signatures)
-		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("%s: verification method not found", invalidKeyID)))
+		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("%s: authentication method not found", invalidKeyID)))
 	})
 
 	It("Not Valid: DIDDoc already exists", func() {
@@ -437,8 +757,12 @@ var _ = Describe("Create DID tests", func() {
 		alice := setup.CreateSimpleDid()
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             alice.Did,
-			Authentication: []string{alice.KeyID},
+			Id: alice.Did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: alice.KeyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     alice.KeyID,
@@ -454,11 +778,97 @@ var _ = Describe("Create DID tests", func() {
 		_, err := setup.CreateDid(msg, signatures)
 		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("%s: DID Doc exists", alice.Did)))
 	})
+
+	It("Not Valid: DIDDoc Service Routing Keys field", func() {
+		did := testsetup.GenerateDID(testsetup.Base58_16bytes)
+		keypair := testsetup.GenerateKeyPair()
+		keyID := did + "#key-1"
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                     keyID,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+				},
+			},
+			VersionId: uuid.NewString(),
+			Service: []*types.Service{
+				{
+					Id:              did + "#service-1",
+					ServiceType:     "type-1",
+					ServiceEndpoint: []string{"endpoint-1"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     []string{"invalid value"},
+				},
+			},
+		}
+
+		signatures := []testsetup.SignInput{
+			{
+				VerificationMethodID: keyID,
+				Key:                  keypair.Private,
+			},
+		}
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err.Error()).To(ContainSubstring("unable to split did into method, namespace and id"))
+	})
+
+	It("Not Valid: DIDDoc Service Routing Keys field (cannot be same keys in Routing Keys)", func() {
+		did := testsetup.GenerateDID(testsetup.Base58_16bytes)
+		keypair := testsetup.GenerateKeyPair()
+		keyID := did + "#key-1"
+
+		newRoutingKeys := []string{"did:example:HPXoCUSjrSvWC53SLWQjsm#somekey", "did:example:HPXoCUSjrSvWC53SLWQjsm#somekey"}
+
+		msg := &types.MsgCreateDidDocPayload{
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
+			VerificationMethod: []*types.VerificationMethod{
+				{
+					Id:                     keyID,
+					VerificationMethodType: types.Ed25519VerificationKey2020Type,
+					Controller:             did,
+					VerificationMaterial:   testsetup.GenerateEd25519VerificationKey2020VerificationMaterial(keypair.Public),
+				},
+			},
+			VersionId: uuid.NewString(),
+			Service: []*types.Service{
+				{
+					Id:              did + "#service-1",
+					ServiceType:     "type-1",
+					ServiceEndpoint: []string{"endpoint-1"},
+					Accept:          []string{"accept-1"},
+					RoutingKeys:     newRoutingKeys,
+				},
+			},
+		}
+
+		signatures := []testsetup.SignInput{
+			{
+				VerificationMethodID: keyID,
+				Key:                  keypair.Private,
+			},
+		}
+		_, err := setup.CreateDid(msg, signatures)
+		Expect(err.Error()).To(ContainSubstring("there should be no duplicates"))
+	})
 })
 
 var _ = Describe("Check upper/lower case for DID creation", func() {
 	var setup testsetup.TestSetup
-	didPrefix := "did:cheqd:testnet:"
+	didPrefix := "did:canow:testnet:"
 
 	type TestCaseUUIDDidStruct struct {
 		inputID  string
@@ -472,8 +882,12 @@ var _ = Describe("Check upper/lower case for DID creation", func() {
 		keyID := did + "#key-1"
 
 		msg := &types.MsgCreateDidDocPayload{
-			Id:             did,
-			Authentication: []string{keyID},
+			Id: did,
+			Authentication: []*types.VerificationRelationship{
+				{
+					VerificationMethodId: keyID,
+				},
+			},
 			VerificationMethod: []*types.VerificationMethod{
 				{
 					Id:                     keyID,
