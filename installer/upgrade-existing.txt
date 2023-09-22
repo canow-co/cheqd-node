@@ -1,7 +1,0 @@
-2
-/home/runner/.local/cheqd
-yes
-yes
-yes
-yes
-yes

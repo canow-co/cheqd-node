@@ -3,7 +3,7 @@
 set -euox pipefail
 
 # Define directories
-SWAGGER_DIR=./api/docs
+SWAGGER_DIR=./app/client/docs
 SWAGGER_UI_DIR=${SWAGGER_DIR}/swagger-ui
 
 # Define URLs
@@ -26,6 +26,9 @@ for dir in $proto_dirs; do
 done
 
 cd ..
+
+# Remove individual swagger files
+rm -rf ${SWAGGER_DIR}/swagger-ui/
 
 # combine swagger files
 # uses nodejs package `swagger-combine`.
@@ -60,6 +63,10 @@ go install github.com/rakyll/statik@latest
 
 # generate statik golang code using updated swagger-ui directory
 statik -src=${SWAGGER_DIR}/swagger-ui -dest=${SWAGGER_DIR} -f -m
+
+# Run gofumpt to format the generated code
+go install mvdan.cc/gofumpt@latest
+gofumpt -l -w ${SWAGGER_DIR}/statik/statik.go
 
 # log whether or not the swagger directory was updated
 if [ -n "$(git status ${SWAGGER_DIR} --porcelain)" ]; then
