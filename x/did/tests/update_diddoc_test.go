@@ -26,7 +26,7 @@ var _ = Describe("DIDDoc update", func() {
 
 		BeforeEach(func() {
 			alice = setup.CreateSimpleDid()
-			bob = setup.CreateDidDocWithExternalControllers([]string{alice.Did}, []SignInput{alice.SignInput})
+			bob = setup.CreateDidDocWithExternalDocControllers([]string{alice.Did}, []SignInput{alice.SignInput})
 
 			msg = &types.MsgUpdateDidDocPayload{
 				Id:         bob.Did,
@@ -229,7 +229,7 @@ var _ = Describe("DIDDoc update", func() {
 
 		BeforeEach(func() {
 			bob = setup.CreateSimpleDid()
-			alice = setup.CreateDidDocWithExternalControllers([]string{bob.Did}, []SignInput{bob.SignInput})
+			alice = setup.CreateDidDocWithExternalDocControllers([]string{bob.Did}, []SignInput{bob.SignInput})
 
 			msg = &types.MsgUpdateDidDocPayload{
 				Id:         alice.Did,
