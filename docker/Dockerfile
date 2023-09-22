@@ -5,7 +5,7 @@
 FROM golang:1.18-alpine AS builder
 
 # Install minimum necessary dependencies
-ENV PACKAGES curl make git libc-dev bash gcc linux-headers
+ENV PACKAGES curl make git libc-dev bash gcc linux-headers findutils
 RUN apk update && apk add --no-cache $PACKAGES
 
 # Set working directory for the build
@@ -15,13 +15,13 @@ WORKDIR /go/src/github.com/canow-co/cheqd-node
 COPY . .
 
 # Make node binary
-RUN make install && make build
+RUN make tidy && make build-linux
 
 ###############################################################
 ###             STAGE 2: Build cheqd-node image             ###
 ###############################################################
 
-FROM alpine:3.17 AS runner
+FROM alpine:3.18 AS runner
 
 # Install pre-requisites
 RUN apk update && apk add --no-cache bash ca-certificates

@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
         with:
           go-version-file: ./go.mod
           cache: true
@@ -83,7 +83,7 @@ jobs:
         run: |
           bash import-keys.sh
 
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
         with:
           go-version-file: ./go.mod
           cache: true
@@ -133,7 +133,7 @@ jobs:
 
       - uses: mikepenz/action-junit-report@v3
         with:
-          report_paths: 'reports/report.xml'
+          report_paths: 'report.xml'
           check_name: ""
           suite_regex: '*'
           include_passed: true

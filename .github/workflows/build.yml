@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
         with:
           go-version-file: ./go.mod
           cache: true
@@ -25,13 +25,13 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: build --rm-dist --snapshot --id ubuntu-latest-amd64
+          args: build --clean --snapshot --single-target
 
       - name: Store artifact
         uses: actions/upload-artifact@v3
         with:
           name: cheqd-noded
-          path: dist/ubuntu-latest-amd64_linux_amd64_v1/cheqd-noded
+          path: dist/linux-amd64_linux_amd64_v1/cheqd-noded
 
   build-docker:
     name: "Docker image"
@@ -62,7 +62,7 @@ jobs:
             type=sha,format=long
 
       - name: Build image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: docker/Dockerfile
