@@ -41,7 +41,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version-file: ./go.mod
-          cache: true
+          cache: false # to bypass https://github.com/golangci/golangci-lint-action/issues/23
 
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
