@@ -1,0 +1,109 @@
+name: "Release"
+on:
+  workflow_call:
+defaults:
+  run:
+    shell: bash
+
+env:
+  APP_NAME: ${{ github.repository }}
+  BIN_NAME: cheqd-noded
+
+jobs:
+  release-binary:
+    name: "Node binary"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      RELEASE_VERSION: ${{ steps.set-version.outputs.RELEASE_VERSION }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # to fetch all history
+
+      - name: Set release version number
+        id: set-version
+        run: |
+          RELEASE_VERSION=$( git describe --tags "${{ github.sha }}")
+          echo "RELEASE_VERSION=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Download binary artifact
+        uses: actions/download-artifact@v3
+        id: download
+        with:
+          path: release/
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: release
+
+      - name: Archive application binary
+        run: |
+          tar czf release/${{ env.APP_NAME }}-${{ steps.set-version.outputs.RELEASE_VERSION }}-linux.tar.gz LICENSE README.md -C release/${{ env.BIN_NAME }}-linux ${{ env.BIN_NAME }}
+        shell: bash
+
+      - name: Publish the Release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: true
+          tag_name: ${{ steps.set-version.outputs.RELEASE_VERSION }}
+          target_commitish: ${{ github.sha }}
+          files: release/*
+          generate_release_notes: true
+
+  release-docker:
+    name: "Docker image"
+    needs: release-binary
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    env:
+      IMAGE_NAME: ${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        id: buildx
+        with:
+          version: latest
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Docker image metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ghcr.io/${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=auto
+          tags: |
+            type=semver,pattern={{version}},value=${{ needs.release-binary.outputs.RELEASE_VERSION }}
+            type=raw,value=production-latest
+            type=sha,format=long
+          labels: |
+            org.opencontainers.image.vendor="Canow"
+            org.opencontainers.image.created={{date 'dddd, MMMM Do YYYY, h:mm:ss a'}}
+          #   org.opencontainers.image.documentation=""
+
+      - name: Build and push image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=min
