@@ -5,20 +5,20 @@ defaults:
   run:
     shell: bash
 
+env:
+  BIN_NAME: cheqd-noded
 
 jobs:
-
   build-binary:
     name: "Node binary"
     runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - uses: actions/setup-go@v4
         with:
           go-version-file: ./go.mod
-          cache: true
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v4
@@ -30,8 +30,8 @@ jobs:
       - name: Store artifact
         uses: actions/upload-artifact@v3
         with:
-          name: cheqd-noded
-          path: dist/linux-amd64_linux_amd64_v1/cheqd-noded
+          name: ${{ env.BIN_NAME }}-linux
+          path: dist/linux-amd64_linux_amd64_v1/${{ env.BIN_NAME }}
 
   build-docker:
     name: "Docker image"

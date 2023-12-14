@@ -12,7 +12,6 @@ permissions:
   checks: write
 
 jobs:
-
   unit-tests:
     name: "Unit Tests"
     runs-on: ubuntu-20.04
@@ -23,7 +22,6 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version-file: ./go.mod
-          cache: true
 
       - name: Install ginkgo
         working-directory: ./..
@@ -50,7 +48,7 @@ jobs:
         uses: actions/download-artifact@v3
         id: download
         with:
-          name: cheqd-noded
+          name: cheqd-noded-linux
           path: ${{ env.RUNNER_BIN_DIR }}
 
       - name: Restore binary permissions
@@ -86,7 +84,6 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version-file: ./go.mod
-          cache: true
 
       - name: Install ginkgo
         working-directory: ./..
@@ -133,8 +130,8 @@ jobs:
 
       - uses: mikepenz/action-junit-report@v3
         with:
-          report_paths: 'report.xml'
+          report_paths: "report.xml"
           check_name: ""
-          suite_regex: '*'
+          suite_regex: "*"
           include_passed: true
           detailed_summary: true
